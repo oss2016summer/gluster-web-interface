@@ -26,3 +26,6 @@
 
 *.keep
 app/assets/images/.keep
+
+# Ignore configuration file
+/configure.conf
