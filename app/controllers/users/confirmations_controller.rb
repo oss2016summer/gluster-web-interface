@@ -1,4 +1,5 @@
 class Users::ConfirmationsController < Devise::ConfirmationsController
+   layout "login_pages"
   # GET /resource/confirmation/new
   # def new
   #   super

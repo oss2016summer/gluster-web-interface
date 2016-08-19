@@ -10,7 +10,7 @@
         <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <h1>Login Form</h1>
           <div>
-            <%= f.email_field :email, autofocus: true, :class => "form-control", :placeholder =>"Username",  :required => ""  %>
+            <%= f.email_field :email, autofocus: true, :class => "form-control", :placeholder =>"Email",  :required => ""  %>
 
           </div>
           <div>
@@ -32,7 +32,7 @@
 
             <%= f.submit "Log in", :class => "btn btn-default submit"%>
 
-            <a class="reset_pass" href="#">Lost your password?</a>
+            <a class="reset_pass" href="/users/password/new">Lost your password?</a>
           </div>
           <div class="clearfix"></div>
           <div class="separator">
@@ -44,7 +44,6 @@
             <br />
             <div>
               <h1><i class="fa fa-paw" style="font-size: 26px;"></i> Gentelella Alela!</h1>
-
               <p>©2015 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
             </div>
           </div>
@@ -53,11 +52,12 @@
       </section>
       <!-- content -->
     </div>
+    
+    
     <div id="register" class="animate form">
       <section class="login_content">
      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
-
+        <%= devise_error_messages! %>
           <h1>Create Account</h1>
           <div>
             <input type="text" class="form-control" placeholder="Username" required="" />
@@ -71,6 +71,10 @@
             <% end %>
             <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "Password", required: "" %>
           </div>
+          <div>
+            <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "Password confirmation", required: ""  %>
+          </div>
+          
           <div>  
             <%= f.submit "Sign up", :class => "btn btn-default submit" %>
           </div>
@@ -84,7 +88,6 @@
             <br />
             <div>
               <h1><i class="fa fa-paw" style="font-size: 26px;"></i> Gentelella Alela!</h1>
-
               <p>©2015 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
             </div>
           </div>
@@ -94,8 +97,11 @@
       </section>
       <!-- content -->
     </div>
+    
+    
   </div>
 </div>
+
 
 
 <!--

@@ -14,7 +14,9 @@
 <body class="nav-md">
 <div class="container body">
   <% flash.each do |key, value| %>
-      <div align="center" id="flash" class="alert alert-<%= key %>"><%= value %></div>
+      <div align="center" id="flash" class="alert alert-<%= key %>"><%= value %>
+       <a href="#" data-dismiss="alert" class="close">×</a>
+       </div>
   <% end %>
 
 <%= render "partials/sidenav" %>

@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { sessions: 'users/sessions' }
+  devise_for :users, controllers: { sessions: 'users/sessions' , registrations: 'users/registrations', confirmations: 'users/confirmations', passwords: 'users/passwords', unlocks: 'users/unlocks'}
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
    root 'plainpage#index'
-
+   get 'index' => 'plainpage#index'
+   get 'dashboard' => 'plainpage#dashboard'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
