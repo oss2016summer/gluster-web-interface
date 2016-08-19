@@ -1,0 +1,74 @@
+commit 46be317459cbd0e725483a5d34747a3a1b67b8e0
+Author: jeahyun <jeahyun@localhost.localdomain>
+Date:   Fri Aug 19 15:10:22 2016 +0900
+
+    first commit
+
+commit 8d2cdc5e7319428dec21ac0617789024d389c224
+Merge: 437b4d5 6ca62fc
+Author: Israel Ogbole <iogbole@yahoo.com>
+Date:   Fri Jul 8 12:41:55 2016 +0100
+
+    Merge pull request #9 from kenlck/master
+    
+    Update .gitignore to add bin folder
+
+commit 6ca62fc4805b1ab7e4fc8fe6cd22be8b165ec73a
+Author: Ken Low <kenlck1990@gmail.com>
+Date:   Fri Jul 8 10:14:59 2016 +0800
+
+    Update README.md
+
+commit 437b4d52ab117359c5eace2c545894930651574f
+Merge: 1f5e20d e54acdd
+Author: Israel Ogbole <iogbole@yahoo.com>
+Date:   Fri Jul 8 00:42:22 2016 +0100
+
+    Merge pull request #10 from iogbole/make_fonts_and_glyphs_work_in_production_mode
+    
+    now_heroku_and_production_mode_friendly
+
+commit e54acddc52a2fdbca1bde836ad1eaa751f98be3c
+Author: Israel Ogbole <iogbole@Israels-MacBook-Pro.local>
+Date:   Fri Jul 8 00:39:52 2016 +0100
+
+    heroku_and_production_mode_friendly
+
+commit ac92478a468855f82ad3a07caf942de0bede0327
+Author: Ken Low <kenlck1990@gmail.com>
+Date:   Thu Jun 30 15:40:09 2016 +0800
+
+    Update .gitignore to add bin folder
+
+commit 1f5e20dd1ae5b10efd68d355c0eb33eae4e218c5
+Merge: b7b07c0 e08b8ee
+Author: Israel Ogbole <iogbole@yahoo.com>
+Date:   Fri Jun 17 16:18:26 2016 +0100
+
+    Merge pull request #7 from iogbole/minor_refactoring
+    
+    Added flash message
+
+commit e08b8ee5f2848c3ff6a4928d82e054ed77a490b3
+Author: Israel Ogbole <iogbole@Israels-MacBook-Pro.local>
+Date:   Fri Jun 17 16:15:44 2016 +0100
+
+    Added flash message
+
+commit b7b07c0daa7ea7cd7aa5cef9641a395cc5e8405f
+Author: Israel Ogbole <iogbole@yahoo.com>
+Date:   Sat Apr 30 02:42:09 2016 +0100
+
+    Update README.md
+
+commit 1f3c346fa90118c8e836cd2bd6d12e444dd4a808
+Author: Israel Ogbole <iogbole@yahoo.com>
+Date:   Sat Apr 30 02:34:25 2016 +0100
+
+    Update README.md
+
+commit 12c84dee8e4bc9c365acb2b982bb30c50a8116ff
+Author: Israel Ogbole <iogbole@Israels-MacBook-Pro.local>
+Date:   Mon Apr 25 01:47:31 2016 +0100
+
+    first commit
