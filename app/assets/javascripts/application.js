@@ -41,5 +41,4 @@
 
 //= require flash.js
 
-
-//= require  js/maps/gdp-data.js
+//= require  js/knob/jquery.knob.min.js

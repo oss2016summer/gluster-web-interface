@@ -1,0 +1,204 @@
+<!-- page content -->
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Dash Board</h3>
+      </div>
+
+      <div class="title_right">
+        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                              <button class="btn btn-default" type="button">Go!</button>
+                          </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="row">
+      <div class="col-md-12">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <h2>Input knob</h2>
+                      <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                          <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Settings 1</a>
+                            </li>
+                            <li><a href="#">Settings 2</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                      </ul>
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                      <div class="col-md-2">
+                        <p>Display value</p>
+                        <input class="knob" data-width="100" data-height="120" data-min="-100" data-displayPrevious=true data-fgColor="#26B99A" value="44">
+                      </div>
+                      <div class="col-md-2">
+                        <p>&#215; 'cursor' mode</p>
+                        <input class="knob" data-width="100" data-height="120" data-cursor=true data-fgColor="#34495E" value="29">
+                      </div>
+                      <div class="col-md-2">
+                        <p>Step 0.1</p>
+                        <input class="knob" data-width="100" data-height="120" data-min="-10000" data-displayPrevious=true data-fgColor="#26B99A" data-max="10000" data-step=".1" value="0">
+                      </div>
+                      <div class="col-md-2">
+                        <p>Angle arc</p>
+                        <input class="knob" data-width="100" data-height="120" data-angleOffset=-125 data-angleArc=250 data-fgColor="#34495E" data-rotation="anticlockwise" value="35">
+                      </div>
+                      <div class="col-md-2">
+                        <p>Alternate design</p>
+                        <input class="knob" data-width="110" data-height="120" data-displayPrevious=true data-fgColor="#26B99A" data-skin="tron" data-thickness=".2" value="75">
+                      </div>
+                      <div class="col-md-2">
+                        <p>Angle offset</p>
+                        <input class="knob" data-width="100" data-height="120" data-angleOffset=90 data-linecap=round data-fgColor="#26B99A" value="35">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+      <div class="col-md-6 col-sm-6 col-xs-6">
+        <div class="x_panel" style="height:600px;">
+          <div class="x_title">
+            <h2>Dash Board</h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#">Settings 1</a>
+                  </li>
+                  <li><a href="#">Settings 2</a>
+                  </li>
+                </ul>
+              </li>
+              <li><a class="close-link"><i class="fa fa-close"></i></a>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+                
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<!-- /page content -->
+
+<!--Test Page specific JS -->
+<script type="text/javascript">
+  
+  //alert ('Test Page specific JS')
+    $(function($) {
+
+      $(".knob").knob({
+        change: function(value) {
+          //console.log("change : " + value);
+        },
+        release: function(value) {
+          //console.log(this.$.attr('value'));
+          console.log("release : " + value);
+        },
+        cancel: function() {
+          console.log("cancel : ", this);
+        },
+        /*format : function (value) {
+         return value + '%';
+         },*/
+        draw: function() {
+
+          // "tron" case
+          if (this.$.data('skin') == 'tron') {
+
+            this.cursorExt = 0.3;
+
+            var a = this.arc(this.cv) // Arc
+              ,
+              pa // Previous arc
+              , r = 1;
+
+            this.g.lineWidth = this.lineWidth;
+
+            if (this.o.displayPrevious) {
+              pa = this.arc(this.v);
+              this.g.beginPath();
+              this.g.strokeStyle = this.pColor;
+              this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, pa.s, pa.e, pa.d);
+              this.g.stroke();
+            }
+
+            this.g.beginPath();
+            this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;
+            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, a.s, a.e, a.d);
+            this.g.stroke();
+
+            this.g.lineWidth = 2;
+            this.g.beginPath();
+            this.g.strokeStyle = this.o.fgColor;
+            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+            this.g.stroke();
+
+            return false;
+          }
+        }
+      });
+
+      // Example of infinite knob, iPod click wheel
+      var v, up = 0,
+        down = 0,
+        i = 0,
+        $idir = $("div.idir"),
+        $ival = $("div.ival"),
+        incr = function() {
+          i++;
+          $idir.show().html("+").fadeOut();
+          $ival.html(i);
+        },
+        decr = function() {
+          i--;
+          $idir.show().html("-").fadeOut();
+          $ival.html(i);
+        };
+      $("input.infinite").knob({
+        min: 0,
+        max: 20,
+        stopper: false,
+        change: function() {
+          if (v > this.cv) {
+            if (up) {
+              decr();
+              up = 0;
+            } else {
+              up = 1;
+              down = 0;
+            }
+          } else {
+            if (v < this.cv) {
+              if (down) {
+                incr();
+                down = 0;
+              } else {
+                down = 1;
+                up = 0;
+              }
+            }
+          }
+          v = this.cv;
+        }
+      });
+    });
+</script>
