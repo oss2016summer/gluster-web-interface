@@ -1,5 +1,4 @@
 class PlainpageController < ApplicationController
-  
   before_action :require_login
   
   def index
