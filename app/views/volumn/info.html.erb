@@ -22,11 +22,13 @@
 
 
 
-    <div class="row">
-      <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="row">  
+    
+      <%@volumes.each do |t|%>
+       <div class="col-md-12 col-sm-1 col-xs-12">
             <div class="x_panel">
               <div class="x_title">
-                <h2>Infomation <small>volumn</small></h2>
+                <h2>Infomation <small><%=t["Volume Name"]%></small></h2>
                 <ul class="nav navbar-right panel_toolbox">
                   <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                   </li>
@@ -45,12 +47,20 @@
                 <div class="clearfix"></div>
               </div>
               <div class="x_content">
-                <%@output.each do |t|%>
-		              <%=t%>	</br>
-		            <%end%>
+                Type : <%=t["Type"]%> <br>
+                Volume ID : <%=t["Volume ID"]%> <br>
+                Status : <%=t["Status"]%> <br>
+                Number of Bricks : <%=t["Number of Bricks"]%> <br>
+                Transport-type : <%=t["Transport-type"]%> <br>
+                Bricks : <%=t["Bricks"]%> <br>
+                Bricks1 : <%=t["Brick1"]%> <br>
+                Options Reconfigured : <%=t["Options Reconfigured"]%> <br>
+                performance.readdir-ahead : <%=t["performance.readdir-ahead"]%> <br>
               </div>
             </div>
           </div>
+      <%end%>
+          
     </div>
   </div>
 </div>
