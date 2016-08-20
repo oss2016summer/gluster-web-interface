@@ -3,8 +3,8 @@
 <head>
   <title><%= content_for?(:title) ? yield(:title) : "GentelellaOnRails" %> </title>
 
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => false %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => false %>
 
   <%= csrf_meta_tags %>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,7 +25,7 @@
 <%= yield %>
 
   <%= render "partials/footer" %>
-  <%= javascript_include_tag 'footermanifest', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'footermanifest', 'data-turbolinks-track' => false %>
 
 </body>
 </html>

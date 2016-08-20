@@ -7,6 +7,7 @@ Rails.application.routes.draw do
    root 'plainpage#index'
    get 'index' => 'plainpage#index'
    get 'dashboard' => 'plainpage#dashboard'
+   get 'dashboard2' => 'plainpage#dashboard2'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

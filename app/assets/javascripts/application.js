@@ -42,4 +42,4 @@
 //= require flash.js
 
 
-
+//= require  js/maps/gdp-data.js
