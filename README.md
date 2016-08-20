@@ -14,7 +14,9 @@ Setup:
 
  5. bundle install
 
- 6. rails s
+ 6. bin/rake db:migrate
+
+ 7. rails s
 
 That's it!
 
