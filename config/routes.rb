@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'volumn/info'
+
   get 'home/index'
 
   devise_for :users, controllers: { sessions: 'users/sessions' , registrations: 'users/registrations', confirmations: 'users/confirmations', passwords: 'users/passwords', unlocks: 'users/unlocks'}
@@ -7,13 +9,11 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
    root 'plainpage#index'
+
    get 'index' => 'plainpage#index'
    get 'dashboard' => 'plainpage#dashboard'
-   get 'dashboard2' => 'plainpage#dashboard2'
-   get 'dashboard5' => 'plainpage#dashboard5'
-   
-   
-   get 'temp' => 'home#index'
+
+   get 'volumn/info' => 'volumn#info'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
