@@ -11,9 +11,9 @@ Rails.application.routes.draw do
    root 'plainpage#index'
 
    get 'index' => 'plainpage#index'
-   get 'dashboard' => 'plainpage#dashboard'
 
    get 'volumn/info' => 'volumn#info'
+   
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

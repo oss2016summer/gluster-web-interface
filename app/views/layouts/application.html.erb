@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= content_for?(:title) ? yield(:title) : "GentelellaOnRails" %> </title>
+  <title><%= content_for?(:title) ? yield(:title) : "gluster-web" %> </title>
 
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => false %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => false %>
@@ -14,9 +14,9 @@
 <body class="nav-md">
 <div class="container body">
   <% flash.each do |key, value| %>
-      <div align="center" id="flash" class="alert alert-<%= key %>"><%= value %>
-       <a href="#" data-dismiss="alert" class="close">×</a>
-       </div>
+    <div align="center" id="flash" class="alert alert-<%= key %>"><%= value %>
+      <a href="#" data-dismiss="alert" class="close">×</a>
+    </div>
   <% end %>
 
 <%= render "partials/sidenav" %>
@@ -24,8 +24,8 @@
 
 <%= yield %>
 
-  <%= render "partials/footer" %>
-  <%= javascript_include_tag 'footermanifest', 'data-turbolinks-track' => false %>
+<%= render "partials/footer" %>
+<%= javascript_include_tag 'footermanifest', 'data-turbolinks-track' => false %>
 
 </body>
 </html>
