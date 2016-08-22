@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'volumn/info'
+  get 'volume/info'
 
   get 'home/index'
 
@@ -12,7 +12,8 @@ Rails.application.routes.draw do
 
    get 'index' => 'plainpage#index'
 
-   get 'volumn/info' => 'volumn#info'
+   get 'volume/info' => 'volume#info'
+   post 'file_upload' => 'volume#file_upload'
    
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

@@ -1,4 +1,4 @@
-class VolumnController < ApplicationController
+class VolumeController < ApplicationController
   def info
     @volumes = Array.new
     volume = Hash.new
@@ -27,4 +27,10 @@ class VolumnController < ApplicationController
     return `sshpass -pakfm77 ssh -p 2222 root@124.63.216.174 gluster volume info`
   end
   
+  def file_upload
+    file_name = params[:file]
+    uploader = AvatarUploader.new
+    uploader.store!(file_name)
+    redirect_to '/volume/info'
+  end
 end
