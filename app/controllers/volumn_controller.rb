@@ -20,7 +20,7 @@ class VolumnController < ApplicationController
   end
 
   def get_info
-    return `sshpass -pakfm77 ssh -p 2222 root@gluster-1 gluster volume info`
+    return `sshpass -pakfm77 ssh -p 2222 root@124.63.216.174 gluster volume info`
   end
   
 end
