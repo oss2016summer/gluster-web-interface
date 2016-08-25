@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'peer/index'
+
   get 'volume/info'
 
   get 'home/index'
@@ -13,6 +15,7 @@ Rails.application.routes.draw do
    get 'index' => 'plainpage#index'
 
    get 'volume/info' => 'volume#info'
+   get 'peer/index' => 'peer#index'
    post 'file_upload' => 'volume#file_upload'
    
   # Example of regular route:
