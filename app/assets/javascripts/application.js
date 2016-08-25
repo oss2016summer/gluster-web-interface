@@ -37,3 +37,20 @@
 //= require flash.js
 //= require js/knob/jquery.knob.min.js
 //= require js/dropzone/dropzone.js
+
+// Datatables
+
+//= require js/datatables/jquery.dataTables.min.js
+//= require js/datatables/dataTables.bootstrap.js
+//= require js/datatables/dataTables.buttons.min.js
+//= require js/datatables/buttons.bootstrap.min.js
+//= require js/datatables/jszip.min.js
+//= require js/datatables/pdfmake.min.js
+//= require js/datatables/vfs_fonts.js
+//= require js/datatables/buttons.html5.min.js
+//= require js/datatables/buttons.print.min.js
+//= require js/datatables/dataTables.fixedHeader.min.js
+//= require js/datatables/dataTables.keyTable.min.js
+//= require js/datatables/dataTables.responsive.min.js
+//= require js/datatables/responsive.bootstrap.min.js
+//= require js/datatables/dataTables.scroller.min.js
