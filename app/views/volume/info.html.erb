@@ -67,9 +67,11 @@
                 <br/>
               </div>
               
+              <%f = get_files(t["Volume Name"])%>
+              <%f.each do |t|%>
               <div class="col-md-12 col-sm-12 col-xs-12">
-                 Current directory : <%=@current_dir%></br>
-                 Numbers : <%=@total_list%></br>
+                 Current directory : <%=@cur_dir%></br>
+                 Numbers : <%=@total%></br>
               </div>     
               <div class="col-md-12 col-sm-12 col-xs-12">
                   <p class="text-muted font-13 m-b-30"><code>File Manager</code></p>
@@ -84,18 +86,19 @@
                     </thead>
 
                     <tbody>
-                      <%f = t["files"]%>
-                      <%f.each do |t|%>
+                      
                         <tr>
                          <td><%=t["name"]%></td>
                          <td><%=t["auth"][0]%></td>
                          <td><%=t["size"]%></td>
                          <td><%=t["date"]%></td>
                         </tr>
-                      <%end%>
+                      
                     </tbody>
                   </table>
               </div>
+              <%end%>
+              
             </div>
           </div>
         </div>
