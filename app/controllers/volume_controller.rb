@@ -1,9 +1,11 @@
 class VolumeController < ApplicationController
+  helper_method :file_directory
+  
   def info
+    file_directory('/home/ubuntu')
     @volumes = Array.new
     volume = Hash.new
     i = 0
-
     if get_info.blank?
       flash[:danger] = "Check Server"
     else
@@ -35,38 +37,51 @@ class VolumeController < ApplicationController
   end
   
   
-  def get_files(name)
-    mnt_path = "/opt/gluster-web-interface/app/mntpoint" + "/" + name.delete(' ')
-    files = Array.new
-    file = Hash.new
-    
-    puts "start///////"
-    puts "path: " + mnt_path
-
-    `sudo mkdir #{dir}`
-    `sudo mount.glusterfs gluster-1:/#{dir_name} #{dir}`
-
-    dir_list = `ls #{dir} -l`
-    puts dir_list
-    
+  def file_directory(dir)
+    @current_dir = dir
+    dir_list = `ls #{@current_dir} -l`
     parsing_list = dir_list.split("\n")
-    @total = parsing_list[0]
-    @cur_dir = dir
-    
+    @files = Array.new
+    file = Hash.new
     i = 0
+    @total_list = parsing_list[0]
       for t in 1..(parsing_list.length-1)
-         puts "@@@@@@@@@@@" + parsing_list[t]
-         parsing_file = parsing_list[t].split(" ")
-         file["auth"] = parsing_file[0]
-         file["size"] = parsing_file[4]
-         file["date"] = parsing_file[5] + " " + parsing_file[6] + " "+ parsing_file[7]
-         file["name"] = parsing_file[8]
-         files[i] = file
-         file = Hash.new
-         i+=1
+        parsing_file = parsing_list[t].split(" ")
+        file["auth"] = parsing_file[0]
+        file["size"] = parsing_file[4]
+        file["date"] =  parsing_file[5] + " " + parsing_file[6] + " "+ parsing_file[7]
+        file["name"] = parsing_file[8]
+        @files[i] = file
+        file = Hash.new
+        i+=1
       end
-      puts files
-
-    return files
+      puts @files
+  end
+  
+    
+  def change_file_directory(dir)
+    @change_dir = dir
+    dir_list = `ls #{@change_dir} -l`
+    parsing_list = dir_list.split("\n")
+    @change_files = Array.new
+    file = Hash.new
+    i = 0
+    @change_total_list = parsing_list[0]
+      for t in 1..(parsing_list.length-1)
+        parsing_file = parsing_list[t].split(" ")
+        file["auth"] = parsing_file[0]
+        file["size"] = parsing_file[4]
+        file["date"] =  parsing_file[5] + " " + parsing_file[6] + " "+ parsing_file[7]
+        file["name"] = parsing_file[8]
+        @change_files[i] = file
+        file = Hash.new
+        i+=1
+      end
+      puts @change_files
+  end
+  
+  def checkDir
+    file_directory(params[:path])
+    render :json => {:file => @files , :current => @current_dir}
   end
 end

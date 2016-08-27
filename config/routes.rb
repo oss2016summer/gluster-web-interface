@@ -17,6 +17,7 @@ Rails.application.routes.draw do
    get 'volume/info' => 'volume#info'
    get 'peer/index' => 'peer#index'
    post 'file_upload' => 'volume#file_upload'
+   post 'volume/changeDir' => 'volume#checkDir'
    
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
