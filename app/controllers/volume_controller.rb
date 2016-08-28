@@ -2,10 +2,10 @@ class VolumeController < ApplicationController
   helper_method :file_directory
   
   def info
-    file_directory('/opt/gluster-web-interface')
+    file_directory(`pwd`)
     @volumes = Array.new
     volume = Hash.new
-    i = 0
+    
     if get_info.blank?
       flash[:danger] = "Check Server"
     else
@@ -15,18 +15,39 @@ class VolumeController < ApplicationController
            temp = output[t].split(":")
            volume[temp[0]] = temp[1]
          else  
-           @volumes[i] = volume
+           @volumes << volume
            volume = Hash.new
-           i+=1
          end
       end
-      @volumes[i] = volume
+      @volumes << volume
       puts @volumes
     end
   end
 
+  def get_conf
+    return `cat configure.conf`.split("\n")
+  end
+
   def get_info
-    return `sshpass -pakfm77 ssh -p 2222 root@124.63.216.174 gluster volume info`
+    conf_list = get_conf
+    host_user = "root"
+    host_ip = "127.0.0.1"
+    host_password = "secret"
+    host_port = ""
+
+    conf_list.each do |t|
+      if t.include? "host_name="
+        host_user = t.split("host_user=")[1]
+      elsif t.include? "host_ip="
+        host_ip = t.split("host_ip=")[1]
+      elsif t.include? "host_port=" and !t.split("host_port=")[1].nil?
+        host_port = "-p " + t.split("host_port=")[1] + " "
+      elsif t.include? "host_password="
+        host_password = t.split("host_password=")[1]
+      end
+    end
+
+    return `sshpass -p#{host_password} ssh #{host_port} #{host_user}@#{host_ip} gluster volume info`
   end
   
   def file_upload
@@ -43,7 +64,7 @@ class VolumeController < ApplicationController
     parsing_list = dir_list.split("\n")
     @files = Array.new
     file = Hash.new
-    i = 0
+    
     @total_list = parsing_list[0]
       for t in 1..(parsing_list.length-1)
         parsing_file = parsing_list[t].split(" ")
@@ -51,9 +72,8 @@ class VolumeController < ApplicationController
         file["size"] = parsing_file[4]
         file["date"] =  parsing_file[5] + " " + parsing_file[6] + " "+ parsing_file[7]
         file["name"] = parsing_file[8]
-        @files[i] = file
+        @files << file
         file = Hash.new
-        i+=1
       end
       puts @files
       return @files
