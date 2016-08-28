@@ -1,43 +1,36 @@
-**Gentelella On Rails**
+**Gluster Web Interface**
 ---------------------------
-Rails 4 implementation of the awesome [Gentelella](https://github.com/puikinsh/gentelella) Bootstrap admin template.
+[Gluster](https://gluster.org) client web interface for managing and using glusterfs more efficiently.
 
-Requirement:
- 1. ruby(2.2.3)
- 2. rails
- 3. sshpass
 
-Setup:
+*Requirement:*
+ 1. glusterfs server and client(to be installed)
+
+ 2. ruby (2.2.3 or more)
+
+ 3. rails
+
+ 4. sshpass
+
+
+*Setup:*
  1. Clone this repo :  git clone
-    https://github.com/iogbole/gentelella_on_rails.git
+    https://github.com/oss2016summer/gluster-web-interface.git
 
- 2. cd gentelella_on_rails
+ 2. cd gluster-web-interface
 
- 3. npm install -g bower
+ 3. script/setup.sh
 
- 4. bower install
+ 4. fix configure.conf
 
- 5. bundle install
-
- 6. bin/rake db:migrate
-
- 7. rails s
+ 5. rails s
 
 That's it!
 
 Navigate to   http://localhost:3000
 
-![gentelella on rails ](https://cloud.githubusercontent.com/assets/2548160/16155032/63da00fa-34a5-11e6-917e-f7a616d7bd50.png)
+If you want access via public network, use additional module like [localtunnel](https://github.com/localtunnel/localtunnel)
 
-------------------------------------------------------------------------
-If you're using devise, you'd need to create another layout to handle authentication and sign_ups as discussed in [issue #2](https://github.com/iogbole/gentelella_on_rails/issues/2).
-
-This is the [login template](https://gist.github.com/iogbole/a2f1ddf330cb5194967a1996369619e8). And this is what it looks like:
-
- ![enter image description here](https://cloud.githubusercontent.com/assets/2548160/14933076/fb9724d2-0e7a-11e6-8e3a-26c352576d07.png)
-
-----------
-*I committed the vendor files to this repo so you may skip step 3 and 4*
 
 **Contributing**
 

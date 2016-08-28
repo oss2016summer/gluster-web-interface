@@ -2,7 +2,7 @@ class VolumeController < ApplicationController
   helper_method :file_directory
   
   def info
-    file_directory('/home/ubuntu')
+    file_directory('/opt/gluster-web-interface')
     @volumes = Array.new
     volume = Hash.new
     i = 0
