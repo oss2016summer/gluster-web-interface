@@ -2,7 +2,17 @@ class VolumeController < ApplicationController
   helper_method :file_directory
   
   def info
-    file_directory(`pwd`)
+    @conf_list = get_conf
+    project_path = String.new
+    @conf_list.each do |t|
+      if t.include? "project_path="
+        project_path = t.split("project_path=")[1]
+      end
+    end
+    
+    file_directory(project_path)
+    
+    
     @volumes = Array.new
     volume = Hash.new
     
@@ -29,13 +39,12 @@ class VolumeController < ApplicationController
   end
 
   def get_info
-    conf_list = get_conf
     host_user = "root"
     host_ip = "127.0.0.1"
     host_password = "secret"
     host_port = ""
 
-    conf_list.each do |t|
+    @conf_list.each do |t|
       if t.include? "host_name="
         host_user = t.split("host_user=")[1]
       elsif t.include? "host_ip="
@@ -70,7 +79,7 @@ class VolumeController < ApplicationController
         parsing_file = parsing_list[t].split(" ")
         file["auth"] = parsing_file[0]
         file["size"] = parsing_file[4]
-        file["date"] =  parsing_file[5] + " " + parsing_file[6] + " "+ parsing_file[7]
+        file["date"] = parsing_file[5] + " " + parsing_file[6] + " " + parsing_file[7]
         file["name"] = parsing_file[8]
         @files << file
         file = Hash.new

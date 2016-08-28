@@ -93,10 +93,12 @@
                         <tr>
                           <% if t["auth"][0]=='d'%> 
                            <td style="color:#0d8ade;"><i class="fa fa-folder-open-o"></i> 
-                             <a onclick="change_directory('<%=@current_dir + "/" + t["name"]%>')"><%=t["name"]%></a>
+                             <a style="cursor: pointer" onclick="change_directory('<%=@current_dir + "/" + t["name"]%>')"><%=t["name"]%></a>
                             </td>
                           <% else %>
-                           <td><i class="fa fa-file-o"></i> <%=t["name"]%></td>
+                           <td><i class="fa fa-file-o"></i> 
+                             <a style="cursor: pointer"><%=t["name"]%></a>
+                           </td>
                           <% end %>
                          <td><%=t["auth"]%></td>
                          <td><%=t["size"]%></td>
@@ -175,14 +177,14 @@
     }
     
     function change_directory(directory){
-       $.ajax({
+      $.ajax({
       method: "POST",
       url: "/volume/changeDir",
       data: { path: directory },
       success  : function(result){
           $("#table_div").empty();
-          var new_table = "<p class='text-muted font-13 m-b-30'><code>File Manager</code></p>"   
-          new_table += "<p>Current directory : " + directory + "</p></br>";     
+          var new_table = "<p class='text-muted font-13 m-b-30'><code>File Manager</code></p>";
+          new_table += "<p>Current directory : " + directory + "</p></br>";
           new_table += "<table id='datatable' class='table table-striped table-bordered jambo_table'>";
           new_table += "<thead>";
           new_table += "<tr class='headings'>";
@@ -192,11 +194,12 @@
           new_table += "<th>Date</th>";
           new_table += "</tr>";
           new_table += "</thead>";
-          new_table += "<tbody id='tbody_volume1'>"
+          new_table += "<tbody id='tbody_volume1'>";
           
           var new_tr = "<tr role='row' class='odd'> <td><i class='fa fa-reply'></i>";
-          new_tr += "<a onclick='change_upper(" + '"' + directory + '"' +")'> ..</a>"          
-          new_tr += "</td><td> </td><td> </td><td> </td></tr>"             
+          new_tr += "<a onclick='change_upper(" + '"' + directory + '"' +")'> ..</a>";
+          new_tr += "</td><td> </td><td> </td><td> </td></tr>";
+          
           for( var i = 0; i < result.file.length; i++){
             if(i % 2 == 0)
               new_tr += "<tr role='row' class='odd'>";
@@ -205,11 +208,11 @@
             if(result.file[i].auth[0] == "d"){
               new_tr += "<td style='color:#0d8ade;' class='sorting_1'><i class='fa fa-folder-open-o'></i> "; 
               if(result.current != "/")
-                new_tr += "<a onclick='change_directory(" +'"' + result.current + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
+                new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + result.current + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
               else
-                new_tr += "<a onclick='change_directory(" +'"' + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
+                new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
             }else{
-              new_tr += "<td><i class='fa fa-file-o'></i> " + result.file[i].name + "</td>";
+              new_tr += "<td><i class='fa fa-file-o'></i><a style='cursor: pointer'>" + result.file[i].name + "</a></td>";
             }
             new_tr += "<td>"+result.file[i].auth+"</td>";
             new_tr += "<td>"+result.file[i].size+"</td>";
