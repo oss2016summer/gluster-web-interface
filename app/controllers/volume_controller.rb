@@ -1,7 +1,7 @@
 class VolumeController < ApplicationController
   helper_method :file_directory
   
-  def info
+  def index
     @conf_list = get_conf
     project_path = String.new
     @conf_list.each do |t|

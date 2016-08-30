@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get 'peer/index'
 
-  get 'volume/info'
+  get 'volume/index'
 
   get 'home/index'
 
@@ -10,14 +10,17 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-   root 'plainpage#index'
+  root 'plainpage#index'
 
-   get 'index' => 'plainpage#index'
-
-   get 'volume/info' => 'volume#info'
-   get 'peer/index' => 'peer#index'
-   post 'file_upload' => 'volume#file_upload'
-   post 'volume/changeDir' => 'volume#checkDir'
+  get 'index' => 'plainpage#index'
+   
+  get 'volume/index' => 'volume#index'
+   
+  get 'peer/index' => 'peer#index'
+   
+  post 'file_upload' => 'volume#file_upload'
+   
+  post 'volume/changeDir' => 'volume#checkDir'
    
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

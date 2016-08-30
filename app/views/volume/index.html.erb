@@ -6,13 +6,10 @@
         <h3>Volume</h3> 
       </div>
       <div class="title_right">
-        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for...">
-              <span class="input-group-btn">
-                <button class="btn btn-default" type="button">Go!</button>
-              </span>
-          </div>
+        <div class="col-md-5 col-sm-5 col-xs-12 pull-right">
+          <button class="btn btn-primary pull-right" onclick="volume_create">
+            Create
+          </button>
         </div>
       </div>
     </div>
@@ -29,7 +26,7 @@
                 <li><a class="collapse-link"><i <%if t!=@volumes[0]%> class="fa fa-chevron-down" <%else%> class="fa fa-chevron-up" <%end%> ></i></a>
                 </li>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                  <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
                   <ul class="dropdown-menu" role="menu">
                     <li><a href="#">Settings 1</a>
                     </li>
@@ -37,7 +34,7 @@
                     </li>
                   </ul>
                 </li>
-                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                <li><a class="close-link" style="display:none;"><i class="fa fa-close"></i></a>
                 </li>
               </ul>
               <div class="clearfix"></div>
@@ -114,6 +111,8 @@
   </div>
   <!-- /page content -->
 
+
+  <!-- data table handler  -->
   <script>
     var handleDataTableButtons = function() {
           "use strict";
@@ -155,6 +154,7 @@
     TableManageButtons.init();
   </script>
   
+  <!-- file manager functions -->
   <script>
     function change_upper(directory){
       if(directory != "/"){
@@ -224,5 +224,12 @@
           TableManageButtons.init();
         }
       })
+    }
+  </script>
+
+  <!-- volume functions -->
+  <script>
+    function volume_create() {
+      
     }
   </script>
