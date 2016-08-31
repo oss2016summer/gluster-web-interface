@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   
   post 'volume/changeDir' => 'volume#checkDir'
   
-  get 'volume/mount/:volume_id' => "volume#mount"
+  get 'volume/mount/:volume_name' => "volume#mount"
   
   
   get 'peer/index' => 'peer#index'

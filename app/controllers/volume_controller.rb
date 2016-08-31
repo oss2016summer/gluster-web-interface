@@ -94,9 +94,24 @@ class VolumeController < ApplicationController
   end
   
   def mount
-    puts "@@@@@@@@@@" 
-    puts params[:volume_id]
-    puts "##########"
-    redirect_to '/volume/info'
+	conf_list = get_conf
+	host_ip = String.new
+	conf_list.each do |t|
+		if t.include? "host_ip="
+			host_ip = t.split("host_ip=")[1]
+		end
+	end
+	volume_name = params[:volume_name]
+	volume_name = volume_name.delete(' ')
+	puts "mount -t glusterfs " +  host_ip + ":/" + volume_name + " /mnt/glusterfs"
+    redirect_to '/volume/index'
+  end
+
+  def volume_stop
+	puts "gluster volume stop volume_name"
+  end
+
+  def volume_start
+ 	puts "gluster volume start volume_name"
   end
 end
