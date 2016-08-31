@@ -92,4 +92,11 @@ class VolumeController < ApplicationController
     files = file_directory(params[:path])
     render :json => {:file => files , :current => @current_dir}
   end
+  
+  def mount
+    puts "@@@@@@@@@@" 
+    puts params[:volume_id]
+    puts "##########"
+    redirect_to '/volume/info'
+  end
 end

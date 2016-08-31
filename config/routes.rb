@@ -14,13 +14,19 @@ Rails.application.routes.draw do
 
   get 'index' => 'plainpage#index'
    
+  #Volume
   get 'volume/index' => 'volume#index'
-   
-  get 'peer/index' => 'peer#index'
-   
+  
   post 'file_upload' => 'volume#file_upload'
-   
+  
   post 'volume/changeDir' => 'volume#checkDir'
+  
+  get 'volume/mount/:volume_id' => "volume#mount"
+  
+  
+  get 'peer/index' => 'peer#index'
+  
+   
    
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
