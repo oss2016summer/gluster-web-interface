@@ -52,16 +52,23 @@
                 Bricks : <%=t["Bricks"]%> <br>
                 Bricks1 : <%=t["Brick1"]%> <br>
                 Options Reconfigured : <%=t["Options Reconfigured"]%> <br>
-                performance.readdir-ahead : <%=t["performance.readdir-ahead"]%> <br><br><br>
-		<% if t["Status"] == " start" %>	
-               		 <button type="button" class="btn btn-round btn-success btn-lg"><i class="fa fa-play"></i> Start</button> 
-		<% else %>
-			 <button type="button" class="btn btn-round btn-danger btn-lg"><i class="fa fa-pause"></i> Stop</button>
-		  <a class="btn btn-app" href="/volume/mount/<%=t['Volume Name']%>">
+                performance.readdir-ahead : <%=t["performance.readdir-ahead"]%>
+                <br><br><br>
+	            	<% if t["Status"] == " start" %>	
+  	            	 <a class="btn btn-round btn-success btn-lg" href="/volume/start/<%=t['Volume Name']%>">
+                      <i class="fa fa-play"></i> Start
+                   </a>
+               		 <!--<button type="button" class="btn btn-round btn-success btn-lg"><i class="fa fa-play"></i> Start</button> -->
+	            	<% else %>
+  	            	 <a class="btn btn-round btn-danger btn-lg" href="/volume/stop/<%=t['Volume Name']%>">
+                      <i class="fa fa-pause"></i> Stop
+                   </a>
+			             <!--<button type="button" class="btn btn-round btn-danger btn-lg"><i class="fa fa-pause"></i> Stop</button>-->
+		               <a class="btn btn-app" href="/volume/mount/<%=t['Volume Name']%>">
                     <i class="fa fa-upload"></i> Mount
-                  </a>
-              	<% end %>
-		</div>
+                   </a>
+                <% end %>
+		          </div>
               
               <div class="col-md-8 col-sm-8 col-xs-8">
                 <p>Drag multiple files to the box below for multi upload or click to select files.</p>
