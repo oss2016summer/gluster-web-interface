@@ -3,11 +3,10 @@ class VolumeController < ApplicationController
   
   def index
     @config = get_conf
-    file_directory(@config["project_path"])
-    
-    
     @volumes = Array.new
     volume = Hash.new
+    
+    file_directory(@config["project_path"])
     
     if get_info.blank?
       flash[:danger] = "Check Server"
@@ -23,14 +22,14 @@ class VolumeController < ApplicationController
          end
       end
       @volumes << volume
-      puts @volumes
+      # puts @volumes
     end
   end
 
   def get_conf
     @config = Hash.new
-    output = `cat configure.conf`.split("\n")
     
+    output = `cat configure.conf`.split("\n")
     output.each do |t|
       if t.include? "project_path="
 	      @config["project_path"] = t.split("project_path=")[1]
@@ -102,7 +101,9 @@ class VolumeController < ApplicationController
 	  volume_name = params[:volume_name]
 	  volume_name = volume_name.delete(' ')
 	  puts "gluster volume stop " + volume_name
-	  #output = `sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume stop #{volume_name}`
+	  output = `sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume stop #{volume_name}`
+    output = `sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} \n`
+    output = `sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} y`
     redirect_to '/volume/index'
   end
 
@@ -120,7 +121,7 @@ class VolumeController < ApplicationController
     @config = get_conf
 	  volume_name = params[:volume_name]
 	  volume_name = volume_name.delete(' ')
-	  puts "gluster volume start " + volume_name
+	  puts "gluster volume delete " + volume_name
 	  #output = `sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume delete #{volume_name}`
     redirect_to '/volume/index'
   end
