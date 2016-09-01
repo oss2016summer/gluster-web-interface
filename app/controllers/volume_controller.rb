@@ -3,14 +3,23 @@ class VolumeController < ApplicationController
   
   def index
     @conf_list = get_conf
-    project_path = String.new
-    @conf_list.each do |t|
-      if t.include? "project_path="
-        project_path = t.split("project_path=")[1]
-      end
-    end
+    #project_path = String.new
+    #@conf_list.each do |t|
+    #  if t.include? "project_path="
+    #    project_path = t.split("project_path=")[1]
+    #  end
+    #end
     
-    file_directory(project_path)
+    #file_directory(project_path)
+    
+    
+    puts  @config_list["project_path"]
+    puts  @config_list["server_name"]
+    puts  @config_list["host_user"]
+    puts  @config_list["host_ip"]
+    puts  @config_list["host_port"]
+    puts  @config_list["host_password"]
+    file_directory(@config_list["project_path"])
     
     
     @volumes = Array.new
@@ -44,7 +53,9 @@ class VolumeController < ApplicationController
     
     output.each do |t|
       if t.include? "project_path="
-	@config["project_path"] = t.split("project_path=")[1]
+	      @config["project_path"] = t.split("project_path=")[1]
+      elsif t.include? "server_name="
+        @config["server_name"] = t.split("server_name=")[1]
       elsif t.include? "host_user="
         @config["host_user"] = t.split("host_user=")[1]
       elsif t.include? "host_ip="
@@ -55,13 +66,9 @@ class VolumeController < ApplicationController
         @config["host_password"] = t.split("host_password=")[1]
       end
     end
-    puts  @config["project_path"]
-    puts  @config["host_user"]
-    puts  @config["host_ip"]
-    puts  @config["host_port"]
-    puts  @config["host_password"]
     
-    return `cat configure.conf`.split("\n")
+    return @config
+    #return `cat configure.conf`.split("\n")
   end
 
   def get_info
