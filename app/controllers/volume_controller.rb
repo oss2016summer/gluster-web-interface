@@ -35,6 +35,31 @@ class VolumeController < ApplicationController
   end
 
   def get_conf
+    @config = Hash.new
+    host_user = "root"
+    host_ip = "127.0.0.1"
+    host_password = "secret"
+    host_port = ""
+    output = `cat configure.conf`.split("\n")
+    
+    output.each do |t|
+      if t.include? "host_name="
+        @config["host_user"] = t.split("host_user=")[1]
+      elsif t.include? "host_ip="
+        @config["host_ip"] = t.split("host_ip=")[1]
+      elsif t.include? "host_port=" and !t.split("host_port=")[1].nil?
+        @config["host_port"] = "-p " + t.split("host_port=")[1] + " "
+      elsif t.include? "host_password="
+        @config["host_password"] = t.split("host_password=")[1]
+      end
+    end
+    
+    puts  @config["host_user"]
+    puts  @config["host_user"]
+    puts  @config["host_ip"]
+    puts  @config["host_port"]
+    puts  @config["host_password"]
+    
     return `cat configure.conf`.split("\n")
   end
 
