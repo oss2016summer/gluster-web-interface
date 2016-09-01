@@ -2,7 +2,7 @@ class VolumeController < ApplicationController
   helper_method :file_directory
   
   def index
-    @conf_list = get_conf
+    @config = get_conf
     #project_path = String.new
     #@conf_list.each do |t|
     #  if t.include? "project_path="
@@ -13,13 +13,13 @@ class VolumeController < ApplicationController
     #file_directory(project_path)
     
     
-    puts  @config_list["project_path"]
-    puts  @config_list["server_name"]
-    puts  @config_list["host_user"]
-    puts  @config_list["host_ip"]
-    puts  @config_list["host_port"]
-    puts  @config_list["host_password"]
-    file_directory(@config_list["project_path"])
+    puts  @config["project_path"]
+    puts  @config["server_name"]
+    puts  @config["host_user"]
+    puts  @config["host_ip"]
+    puts  @config["host_port"]
+    puts  @config["host_password"]
+    file_directory(@config["project_path"])
     
     
     @volumes = Array.new
@@ -45,10 +45,10 @@ class VolumeController < ApplicationController
 
   def get_conf
     @config = Hash.new
-    host_user = "root"
-    host_ip = "127.0.0.1"
-    host_password = "secret"
-    host_port = ""
+    #host_user = "root"
+    #host_ip = "127.0.0.1"
+    #host_password = "secret"
+    #host_port = ""
     output = `cat configure.conf`.split("\n")
     
     output.each do |t|
@@ -72,24 +72,30 @@ class VolumeController < ApplicationController
   end
 
   def get_info
-    host_user = "root"
-    host_ip = "127.0.0.1"
-    host_password = "secret"
-    host_port = ""
+    #host_user = "root"
+    #host_ip = "127.0.0.1"
+    #host_password = "secret"
+    #host_port = ""
+    @config = get_conf
+   # @conf_list.each do |t|
+   #   if t.include? "host_name="
+   #     host_user = t.split("host_user=")[1]
+   #   elsif t.include? "host_ip="
+   #     host_ip = t.split("host_ip=")[1]
+   #   elsif t.include? "host_port=" and !t.split("host_port=")[1].nil?
+   #     host_port = "-p " + t.split("host_port=")[1] + " "
+   #   elsif t.include? "host_password="
+   #     host_password = t.split("host_password=")[1]
+   #   end
+   # end
 
-    @conf_list.each do |t|
-      if t.include? "host_name="
-        host_user = t.split("host_user=")[1]
-      elsif t.include? "host_ip="
-        host_ip = t.split("host_ip=")[1]
-      elsif t.include? "host_port=" and !t.split("host_port=")[1].nil?
-        host_port = "-p " + t.split("host_port=")[1] + " "
-      elsif t.include? "host_password="
-        host_password = t.split("host_password=")[1]
-      end
-    end
-
-    return `sshpass -p#{host_password} ssh #{host_port} #{host_user}@#{host_ip} gluster volume info`
+    puts  @config["project_path"]
+    puts  @config["server_name"]
+    puts  @config["host_user"]
+    puts  @config["host_ip"]
+    puts  @config["host_port"]
+    puts  @config["host_password"]
+    return `sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume info`
   end
   
   def file_upload
