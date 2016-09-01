@@ -65,9 +65,21 @@
   	            	 <a class="btn btn-round btn-danger btn-lg" href="/volume/stop/<%=t['Volume Name']%>">
                       <i class="fa fa-pause"></i> Stop
                    </a>
-		               <a class="btn btn-app" href="/volume/mount/<%=t['Volume Name']%>">
-                    <i class="fa fa-upload"></i> Mount
-                   </a>
+        
+                    <form class="form-horizontal form-label-left" action="/volume/mount" method="post">
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3" for="mount_point">Mount Point</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12"><input type="text" name="mount_point" required="required" class="form-control"></div>
+                      </div>
+                        <input type="hidden" name="volume_name" ><%=t['Volume Name']%></input>
+      		               <button class="btn btn-app" type="submit">
+                            <i class="fa fa-upload"></i> Mount
+                         </button>
+                    </form>
+                    
+      		               <a class="btn btn-app" href="/volume/mount/<%=t['Volume Name']%>">
+                          <i class="fa fa-upload"></i> Mount
+                         </a>
                 <% end %>
 		          </div>
               
