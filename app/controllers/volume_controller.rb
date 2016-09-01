@@ -3,22 +3,6 @@ class VolumeController < ApplicationController
   
   def index
     @config = get_conf
-    #project_path = String.new
-    #@conf_list.each do |t|
-    #  if t.include? "project_path="
-    #    project_path = t.split("project_path=")[1]
-    #  end
-    #end
-    
-    #file_directory(project_path)
-    
-    
-    puts  @config["project_path"]
-    puts  @config["server_name"]
-    puts  @config["host_user"]
-    puts  @config["host_ip"]
-    puts  @config["host_port"]
-    puts  @config["host_password"]
     file_directory(@config["project_path"])
     
     
@@ -45,10 +29,6 @@ class VolumeController < ApplicationController
 
   def get_conf
     @config = Hash.new
-    #host_user = "root"
-    #host_ip = "127.0.0.1"
-    #host_password = "secret"
-    #host_port = ""
     output = `cat configure.conf`.split("\n")
     
     output.each do |t|
@@ -68,33 +48,10 @@ class VolumeController < ApplicationController
     end
     
     return @config
-    #return `cat configure.conf`.split("\n")
   end
 
   def get_info
-    #host_user = "root"
-    #host_ip = "127.0.0.1"
-    #host_password = "secret"
-    #host_port = ""
     @config = get_conf
-   # @conf_list.each do |t|
-   #   if t.include? "host_name="
-   #     host_user = t.split("host_user=")[1]
-   #   elsif t.include? "host_ip="
-   #     host_ip = t.split("host_ip=")[1]
-   #   elsif t.include? "host_port=" and !t.split("host_port=")[1].nil?
-   #     host_port = "-p " + t.split("host_port=")[1] + " "
-   #   elsif t.include? "host_password="
-   #     host_password = t.split("host_password=")[1]
-   #   end
-   # end
-
-    puts  @config["project_path"]
-    puts  @config["server_name"]
-    puts  @config["host_user"]
-    puts  @config["host_ip"]
-    puts  @config["host_port"]
-    puts  @config["host_password"]
     return `sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume info`
   end
   
@@ -133,97 +90,38 @@ class VolumeController < ApplicationController
   end
   
   def volume_mount
-	conf_list = get_conf
-	host_ip = String.new
-	  conf_list.each do |t|
-		  if t.include? "host_ip="
-		  	host_ip = t.split("host_ip=")[1]
-		  end
-	  end
+    @config = get_conf
 	  volume_name = params[:volume_name]
 	  volume_name = volume_name.delete(' ')
-	  puts "mount -t glusterfs " +  host_ip + ":/" + volume_name + " /mnt/glusterfs"
-    redirect_to '/volume/index'
+	  puts "mount -t glusterfs " +  @config["host_ip"] + ":/" + volume_name + " /mnt/glusterfs"
+	  redirect_to '/volume/index'
   end
 
   def volume_stop
+    @config = get_conf
 	  volume_name = params[:volume_name]
 	  volume_name = volume_name.delete(' ')
-	  
-	  host_user = "root"
-    host_ip = "127.0.0.1"
-    host_password = "secret"
-    host_port = ""
-
-    @conf_list.each do |t|
-      if t.include? "host_name="
-        host_user = t.split("host_user=")[1]
-      elsif t.include? "host_ip="
-        host_ip = t.split("host_ip=")[1]
-      elsif t.include? "host_port=" and !t.split("host_port=")[1].nil?
-        host_port = "-p " + t.split("host_port=")[1] + " "
-      elsif t.include? "host_password="
-        host_password = t.split("host_password=")[1]
-      end
-    end
-
 	  puts "gluster volume stop " + volume_name
-	  output = `sshpass -p#{host_password} ssh #{host_port} #{host_user}@#{host_ip} gluster volume stop #{volume_name}`
+	  #output = `sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume stop #{volume_name}`
     redirect_to '/volume/index'
   end
 
   def volume_start
+    @config = get_conf
 	  volume_name = params[:volume_name]
 	  volume_name = volume_name.delete(' ')
-	  
-	   
-	  host_user = "root"
-    host_ip = "127.0.0.1"
-    host_password = "secret"
-    host_port = ""
-
-    @conf_list.each do |t|
-      if t.include? "host_name="
-        host_user = t.split("host_user=")[1]
-      elsif t.include? "host_ip="
-        host_ip = t.split("host_ip=")[1]
-      elsif t.include? "host_port=" and !t.split("host_port=")[1].nil?
-        host_port = "-p " + t.split("host_port=")[1] + " "
-      elsif t.include? "host_password="
-        host_password = t.split("host_password=")[1]
-      end
-    end
-    
 	  puts "gluster volume start " + volume_name
-	  output = `sshpass -p#{host_password} ssh #{host_port} #{host_user}@#{host_ip} gluster volume start #{volume_name}`
+    #output = `sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume start #{volume_name}`
     redirect_to '/volume/index'
   end
   
   
   def volume_delete
+    @config = get_conf
 	  volume_name = params[:volume_name]
 	  volume_name = volume_name.delete(' ')
-	  
-	   
-	  host_user = "root"
-    host_ip = "127.0.0.1"
-    host_password = "secret"
-    host_port = ""
-
-    @conf_list.each do |t|
-      if t.include? "host_name="
-        host_user = t.split("host_user=")[1]
-      elsif t.include? "host_ip="
-        host_ip = t.split("host_ip=")[1]
-      elsif t.include? "host_port=" and !t.split("host_port=")[1].nil?
-        host_port = "-p " + t.split("host_port=")[1] + " "
-      elsif t.include? "host_password="
-        host_password = t.split("host_password=")[1]
-      end
-    end
-    
 	  puts "gluster volume start " + volume_name
-	  output = `sshpass -p#{host_password} ssh #{host_port} #{host_user}@#{host_ip} gluster volume delete #{volume_name}`
+	  #output = `sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume delete #{volume_name}`
     redirect_to '/volume/index'
   end
 end
