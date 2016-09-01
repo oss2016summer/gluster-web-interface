@@ -159,4 +159,32 @@ class VolumeController < ApplicationController
 	  output = `sshpass -p#{host_password} ssh #{host_port} #{host_user}@#{host_ip} gluster volume start #{volume_name}`
     redirect_to '/volume/index'
   end
+  
+  
+  def volume_delete
+	  volume_name = params[:volume_name]
+	  volume_name = volume_name.delete(' ')
+	  
+	   
+	  host_user = "root"
+    host_ip = "127.0.0.1"
+    host_password = "secret"
+    host_port = ""
+
+    @conf_list.each do |t|
+      if t.include? "host_name="
+        host_user = t.split("host_user=")[1]
+      elsif t.include? "host_ip="
+        host_ip = t.split("host_ip=")[1]
+      elsif t.include? "host_port=" and !t.split("host_port=")[1].nil?
+        host_port = "-p " + t.split("host_port=")[1] + " "
+      elsif t.include? "host_password="
+        host_password = t.split("host_password=")[1]
+      end
+    end
+    
+	  puts "gluster volume start " + volume_name
+	  output = `sshpass -p#{host_password} ssh #{host_port} #{host_user}@#{host_ip} gluster volume delete #{volume_name}`
+    redirect_to '/volume/index'
+  end
 end

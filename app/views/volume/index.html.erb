@@ -58,12 +58,13 @@
   	            	 <a class="btn btn-round btn-success btn-lg" href="/volume/start/<%=t['Volume Name']%>">
                       <i class="fa fa-play"></i> Start
                    </a>
-               		 <!--<button type="button" class="btn btn-round btn-success btn-lg"><i class="fa fa-play"></i> Start</button> -->
+		               <a class="btn btn-app" href="/volume/delete/<%=t['Volume Name']%>">
+                    <i class="fa fa-trash"></i> Delete
+                   </a>
 	            	<% else %>
   	            	 <a class="btn btn-round btn-danger btn-lg" href="/volume/stop/<%=t['Volume Name']%>">
                       <i class="fa fa-pause"></i> Stop
                    </a>
-			             <!--<button type="button" class="btn btn-round btn-danger btn-lg"><i class="fa fa-pause"></i> Stop</button>-->
 		               <a class="btn btn-app" href="/volume/mount/<%=t['Volume Name']%>">
                     <i class="fa fa-upload"></i> Mount
                    </a>
