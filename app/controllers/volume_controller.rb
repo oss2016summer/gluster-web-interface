@@ -110,7 +110,7 @@ class VolumeController < ApplicationController
 	  volume_name = params[:volume_name]
 	  volume_name = volume_name.delete(' ')
 	  puts "gluster volume start " + volume_name
-    #output = `sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume start #{volume_name}`
+    output = `sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume start #{volume_name}`
     redirect_to '/volume/index'
   end
   
