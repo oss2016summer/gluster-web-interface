@@ -43,7 +43,9 @@ class VolumeController < ApplicationController
     output = `cat configure.conf`.split("\n")
     
     output.each do |t|
-      if t.include? "host_name="
+      if t.include? "project_path="
+	@config["project_path"] = t.split("project_path=")[1]
+      elsif t.include? "host_user="
         @config["host_user"] = t.split("host_user=")[1]
       elsif t.include? "host_ip="
         @config["host_ip"] = t.split("host_ip=")[1]
@@ -53,8 +55,7 @@ class VolumeController < ApplicationController
         @config["host_password"] = t.split("host_password=")[1]
       end
     end
-    
-    puts  @config["host_user"]
+    puts  @config["project_path"]
     puts  @config["host_user"]
     puts  @config["host_ip"]
     puts  @config["host_port"]
