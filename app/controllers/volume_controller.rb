@@ -94,6 +94,9 @@ class VolumeController < ApplicationController
 	  mount_point = params[:mount_point]
 	  volume_name = volume_name.delete(' ')
 	  puts "mount -t glusterfs " +  @config["host_ip"] + ":/" + volume_name + " " + mount_point
+		
+	  `mount -t glusterfs #{@config["host_ip"]}:/#{volume_name} #{mount_point}`
+		
 	  redirect_to '/volume/index'
   end
 
