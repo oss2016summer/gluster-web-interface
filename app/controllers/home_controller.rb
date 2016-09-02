@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   def index
-    puts "@@@@@@@@@@@@@@@@"
+    config = get_conf
+    @current_dir = config["project_path"]
   end
 end
