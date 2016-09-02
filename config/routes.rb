@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   
   #Home
   get 'home/index' => 'home#index'
+  post 'home/mkdir' => 'home#make_directory'
   
   
   #Volume

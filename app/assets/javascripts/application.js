@@ -45,7 +45,6 @@
 //= require js/datatables/dataTables.buttons.min.js
 //= require js/datatables/buttons.bootstrap.min.js
 //= require js/datatables/jszip.min.js
-//= require js/datatables/pdfmake.min.js
 //= require js/datatables/vfs_fonts.js
 //= require js/datatables/buttons.html5.min.js
 //= require js/datatables/buttons.print.min.js
