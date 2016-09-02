@@ -1,10 +1,4 @@
 Rails.application.routes.draw do
-  get 'peer/index'
-
-  get 'volume/index'
-
-  get 'home/index'
-
   devise_for :users, controllers: { sessions: 'users/sessions' , registrations: 'users/registrations', confirmations: 'users/confirmations', passwords: 'users/passwords', unlocks: 'users/unlocks'}
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -13,20 +7,21 @@ Rails.application.routes.draw do
   root 'home#index'
 
   get 'index' => 'plainpage#index'
-   
+  
+  #Home
+  get 'home/index' => 'home#index'
+  
+  
   #Volume
   get 'volume/index' => 'volume#index'
-  
   post 'file_upload' => 'volume#file_upload'
-  
   post 'volume/changeDir' => 'volume#checkDir'
-  
   post 'volume/mount' => "volume#volume_mount"
   get 'volume/start/:volume_name' => "volume#volume_start"
   get 'volume/stop/:volume_name' => "volume#volume_stop"
   get 'volume/delete/:volume_name' => "volume#volume_delete"
   
-  
+  #Peer
   get 'peer/index' => 'peer#index'
   
    

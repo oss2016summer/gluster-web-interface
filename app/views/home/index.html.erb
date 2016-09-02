@@ -90,6 +90,52 @@
             </ul>
             <div class="clearfix"></div>
           </div>
+              
+            <div class="x_content" <%if t!=@volumes[0]%> style="display: none;" <%end%> >
+              
+              <div class="col-md-12 col-sm-12 col-xs-12" id="table_div">
+                <p class="text-muted font-13 m-b-30"><code>File Manager</code></p>
+                <p>  Current directory : <%=@current_dir%></p></br>
+                <table id="datatable" class="table table-striped table-bordered jambo_table">
+                  <thead>
+                    <tr class="headings">
+                      <th>Name</th>
+                      <th>auth</th>
+                      <th>Size</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+
+                  <tbody id="tbody_volume1">
+                    <tr>
+                      <td><i class="fa fa-reply"></i> 
+                         <a onclick="change_upper('<%=@current_dir%>')">  ..</a>
+                      </td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <%@files.each do |t|%>
+                      <tr>
+                        <% if t["auth"][0]=='d'%> 
+                         <td style="color:#0d8ade;"><i class="fa fa-folder-open-o"></i> 
+                           <a style="cursor: pointer" onclick="change_directory('<%=@current_dir + "/" + t["name"]%>')"><%=t["name"]%></a>
+                          </td>
+                        <% else %>
+                         <td><i class="fa fa-file-o"></i> 
+                           <a style="cursor: pointer"><%=t["name"]%></a>
+                         </td>
+                        <% end %>
+                       <td><%=t["auth"]%></td>
+                       <td><%=t["size"]%></td>
+                       <td><%=t["date"]%></td>
+                      </tr>
+                    <%end%>
+                  </tbody>
+                </table>
+              </div>
+              
+            </div>
                 
         </div>
       </div>
@@ -98,6 +144,122 @@
   </div>
 </div>
 <!-- /page content -->
+ <!-- data table handler  -->
+  <script>
+    var handleDataTableButtons = function() {
+          "use strict";
+          0 !== $("#datatable-buttons").length && $("#datatable-buttons").DataTable({
+            dom: "Bfrtip",
+            buttons: [{
+              extend: "copy",
+              className: "btn-sm"
+            }, {
+              extend: "csv",
+              className: "btn-sm"
+            }, {
+              extend: "excel",
+              className: "btn-sm"
+            }, {
+              extend: "pdf",
+              className: "btn-sm"
+            }, {
+              extend: "print",
+              className: "btn-sm"
+            }],
+            responsive: !0
+          })
+        },
+        TableManageButtons = function() {
+          "use strict";
+          return {
+            init: function() {
+              handleDataTableButtons()
+            }
+          }
+        }();
+  </script>
+  
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#datatable').dataTable();
+    });
+    TableManageButtons.init();
+  </script>
+  
+  <!-- file manager functions -->
+  <script>
+    function change_upper(directory){
+      if(directory != "/"){
+        var path = directory.split("/");
+        var upper_path = "";
+        if(path.length == 2){
+          change_directory("/");
+        } else {
+          for(var i = 1; i < path.length - 1 ; i++){
+             if(path[i] != "")
+              upper_path += "/" + path[i];
+          }
+          change_directory(upper_path);
+        }
+      }
+    }
+    
+    function change_directory(directory){
+      $.ajax({
+      method: "POST",
+      url: "/volume/changeDir",
+      data: { path: directory },
+      success  : function(result){
+          $("#table_div").empty();
+          var new_table = "<p class='text-muted font-13 m-b-30'><code>File Manager</code></p>";
+          new_table += "<p>Current directory : " + directory + "</p></br>";
+          new_table += "<table id='datatable' class='table table-striped table-bordered jambo_table'>";
+          new_table += "<thead>";
+          new_table += "<tr class='headings'>";
+          new_table += "<th>Name</th>";
+          new_table += "<th>Auth</th>";
+          new_table += "<th>Size</th>";
+          new_table += "<th>Date</th>";
+          new_table += "</tr>";
+          new_table += "</thead>";
+          new_table += "<tbody id='tbody_volume1'>";
+          
+          var new_tr = "<tr role='row' class='odd'> <td><i class='fa fa-reply'></i>";
+          new_tr += "<a onclick='change_upper(" + '"' + directory + '"' +")'> ..</a>";
+          new_tr += "</td><td> </td><td> </td><td> </td></tr>";
+          
+          for( var i = 0; i < result.file.length; i++){
+            if(i % 2 == 0)
+              new_tr += "<tr role='row' class='odd'>";
+            else
+              new_tr += "<tr role='row' class='even'>";
+            if(result.file[i].auth[0] == "d"){
+              new_tr += "<td style='color:#0d8ade;' class='sorting_1'><i class='fa fa-folder-open-o'></i> "; 
+              if(result.current != "/")
+                new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + result.current + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
+              else
+                new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
+            }else{
+              new_tr += "<td><i class='fa fa-file-o'></i><a style='cursor: pointer'>" + result.file[i].name + "</a></td>";
+            }
+            new_tr += "<td>"+result.file[i].auth+"</td>";
+            new_tr += "<td>"+result.file[i].size+"</td>";
+            new_tr += "<td>"+result.file[i].date+"</td>";
+            new_tr += "</tr>";
+          }
+          
+          new_table += new_tr;
+          new_table += "</tbody></table>"
+          $("#table_div").append(new_table);
+
+          $('#datatable').dataTable();
+          TableManageButtons.init();
+        }
+      })
+    }
+  </script>
+
+
 
 <!--Test Page specific JS -->
 <script type="text/javascript">
