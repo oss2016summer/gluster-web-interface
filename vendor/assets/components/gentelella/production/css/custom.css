@@ -5345,3 +5345,20 @@ ul.notifications {
   width: 100%;
   height: 2px;
 }
+
+.popup {
+  display:inline; 
+  z-index:20000;
+  background:#000000;
+  opacity:0.3;
+  position: absolute; 
+  left: 0; 
+  top: 0; 
+  width: 100%; 
+  height: 100%;
+}
+
+.popup .popup-close {
+  display:none;
+  z-index:-1;
+}

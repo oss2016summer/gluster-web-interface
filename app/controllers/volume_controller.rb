@@ -38,6 +38,7 @@ class VolumeController < ApplicationController
     redirect_to '/volume/info'
   end
   
+  
   def volume_mount
     @config = get_conf
 	  volume_name = params[:volume_name]
