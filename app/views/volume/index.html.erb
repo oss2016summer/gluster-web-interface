@@ -1,4 +1,38 @@
-  <div class="popup-close" id="popup_mount">
+  <div id="popup" class="overlay">
+	  <div class="popup">
+	    
+	    <h2> Choose mount point </h2>
+		  <a class="close" href="#">&times;</a>
+		  
+		  <table id="datatable" class="table table-striped jambo_table">
+        <thead>
+        <tr class="headings">
+          <th>Name</th>
+          <th>auth</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody id="tbody_volume1">
+        <tr>
+          <td><i class="fa fa-reply"></i> <a onclick="change_upper('<%=@current_dir%>')"> ..</a></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <%@files.each do |t|%>
+          <% if t["auth"][0]=='d'%>
+            <tr>
+              <td style="color:#0d8ade;"><i class="fa fa-folder-open-o"></i> 
+                <a style="cursor: pointer" onclick="change_directory('<%=@current_dir + "/" + t["name"]%>')"> <%=t["name"]%></a>
+              </td>
+              <td><%=t["auth"]%></td>
+              <td><button id="mount_select_btn" class="btn btn-primary pull-right">select</botton></td>
+            </tr>
+          <%end%>
+        <%end%>
+        </tbody>
+      </table>
+      
+    </div>
   </div>
   
   <!-- page content -->
@@ -74,13 +108,10 @@
                     <i class="fa fa-pause" style="color:#d9534f;"></i> 
                     <p style="color:#d9534f;">Stop</p>
                   </a>
+
                   
-                  <button class="btn btn-app" id="Btn_Mount">
-                    <i class="fa fa-upload"></i> Mount
-                  </button>
+                  <a class="btn btn-app" href="#popup"><i class="fa fa-upload"></i> Mount</a>
                   
-                  <div id="test1">
-                  </div>
         
                   <!--
                   <form class="form-horizontal form-label-right" action="/volume/mount" method="post">
@@ -123,16 +154,84 @@
       
     }
   </script>
-
+  
+  
+  <!-- data table handler  -->
   <script type="text/javascript">
-    $('#Btn_Mount').on('click', function(event){
-      
-      $('#popup_mount').attr("class", "popup");
-      $('#popup_mount').on('click', function(event){
-        $('#popup_mount').attr("class", "popup-close")
+    $(document).ready(function() {
+      $('#datatable').dataTable();
+    });
+  </script>
+  
+  
+  <!-- file manager functions -->
+  <script>
+    function change_upper(directory){
+      if(directory != "/"){
+        var path = directory.split("/");
+        var upper_path = "";
+        if(path.length == 2){
+          change_directory("/");
+        } else {
+          for(var i = 1; i < path.length - 1 ; i++){
+             if(path[i] != "")
+              upper_path += "/" + path[i];
+          }
+          change_directory(upper_path);
+        }
+      }
+    }
+    
+    function change_directory(directory){
+      $.ajax({
+      method: "POST",
+      url: "/application/changeDir",
+      data: { path: directory },
+      success  : function(result){
+          $("#tbody_volume1").empty();
+          
+          var new_tr = "<tr role='row' class='odd'> <td><i class='fa fa-reply'></i>";
+          new_tr += "<a onclick='change_upper(" + '"' + directory + '"' +")'> ..</a>";
+          new_tr += "</td><td> </td><td> </td><td> </td></tr>";
+          
+          for( var i = 0; i < result.file.length; i++){
+            if(i % 2 == 0)
+              new_tr += "<tr role='row' class='odd'>";
+            else
+              new_tr += "<tr role='row' class='even'>";
+              
+            if(result.file[i].auth[0] == "d"){
+              new_tr += "<td style='color:#0d8ade;' class='sorting_1'><i class='fa fa-folder-open-o'></i> "; 
+              if(result.current != "/")
+                new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + result.current + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
+              else
+                new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
+                new_tr += "<td>"+result.file[i].auth+"</td>";
+              
+              new_tr += "<td><button id='mount_select_btn' class='btn btn-primary pull-right'>select</botton></td>";
+              new_tr += "</tr>";
+            }
+          }
+          
+          $("#tbody_volume1").append(new_tr);
+
+          $('#datatable').dataTable();
+        }
       })
-      
-      
-      
+    }
+  </script>
+  
+  
+  <script>
+    $('#mount_select_btn').click(function(){
+      $.ajax({
+        type: 'post',
+        url: '/volume/mount',
+        data: mount_point,
+        success: function(data){
+            alert(data);
+        }
+      });
+      return false; //<- 이 문장으로 새로고침(reload)이 방지됨
     })
   </script>

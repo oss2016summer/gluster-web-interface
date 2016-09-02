@@ -5,7 +5,7 @@ class VolumeController < ApplicationController
     @volumes = Array.new
     volume = Hash.new
     
-    file_directory(@config["project_path"])
+    file_directory("/mnt")
     
     if get_info.blank?
       flash[:danger] = "Check Server"
