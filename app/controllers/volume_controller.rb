@@ -38,13 +38,6 @@ class VolumeController < ApplicationController
     redirect_to '/volume/info'
   end
   
-  
- 
-  def checkDir
-    files = file_directory(params[:path])
-    render :json => {:file => files , :current => @current_dir}
-  end
-  
   def volume_mount
     @config = get_conf
 	  volume_name = params[:volume_name]

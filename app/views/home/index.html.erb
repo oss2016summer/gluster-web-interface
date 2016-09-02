@@ -207,7 +207,7 @@
     function change_directory(directory){
       $.ajax({
       method: "POST",
-      url: "/volume/changeDir",
+      url: "/application/changeDir",
       data: { path: directory },
       success  : function(result){
           $("#table_div").empty();

@@ -44,6 +44,9 @@ class ApplicationController < ActionController::Base
       puts @files
       return @files
   end
-  
-  
+ 
+  def checkDir
+    files = file_directory(params[:path])
+    render :json => {:file => files , :current => @current_dir}
+  end
 end

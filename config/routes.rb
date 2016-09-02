@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'home#index'
 
+  post 'application/changeDir' => 'application#checkDir'
+  
   get 'index' => 'plainpage#index'
   
   #Home
@@ -15,7 +17,6 @@ Rails.application.routes.draw do
   #Volume
   get 'volume/index' => 'volume#index'
   post 'file_upload' => 'volume#file_upload'
-  post 'volume/changeDir' => 'volume#checkDir'
   post 'volume/mount' => "volume#volume_mount"
   get 'volume/start/:volume_name' => "volume#volume_start"
   get 'volume/stop/:volume_name' => "volume#volume_stop"
