@@ -109,26 +109,8 @@
                     <p style="color:#d9534f;">Stop</p>
                   </a>
 
-                  
+                  <!-- mount button push : popup event and post mount point -->
                   <a class="btn btn-app" href="#popup"><i class="fa fa-upload"></i> Mount</a>
-                  
-        
-                  <!--
-                  <form class="form-horizontal form-label-right" action="/volume/mount" method="post">
-                    
-                    <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-3" for="mount_point">Mount Point</label>
-                      <div class="col-md-6 col-sm-6 col-xs-12"><input type="text" name="mount_point" required="required" class="form-control"></div>
-                    </div>
-                    
-                    <input type="hidden" name="volume_name" value="<%=t['Volume Name']%>" />
-      		          
-      		          <button class="btn btn-app" type="submit">
-                      <i class="fa fa-upload"></i> Mount
-                    </button>
-                    
-                  </form>
-                  -->
                   
                 <% end %>
 		          </div>
@@ -227,11 +209,10 @@
       $.ajax({
         type: 'post',
         url: '/volume/mount',
-        data: mount_point,
+        data: {mount_point:'/mnt/test2', volume_name:'dist-volume2'},
         success: function(data){
             alert(data);
         }
       });
-      return false; //<- 이 문장으로 새로고침(reload)이 방지됨
     })
   </script>
