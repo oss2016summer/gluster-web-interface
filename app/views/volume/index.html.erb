@@ -1,9 +1,71 @@
-  <div id="popup" class="overlay">
+  <!-- create overlay page -->
+  <div id="popup_create" class="overlay">
 	  <div class="popup">
-	    
 	    <h2> Choose mount point </h2>
 		  <a class="close" href="#">&times;</a>
 		  
+		  <form id="form_volume_create" data-parsley-validate class="form-horizontal form-label-left">
+		    
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="volume-name">Volume Name <span class="required">*</span>
+          </label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <input type="text" id="volume-name" required="required" class="form-control col-md-7 col-xs-12">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12">Volume Type <span class="required">*</span>
+          </label>
+          <div class="col-md-9 col-sm-9 col-xs-12">
+            <select class="form-control">
+              <option>Distribute</option>
+              <option>Stripe</option>
+              <option>Replica</option>
+              <option>Arbiter</option>
+              <option>Disperse</option>
+              <option>Disperse-data</option>
+              <option>Redundancy</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12">Bricks <span class="required">*</span>
+          </label>
+          
+          <div class="col-md-3 col-sm-3 col-xs-3">
+            <select class="form-control">
+              <option><%=@config['server_name']%></option>
+            </select>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-5">
+            <input type="text" id="bricks" required="required" class="form-control col-md-7 col-xs-12">
+          </div>
+          <div class="col-md-1 col-sm-1 col-xs-1">
+            <a href="#/plus" class="form-control"><i class="fa fa-plus"></i></a>
+          </div>
+          
+        </div>
+
+        <div class="ln_solid"></div>
+
+        <div class="form-group">
+          <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+            <button type="submit" class="btn btn-primary">Cancel</button>
+            <button type="submit" class="btn btn-success">Submit</button>
+          </div>
+        </div>
+      </form>
+      
+    </div>
+  </div>
+  
+  <!-- mount overlay page -->
+  <div id="popup_mount" class="overlay">
+	  <div class="popup">
+	    <h2> Choose mount point </h2>
+		  <a class="close" href="#">&times;</a>
 		  <table id="datatable" class="table table-striped jambo_table">
         <thead>
         <tr class="headings">
@@ -14,7 +76,7 @@
         </thead>
         <tbody id="tbody_volume1">
         <tr>
-          <td><i class="fa fa-reply"></i> <a onclick="change_upper('<%=@current_dir%>')"> ..</a></td>
+          <td><i class="fa fa-reply"></i> <a style="cursor: pointer" onclick="change_upper('<%=@current_dir%>')"> ..</a></td>
           <td></td>
           <td></td>
         </tr>
@@ -25,13 +87,14 @@
                 <a style="cursor: pointer" onclick="change_directory('<%=@current_dir + "/" + t["name"]%>')"> <%=t["name"]%></a>
               </td>
               <td><%=t["auth"]%></td>
-              <td><button id="mount_select_btn" class="btn btn-primary pull-right">select</botton></td>
+              <td>
+                <button class="btn btn-primary pull-right" onclick="mount_selected('<%=@current_dir + "/" + t["name"]%>')">select</botton>
+              </td>
             </tr>
           <%end%>
         <%end%>
         </tbody>
       </table>
-      
     </div>
   </div>
   
@@ -44,9 +107,7 @@
       </div>
       <div class="title_right">
         <div class="col-md-5 col-sm-5 col-xs-12 pull-right">
-          <button class="btn btn-primary pull-right" onclick="volume_create">
-            Create
-          </button>
+          <a class="btn btn-success btn-lg pull-right" href="#popup_create">Create Volume</a>
         </div>
       </div>
     </div>
@@ -79,21 +140,24 @@
             
             <div class="x_content" <%if t!=@volumes[0]%> style="display: none;" <%end%> >
               
+              <!-- left content -->
               <div class="col-md-4 col-sm-4 col-xs-4">
-                <p class="text-muted font-13 m-b-30"><code>Volume Info</code></p>
-                Type : <%=t["Type"]%> <br>
-                Volume ID : <%=t["Volume ID"]%> <br>
-                Status : <%=t["Status"]%> <br>
-                Number of Bricks : <%=t["Number of Bricks"]%> <br>
-                Transport-type : <%=t["Transport-type"]%> <br>
-                Bricks : <%=t["Bricks"]%> <br>
-                Bricks1 : <%=t["Brick1"]%> <br>
-                Options Reconfigured : <%=t["Options Reconfigured"]%> <br>
-                performance.readdir-ahead : <%=t["performance.readdir-ahead"]%>
-                <br><br><br>
-	            	
+                
+                <div>
+                  <p class="text-muted font-13 m-b-30"><code>Volume Info</code></p>
+                  Type : <%=t["Type"]%> <br>
+                  Volume ID : <%=t["Volume ID"]%> <br>
+                  Status : <%=t["Status"]%> <br>
+                  Number of Bricks : <%=t["Number of Bricks"]%> <br>
+                  Transport-type : <%=t["Transport-type"]%> <br>
+                  Bricks : <%=t["Bricks"]%> <br>
+                  Bricks1 : <%=t["Brick1"]%> <br>
+                  Options Reconfigured : <%=t["Options Reconfigured"]%> <br>
+                  performance.readdir-ahead : <%=t["performance.readdir-ahead"]%>
+                  <br><br><br>
+                </div>
+                
 	            	<% if t["Status"] == " Stopped" %>	
-	            	  
 	            	  <a class="btn btn-app" href="/volume/start/<%=t['Volume Name']%>">
                     <i class="fa fa-play" style="color:#26B99A;"></i> 
                     <p style="color:#26B99A;">Start</p>
@@ -101,20 +165,18 @@
 		              <a class="btn btn-app" href="/volume/delete/<%=t['Volume Name']%>">
                     <i class="fa fa-trash"></i> Delete
                   </a>
-                  
 	            	<% else %>
-	            	
 	            	  <a class="btn btn-app" href="/volume/stop/<%=t['Volume Name']%>">
                     <i class="fa fa-pause" style="color:#d9534f;"></i> 
                     <p style="color:#d9534f;">Stop</p>
                   </a>
-
                   <!-- mount button push : popup event and post mount point -->
-                  <a class="btn btn-app" href="#popup"><i class="fa fa-upload"></i> Mount</a>
-                  
+                  <a class="btn btn-app" href="/volume/index?volume_name=<%=t['Volume Name'].delete(' ')%>#popup_mount"><i class="fa fa-upload"></i> Mount</a>
                 <% end %>
 		          </div>
               
+              
+              <!-- right content -->
               <div class="col-md-8 col-sm-8 col-xs-8">
                 <p>Drag multiple files to the box below for multi upload or click to select files.</p>
                 <form action="/file_upload" method="post" enctype="multipart/form-data" class="dropzone" style="border: 1px solid #e5e5e5; height: 300px; overflow:auto;">
@@ -173,7 +235,7 @@
           $("#tbody_volume1").empty();
           
           var new_tr = "<tr role='row' class='odd'> <td><i class='fa fa-reply'></i>";
-          new_tr += "<a onclick='change_upper(" + '"' + directory + '"' +")'> ..</a>";
+          new_tr += "<a style='cursor: pointer' onclick='change_upper(" + '"' + directory + '"' +")'> ..</a>";
           new_tr += "</td><td> </td><td> </td><td> </td></tr>";
           
           for( var i = 0; i < result.file.length; i++){
@@ -190,7 +252,7 @@
                 new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
                 new_tr += "<td>"+result.file[i].auth+"</td>";
               
-              new_tr += "<td><button id='mount_select_btn' class='btn btn-primary pull-right'>select</botton></td>";
+              new_tr += "<td><button class='btn btn-primary pull-right'>select</botton></td>";
               new_tr += "</tr>";
             }
           }
@@ -204,15 +266,32 @@
   </script>
   
   
-  <script>
-    $('#mount_select_btn').click(function(){
+  <script type="text/javascript">
+    
+    function mount_selected(mnt_point) {
+      
+      var url = window.location + '';
+      var vol_name = url.match(/volume_name=([^#]+)/)[1];
+      
       $.ajax({
         type: 'post',
         url: '/volume/mount',
-        data: {mount_point:'/mnt/test2', volume_name:'dist-volume2'},
+        data: {mount_point: nmt_point, volume_name: vol_name},
         success: function(data){
-            alert(data);
+            console.log("mount success");
         }
       });
+      
+    }
+  </script>
+  
+  
+  <script>
+    
+    
+    
+    $("#form_volume_create").change(function (){
+      console.log($("#form_volume_create option:selected").val());
     })
+    
   </script>
