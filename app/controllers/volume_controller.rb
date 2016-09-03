@@ -19,7 +19,7 @@ class VolumeController < ApplicationController
           temp = info[t].split(":")
           volume[temp[0]] = temp[1]
         else
-          if df.include? volume['Volume Name']
+          if df.include? volume['Volume Name'].delete(' ')
             volume['Mount State'] = "Mounted"
           else
             volume['Mount State'] = "UnMounted"
@@ -37,7 +37,7 @@ class VolumeController < ApplicationController
 
   def get_df
     @config = get_conf
-    return `sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} df -P`
+    return `df -P`
   end
 
   def get_info
