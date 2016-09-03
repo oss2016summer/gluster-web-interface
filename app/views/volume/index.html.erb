@@ -74,7 +74,7 @@
           <th></th>
         </tr>
         </thead>
-        <tbody id="tbody_volume1">
+        <tbody id="datatable_body">
         <tr>
           <td><i class="fa fa-reply"></i> <a style="cursor: pointer" onclick="change_upper('<%=@current_dir%>')"> ..</a></td>
           <td></td>
@@ -88,7 +88,7 @@
               </td>
               <td><%=t["auth"]%></td>
               <td>
-                <button class="btn btn-primary pull-right" onclick="mount_selected('<%=@current_dir + "/" + t["name"]%>')">select</botton>
+                <button class="btn btn-primary pull-right" onclick="volume_mount('<%=@current_dir + "/" + t["name"]%>')">select</botton>
               </td>
             </tr>
           <%end%>
@@ -197,6 +197,19 @@
     function volume_create() {
       
     }
+    function volume_mount(mnt_point) {
+      var url = window.location + '';
+      var vol_name = url.match(/volume_name=([^#]+)/)[1];
+      $.ajax({
+        type: 'post',
+        url: '/volume/mount',
+        data: {mount_point: mnt_point, volume_name: vol_name},
+        success: function(data){
+          console.log("mount success");
+          window.location.replace(url.split("?")[0]);
+        }
+      });
+    }
   </script>
   
   
@@ -211,87 +224,42 @@
   <!-- file manager functions -->
   <script>
     function change_upper(directory){
-      if(directory != "/"){
-        var path = directory.split("/");
-        var upper_path = "";
-        if(path.length == 2){
-          change_directory("/");
-        } else {
-          for(var i = 1; i < path.length - 1 ; i++){
-             if(path[i] != "")
-              upper_path += "/" + path[i];
-          }
-          change_directory(upper_path);
-        }
-      }
+      if(directory == "/") return;
+      var lastindex = directory.lastIndexOf("/");
+      if(lastindex == 0) lastindex++;
+      change_directory(directory.substring(0, lastindex));
     }
-    
     function change_directory(directory){
       $.ajax({
       method: "POST",
       url: "/application/changeDir",
       data: { path: directory },
       success  : function(result){
-          $("#tbody_volume1").empty();
-          
-          var new_tr = "<tr role='row' class='odd'> <td><i class='fa fa-reply'></i>";
+          $("#datatable_body").empty();
+          var new_tr = "";
+          new_tr += "<tr role='row' class='odd'> <td><i class='fa fa-reply'></i>";
           new_tr += "<a style='cursor: pointer' onclick='change_upper(" + '"' + directory + '"' +")'> ..</a>";
           new_tr += "</td><td> </td><td> </td><td> </td></tr>";
-          
           for( var i = 0; i < result.file.length; i++){
-            if(i % 2 == 0)
-              new_tr += "<tr role='row' class='odd'>";
-            else
-              new_tr += "<tr role='row' class='even'>";
-              
-            if(result.file[i].auth[0] == "d"){
-              new_tr += "<td style='color:#0d8ade;' class='sorting_1'><i class='fa fa-folder-open-o'></i> "; 
-              if(result.current != "/")
-                new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + result.current + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
-              else
-                new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
-                new_tr += "<td>"+result.file[i].auth+"</td>";
-              
-              new_tr += "<td><button class='btn btn-primary pull-right'>select</botton></td>";
-              new_tr += "</tr>";
-            }
+            if(result.file[i].auth[0] != "d") continue;
+            var row_class = i % 2 == 0 ? 'odd' : 'even';
+            var cur = result.current != "/" ? result.current : '';
+            new_tr += "<tr role='row' class='" + row_class + "'>";
+            new_tr += "<td style='color:#0d8ade;' class='sorting_1'><i class='fa fa-folder-open-o'></i> "; 
+            new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + cur + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
+            new_tr += "<td>"+result.file[i].auth+"</td>";
+            new_tr += "<td><button class='btn btn-primary pull-right'>select</botton></td>";
+            new_tr += "</tr>";
           }
-          
-          $("#tbody_volume1").append(new_tr);
-
+          $("#datatable_body").append(new_tr);
           $('#datatable').dataTable();
         }
       })
     }
   </script>
   
-  
   <script>
-    
-    function mount_selected(mnt_point) {
-      
-      var url = window.location + '';
-      var vol_name = url.match(/volume_name=([^#]+)/)[1];
-      
-      $.ajax({
-        type: 'post',
-        url: '/volume/mount',
-        data: {mount_point: mnt_point, volume_name: vol_name},
-        success: function(data){
-            console.log("mount success");
-        }
-      });
-      
-    }
-  </script>
-  
-  
-  <script>
-    
-    
-    
     $("#form_volume_create").change(function (){
       console.log($("#form_volume_create option:selected").val());
     })
-    
   </script>

@@ -10,21 +10,35 @@ class VolumeController < ApplicationController
     if get_info.blank?
       flash[:danger] = "Check Server"
     else
-      output = get_info.split("\n")
-      for t in 1..(output.length-1)
-         if output[t].include? ":" 
-           temp = output[t].split(":")
-           volume[temp[0]] = temp[1]
-         else  
-           @volumes << volume
-           volume = Hash.new
-         end
+      info = get_info.split("\n")
+      df = get_df
+      puts df
+      
+      for t in 1..(info.length-1)
+        if info[t].include? ":" 
+          temp = info[t].split(":")
+          volume[temp[0]] = temp[1]
+        else
+          if df.include? volume['Volume Name']
+            volume['Mount State'] = "Mounted"
+          else
+            volume['Mount State'] = "UnMounted"
+          end
+          puts volume['Volume Name'] + ": " + volume['Mount State']
+           
+          @volumes << volume
+          volume = Hash.new
+        end
       end
       @volumes << volume
       # puts @volumes
     end
   end
 
+  def get_df
+    @config = get_conf
+    return `sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} df -P`
+  end
 
   def get_info
     @config = get_conf
