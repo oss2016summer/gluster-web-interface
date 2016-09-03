@@ -266,7 +266,7 @@
   </script>
   
   
-  <script type="text/javascript">
+  <script>
     
     function mount_selected(mnt_point) {
       
@@ -276,7 +276,7 @@
       $.ajax({
         type: 'post',
         url: '/volume/mount',
-        data: {mount_point: nmt_point, volume_name: vol_name},
+        data: {mount_point: mnt_point, volume_name: vol_name},
         success: function(data){
             console.log("mount success");
         }
