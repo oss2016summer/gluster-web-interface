@@ -7,10 +7,10 @@
 		  <form id="form_make_directory" data-parsley-validate class="form-horizontal form-label-left" action="/home/mkdir" method="post">
 		    
         <div class="form-group">
-          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="directory-name">Current Directory <span class="required">*</span>
+          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="current-dir">Current Directory <span class="required">*</span>
           </label>
           <div class="col-md-6 col-sm-6 col-xs-12">
-            <input type="text" id="directory-name" required="required" class="form-control col-md-7 col-xs-12" name="directory_name" value="<%=@current_dir%>" readonly/>
+            <input type="text" id="current-dir" required="required" class="form-control col-md-7 col-xs-12" name="current_dir" value="<%=@current_dir%>" readonly/>
           </div>
         </div>
         <div class="form-group">
@@ -198,7 +198,7 @@
       url: "/application/changeDir",
       data: { path: directory },
       success  : function(result){
-          $("#directory-name").value(directory);
+          $("#current-dir").val(directory);
           $("#table_div").empty();
           var new_table = "";
           new_table += "<p class='text-muted font-13 m-b-30'><code>Current directory : <span id='select_dir'>" + directory+"</span></code></p>";
@@ -220,17 +220,13 @@
           new_tr += "</td><td> </td><td> </td><td> </td></tr>";
           
           for( var i = 0; i < result.file.length; i++){
-            if(i % 2 == 0)
-              new_tr += "<tr role='row' class='odd'>";
-            else
-              new_tr += "<tr role='row' class='even'>";
+            var row_class = i % 2 == 0 ? 'odd' : 'even';
+            var cur = result.current != "/" ? result.current : '';
+            new_tr += "<tr role='row' class='" + row_class + "'>";
               
             if(result.file[i].auth[0] == "d"){
               new_tr += "<td style='color:#0d8ade;' class='sorting_1'><i class='fa fa-folder-open-o'></i> "; 
-              if(result.current != "/")
-                new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + result.current + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
-              else
-                new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
+              new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + cur + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
             }else{
               new_tr += "<td><i class='fa fa-file-o'></i><a style='cursor: pointer'> " + result.file[i].name + "</a></td>";
             }
