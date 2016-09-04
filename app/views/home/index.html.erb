@@ -207,15 +207,24 @@
         	  ShowContextMenu("Del_dir");
         	  var Row = this;
             var Cells = Row.getElementsByTagName("td");
-            var text = Cells[0].innerText;
-            $("#delete_name").val(text);
+            var file_name = Cells[0].innerText;
+            file_name = file_name.replace(' ', '');
+            $("#delete_name").val($("#select_dir").text() + "/" + file_name);
         	  CheckLocation();	  
         	  return false;
         	});	
     }
      
     $(".Del_dir").click(function(e){
-      	      alert($("#delete_name").val());
+              $.ajax({
+              method: "POST",
+              url: "/home/delete",
+              data: { file_name: $("#delete_name").val() },
+                success  : function(result){
+                
+                  //alert("aa");
+                }
+              })
       		    $(".contextmenu").hide();
       		    $(document).unbind('mousedown');
     });

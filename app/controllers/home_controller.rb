@@ -14,4 +14,12 @@ class HomeController < ApplicationController
 	  `mkdir #{current_dir}/#{directory_name}`
 	  redirect_to '/home/index'
   end
+  
+  
+  def delete_file
+	  file_name = params[:file_name]
+	  puts "rm #{file_name} -rf"
+	  #`rm #{file_name} -rf`
+	  redirect_to '/home/index'
+  end
 end
