@@ -93,13 +93,12 @@
             <div class="x_content">
               
               <div class="col-md-12 col-sm-12 col-xs-12" id="table_div">
-                <p>  Current directory : <%=@current_dir%></p>
+                <p class="text-muted font-13 m-b-30"> <code> Current directory : <%=@current_dir%></code></p>
 		            <p>  
 		             <form style="text-align:right;" action="/home/mkdir" method="post">
   		             <input type="text" name="directory_name" placeholder="Directory name" style="padding:6px 12px; vertical-align:middle;"/>
   		             <input type="hidden" name="current_dir" value="<%=@current_dir%>"/>
-  		             <button class="btn btn-default" type="submit">
-                              <i class="fa fa-plus"></i> Make Directory
+  		             <button class="btn btn-default" type="submit"><i class="fa fa-plus"></i> Make Directory
                    </button>
                  </form>
 		            </p>
@@ -135,7 +134,7 @@
                         <% end %>
                        <td><%=t["auth"]%></td>
                        <td><%=t["size"]%></td>
-                       <td><%=t["date"]%></td>
+                       <td><%=t["date"]%></td> 
                       </tr>
                     <%end%>
                   </tbody>
@@ -185,6 +184,8 @@
   </script>
   
   <script type="text/javascript">
+  /* right click */
+  
     $(document).ready(function() {
       $('#datatable').dataTable();
     });
