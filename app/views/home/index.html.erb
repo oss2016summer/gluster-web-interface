@@ -1,6 +1,7 @@
 <div class="contextmenu Del_dir">
 	  <ul>
-	    <li class="menuitem"><i class="fa fa-trash"></i> Delete</li>
+	    <li class="menuitem"><i class="fa fa-trash"></i>Delete</li>
+	    <input value="Zzz" id="delete_name"></input>
 	  </ul>
 </div>
 
@@ -154,7 +155,7 @@
                       <td></td>
                     </tr>
                     <%@files.each do |t|%>
-                      <tr>
+                      <tr class="dir_delete">
                         <% if t["auth"][0]=='d'%> 
                          <td style="color:#0d8ade;"><i class="fa fa-folder-open-o"></i> 
                            <a style="cursor: pointer" onclick="change_directory('<%=@current_dir + "/" + t["name"]%>')"> <%=t["name"]%></a>
@@ -182,37 +183,43 @@
 <!-- /page content -->
   
   <script type="text/javascript">
-  /* right click */
-  $(function(){
-		$(".menuitem").mouseover(function(e){
-	    var $el = $(this);
-	    if ( !$el.hasClass('hover'))
-	      $el.addClass('hover');
-	  }).mouseout(function(e){
-	  var $el = $(this);
-	    if($el.hasClass('hover'))
-	      $el.removeClass('hover');
-	  });
-	  
-  	//Contextmenu
-  	$("#datatable_body").on('contextmenu', function(event) {
-  	  ShowContextMenu("Del_dir");
-  	  CheckLocation();	  
-  	  return false;
-  	});	
-  	
-	  $(".Del_dir").click(function(e){
-  			alert("delete");
-		    $(".contextmenu").hide();
-		    $(document).unbind('mousedown');
-	  });
-  });
-  
     $(document).ready(function() {
       $('#datatable').dataTable();
+      right_click();
     });
   </script>
-  
+  <script>
+        	
+    function right_click(){
+            /* right click */
+        $(".menuitem").mouseover(function(e){
+      	    var $el = $(this);
+      	    if ( !$el.hasClass('hover'))
+      	      $el.addClass('hover');
+      	  }).mouseout(function(e){
+      	  var $el = $(this);
+      	    if($el.hasClass('hover'))
+      	      $el.removeClass('hover');
+      	  });
+      	 
+        	//Contextmenu
+        	$(".dir_delete").on('contextmenu', function(event) {
+        	  ShowContextMenu("Del_dir");
+        	  var Row = this;
+            var Cells = Row.getElementsByTagName("td");
+            var text = Cells[0].innerText;
+            $("#delete_name").val(text);
+        	  CheckLocation();	  
+        	  return false;
+        	});	
+    }
+     
+    $(".Del_dir").click(function(e){
+      	      alert($("#delete_name").val());
+      		    $(".contextmenu").hide();
+      		    $(document).unbind('mousedown');
+    });
+  </script>
   <!-- file manager functions -->
   <script>
     function change_upper(directory){
@@ -252,8 +259,7 @@
           for( var i = 0; i < result.file.length; i++){
             var row_class = i % 2 == 0 ? 'odd' : 'even';
             var cur = result.current != "/" ? result.current : '';
-            new_tr += "<tr role='row' class='" + row_class + "'>";
-              
+            new_tr += "<tr role='row' class='dir_delete' class='" + row_class + "'>";
             if(result.file[i].auth[0] == "d"){
               new_tr += "<td style='color:#0d8ade;' class='sorting_1'><i class='fa fa-folder-open-o'></i> "; 
               new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + cur + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
@@ -265,16 +271,18 @@
             new_tr += "<td>"+result.file[i].date+"</td>";
             new_tr += "</tr>";
           }
-          
           new_table += new_tr;
           new_table += "</tbody></table>"
           $("#table_div").append(new_table);
           $('#datatable').dataTable();
+          right_click();
         }
       })
     }
+  
+	  
   </script>
-
+  
 
 
 <!--Test Page specific JS -->
