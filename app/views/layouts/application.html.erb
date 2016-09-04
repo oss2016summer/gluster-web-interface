@@ -12,20 +12,22 @@
 </head>
 
 <body class="nav-md">
-<div class="container body">
-  <% flash.each do |key, value| %>
-    <div align="center" id="flash" class="alert alert-<%= key %>"><%= value %>
-      <a href="#" data-dismiss="alert" class="close">×</a>
-    </div>
-  <% end %>
+  
+  <div class="container body">
+    
+    <% flash.each do |key, value| %>
+      <div align="center" id="flash" class="alert alert-<%= key %>"><%= value %>
+        <a href="#" data-dismiss="alert" class="close">×</a>
+      </div>
+    <% end %>
 
-<%= render "partials/sidenav" %>
-<%= render "partials/topnav" %>
+    <%= render "partials/sidenav" %>
+    <%= render "partials/topnav" %>
 
-<%= yield %>
+    <%= yield %>
 
-<%= render "partials/footer" %>
-<%= javascript_include_tag 'footermanifest', 'data-turbolinks-track' => false %>
+    <%= render "partials/footer" %>
+    <%= javascript_include_tag 'footermanifest', 'data-turbolinks-track' => false %>
 
 </body>
 </html>
