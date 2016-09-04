@@ -53,3 +53,7 @@
 //= require js/datatables/dataTables.responsive.min.js
 //= require js/datatables/responsive.bootstrap.min.js
 //= require js/datatables/dataTables.scroller.min.js
+
+// Right Click Event
+
+//= require contextmenu

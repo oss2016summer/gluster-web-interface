@@ -1,3 +1,9 @@
+<div class="contextmenu Del_dir">
+	  <ul>
+	    <li class="menuitem"><i class="fa fa-trash"></i> Delete</li>
+	  </ul>
+</div>
+
 <!-- create overlay page -->
   <div id="popup_mkdir" class="overlay">
 	  <div class="popup">
@@ -177,6 +183,29 @@
   
   <script type="text/javascript">
   /* right click */
+  $(function(){
+		$(".menuitem").mouseover(function(e){
+	    var $el = $(this);
+	    if ( !$el.hasClass('hover'))
+	      $el.addClass('hover');
+	  }).mouseout(function(e){
+	  var $el = $(this);
+	    if($el.hasClass('hover'))
+	      $el.removeClass('hover');
+	  });
+	  
+  	//AccessGroup Contextmenu
+  	$("#datatable_body").on('contextmenu', function(event) {
+  	  ShowContextMenu("Del_dir");
+  	  CheckLocation();	  
+  	  return false;
+  	});	
+  	$("#TESTT").on('contextmenu', function(event) {
+  	  ShowContextMenu("Del_dir");
+  	  CheckLocation();	  
+  	  return false;
+  	});	
+  });
   
     $(document).ready(function() {
       $('#datatable').dataTable();
