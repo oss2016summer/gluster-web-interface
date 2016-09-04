@@ -5370,7 +5370,7 @@ ul.notifications {
   background: #fff;
   border-radius: 5px;
   position: relative;
-  width:30%;
+  width:40%;
   transition: all 5s ease-in-out;
   overflow:auto;
   z-index:20001;
