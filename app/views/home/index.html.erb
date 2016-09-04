@@ -194,17 +194,18 @@
 	      $el.removeClass('hover');
 	  });
 	  
-  	//AccessGroup Contextmenu
+  	//Contextmenu
   	$("#datatable_body").on('contextmenu', function(event) {
   	  ShowContextMenu("Del_dir");
   	  CheckLocation();	  
   	  return false;
   	});	
-  	$("#TESTT").on('contextmenu', function(event) {
-  	  ShowContextMenu("Del_dir");
-  	  CheckLocation();	  
-  	  return false;
-  	});	
+  	
+	  $(".Del_dir").click(function(e){
+  			alert("delete");
+		    $(".contextmenu").hide();
+		    $(document).unbind('mousedown');
+	  });
   });
   
     $(document).ready(function() {
