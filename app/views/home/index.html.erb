@@ -1,7 +1,7 @@
 <div class="contextmenu Del_dir">
 	  <ul>
 	    <li class="menuitem"><i class="fa fa-trash"></i>Delete</li>
-	    <input value="Zzz" id="delete_name"></input>
+	    <input id="delete_name" type="hidden"></input>
 	  </ul>
 </div>
 
@@ -221,8 +221,7 @@
               url: "/home/delete",
               data: { file_name: $("#delete_name").val() },
                 success  : function(result){
-                
-                  //alert("aa");
+                  change_directory($("#select_dir").text());
                 }
               })
       		    $(".contextmenu").hide();
