@@ -135,7 +135,6 @@
                 <p class="text-muted font-13 m-b-30"> <code> Current directory : <span id="select_dir"><%=@current_dir%></span></code></p>
 		            <p style="text-align:right;" >  
   		             <a class="btn btn-default" href="#popup_mkdir"><i class="fa fa-plus"></i> Make Directory</a>
-  		             <a class="btn btn-default" href="#loading"><i class="fa fa-plus"></i> Loading Test</a>
 		            </p>
                 <table id="datatable" class="table table-striped table-bordered jambo_table">
                   <thead>
@@ -218,18 +217,18 @@
     }
      
     $(".Del_dir").click(function(e){
-              $(location).attr('href', "#loading");
-              $.ajax({
+            $(location).attr('href', "#loading");
+             $.ajax({
               method: "POST",
               url: "/home/delete",
               data: { file_name: $("#delete_name").val() },
                 success  : function(result){
                   change_directory($("#select_dir").text());
+                  $(location).attr('href', "#");
                 }
               })
       		    $(".contextmenu").hide();
       		    $(document).unbind('mousedown');
-              $(location).attr('href', "#");
     });
   </script>
   <!-- file manager functions -->
