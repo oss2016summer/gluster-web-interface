@@ -3,9 +3,8 @@ class VolumeController < ApplicationController
   def index
     file_directory("/mnt")
     get_conf
-    info = get_info.split("\n")
-    
-    if info.blank?
+    info = get_volume_info.split("\n")
+    if info.blank? 
       flash[:danger] = "Check Server"
     else
       parse_info(info)
@@ -16,34 +15,26 @@ class VolumeController < ApplicationController
     @volumes = Array.new
     volume = Hash.new
     df = get_df
-    
+    info << "\n"
     info.each do |t|
       next if t.equal? info.first
-      
       if t.include? ":" 
         temp = t.split(":")
         volume[temp[0]] = temp[1]
       else
-        if df.include? volume['Volume Name'].delete(' ')
-          volume['Mount State'] = "Mounted"
-        else
-          volume['Mount State'] = "UnMounted"
-        end
-        puts volume['Volume Name'] + ": " + volume['Mount State']
-         
+        String state = (df.include? volume['Volume Name'].delete(' ')) ? "Mounted" : "UnMounted"
+        volume['Mount State'] = state
         @volumes << volume
         volume = Hash.new
       end
     end
-    @volumes << volume
-    
   end
 
   def get_df
     return `df -P`
   end
 
-  def get_info
+  def get_volume_info
     return `sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume info`
   end
   
@@ -69,7 +60,7 @@ class VolumeController < ApplicationController
 	  volume_name = params[:volume_name]
 	  volume_name = volume_name.delete(' ')
 	  puts "gluster volume stop " + volume_name
-	  output = `yes | sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume stop #{volume_name}`
+	  `yes | sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume stop #{volume_name}`
     redirect_to '/volume/index'
   end
 
@@ -78,7 +69,7 @@ class VolumeController < ApplicationController
 	  volume_name = params[:volume_name]
 	  volume_name = volume_name.delete(' ')
 	  puts "gluster volume start " + volume_name
-    output = `sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume start #{volume_name}`
+    `sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume start #{volume_name}`
     redirect_to '/volume/index'
   end
   
@@ -88,7 +79,7 @@ class VolumeController < ApplicationController
 	  volume_name = params[:volume_name]
 	  volume_name = volume_name.delete(' ')
 	  puts "gluster volume delete " + volume_name
-	  output = `yes | sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume delete #{volume_name}`
+	  `yes | sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume delete #{volume_name}`
     redirect_to '/volume/index'
   end
 end

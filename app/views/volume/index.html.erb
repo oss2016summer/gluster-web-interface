@@ -116,7 +116,7 @@
 
     <div class="row">
       <%@volumes.each do |t|%>
-        <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
           <div class="x_panel">
             <div class="x_title">
               <h2>Infomation <small><%=t["Volume Name"]%></small></h2>
@@ -141,9 +141,9 @@
             <div class="x_content" <%if t!=@volumes[0]%> style="display: none;" <%end%> >
               
               <!-- left content -->
-              <div class="col-md-4 col-sm-4 col-xs-4">
+              <div class="col-md-6 col-sm-6 col-xs-12">
                 
-                <div>
+                <div style="margin: 10px">
                   <p class="text-muted font-13 m-b-30"><code>Volume Info</code></p>
                   Type : <%=t["Type"]%> <br>
                   Volume ID : <%=t["Volume ID"]%> <br>
@@ -153,10 +153,10 @@
                   Bricks : <%=t["Bricks"]%> <br>
                   Bricks1 : <%=t["Brick1"]%> <br>
                   Options Reconfigured : <%=t["Options Reconfigured"]%> <br>
-                  performance.readdir-ahead : <%=t["performance.readdir-ahead"]%>
+                  performance.readdir-ahead : <%=t["performance.readdir-ahead"]%> <br>
                   mount state: <%=t["Mount State"]%> <br>
-                  <br><br><br>
                 </div>
+                
                 
 	            	<% if t["Status"] == " Stopped" %>	
 	            	  <a class="btn btn-app" href="/volume/start/<%=t['Volume Name']%>">
@@ -178,7 +178,7 @@
               
               
               <!-- right content -->
-              <div class="col-md-8 col-sm-8 col-xs-8">
+              <div class="col-md-6 col-sm-6 col-xs-12">
                 <p>Drag multiple files to the box below for multi upload or click to select files.</p>
                 <form action="/file_upload" method="post" enctype="multipart/form-data" class="dropzone" style="border: 1px solid #e5e5e5; height: 300px; overflow:auto;">
                 </form>
