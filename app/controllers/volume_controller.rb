@@ -55,9 +55,10 @@ class VolumeController < ApplicationController
   end
   
   def volume_unmount
+    @config = get_conf
 	  volume_name = params[:volume_name]
-	  puts `umount #{volune_name}`
-	  `umount #{volune_name}`
+	  puts "umount " + @config["host_ip"] + ":/" + volume_name
+	  `umount #{@config["host_ip"]}:/#{volume_name}`
 	  redirect_to '/volume/index'
   end
 
