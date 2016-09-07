@@ -49,16 +49,21 @@ class VolumeController < ApplicationController
     @config = get_conf
 	  volume_name = params[:volume_name]
 	  mount_point = params[:mount_point]
-	  volume_name = volume_name.delete(' ')
 	  puts "mount -t glusterfs " +  @config["host_ip"] + ":/" + volume_name + " " + mount_point
 	  `mount -t glusterfs #{@config["host_ip"]}:/#{volume_name} #{mount_point}`
+	  redirect_to '/volume/index'
+  end
+  
+  def volume_unmount
+	  volume_name = params[:volume_name]
+	  puts `umount #{volune_name}`
+	  `umount #{volune_name}`
 	  redirect_to '/volume/index'
   end
 
   def volume_stop
     @config = get_conf
 	  volume_name = params[:volume_name]
-	  volume_name = volume_name.delete(' ')
 	  puts "gluster volume stop " + volume_name
 	  `yes | sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume stop #{volume_name}`
     redirect_to '/volume/index'
@@ -67,7 +72,6 @@ class VolumeController < ApplicationController
   def volume_start
     @config = get_conf
 	  volume_name = params[:volume_name]
-	  volume_name = volume_name.delete(' ')
 	  puts "gluster volume start " + volume_name
     `sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume start #{volume_name}`
     redirect_to '/volume/index'
@@ -77,7 +81,6 @@ class VolumeController < ApplicationController
   def volume_delete
     @config = get_conf
 	  volume_name = params[:volume_name]
-	  volume_name = volume_name.delete(' ')
 	  puts "gluster volume delete " + volume_name
 	  `yes | sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} gluster volume delete #{volume_name}`
     redirect_to '/volume/index'
