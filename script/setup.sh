@@ -8,9 +8,10 @@ bin/rake db:migrate
 
 # make configuration file
 
+CONF_FOLDER=`pwd`
 CONF_PATH=`pwd`/configure.conf
 
-if[ ls CONF_PATH | grep configure.conf ]; then
+if ls $CONF_FOLDER | grep configure.conf; then
 echo "configure.conf exist"
 else
 touch $CONF_PATH
