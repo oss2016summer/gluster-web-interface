@@ -2,13 +2,13 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   # protect_from_forgery with: :exception
-  
+
   def get_conf
     @config = Hash.new
     output = `cat configure.conf`.split("\n")
     output.each do |t|
       if t.include? "project_path="
-	      @config["project_path"] = t.split("project_path=")[1]
+	    @config["project_path"] = t.split("project_path=")[1]
       elsif t.include? "server_name="
         @config["server_name"] = t.split("server_name=")[1]
       elsif t.include? "host_user="
@@ -23,14 +23,14 @@ class ApplicationController < ActionController::Base
     end
     return @config
   end
-  
+
   def file_directory(dir)
     @current_dir = dir
     dir_list = `ls #{@current_dir} -l`
     parsing_list = dir_list.split("\n")
     @files = Array.new
     file = Hash.new
-    
+
     @total_list = parsing_list[0]
     for t in 1..(parsing_list.length-1)
       parsing_file = parsing_list[t].split(" ")
@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
     puts @files
     return @files
   end
- 
+
   def checkDir
     files = file_directory(params[:path])
     render :json => {:file => files , :current => @current_dir}

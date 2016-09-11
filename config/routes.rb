@@ -7,29 +7,30 @@ Rails.application.routes.draw do
   root 'home#index'
 
   post 'application/changeDir' => 'application#checkDir'
-  
+
   get 'index' => 'plainpage#index'
-  
+
   #Home
   get 'home/index' => 'home#index'
   post 'home/mkdir' => 'home#make_directory'
   post 'home/delete' => 'home#delete_file'
-  
-  
+
+
   #Volume
   get 'volume/index' => 'volume#index'
   post 'file_upload' => 'volume#file_upload'
   post 'volume/mount' => "volume#volume_mount"
+  post 'volume/create' => "volume#volume_create"
   get 'volume/unmount/:volume_name' => "volume#volume_unmount"
   get 'volume/start/:volume_name' => "volume#volume_start"
   get 'volume/stop/:volume_name' => "volume#volume_stop"
   get 'volume/delete/:volume_name' => "volume#volume_delete"
-  
+
   #Peer
   get 'peer/index' => 'peer#index'
-  
-   
-   
+
+
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
