@@ -64,16 +64,33 @@ class VolumeController < ApplicationController
     end
 
     def volume_create
+	@config = get_conf
         volume_name = params[:volume_name]
+	volume_type = params[:volume_type]
+	num_of_brick = params[:num_of_brick]
         bricks = params[:bricks]
-        bricks_str = ""
+	command = String.new
+	command << "sshpass"
+	command << " -p"
+	command << @config["host_password"].to_s
+	command << " ssh "
+	command << @config["host_port"].to_s
+	command << " "
+	command << @config["host_user"].to_s
+	command << "@"
+	command << @config["host_ip"].to_s
+	command << " gluster volume create "
+	command << volume_name + " "
+	if !volume_type.include? "Distribute"
+		command << volume_type + " " + num_of_brick + " "
+	end
         bricks.each do |t|
-            bricks_str << t
-            bricks_str << " "
+            command << t
+            command << " "
         end
-        puts "gluster volume create " + volume_name + " " + bricks_str + "force"
-        `sshpass -p#{@config["host_password"]} ssh #{@config["host_port"]} #{@config["host_user"]}@#{@config["host_ip"]} \
-         gluster volume create #{volume_name} #{bricks_str} force`
+	command << "force"
+        puts command
+        `#{command}`
         redirect_to '/volume/index'
     end
 

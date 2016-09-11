@@ -169,7 +169,14 @@
 
                             <% if t["Mount State"] == "Mounted" %>
                             <a class="btn btn-app" href="/volume/unmount/<%=t['Volume Name'].delete(' ')%>"><i class="fa fa-upload"></i> Unmount</a>
-                            <% elsif t["Status"] == " Stopped" %>
+                            <% elsif t["Status"] == " Started" %>
+			    <a class="btn btn-app" href="/volume/stop/<%=t['Volume Name'].delete(' ')%>">
+                                <i class="fa fa-pause" style="color:#d9534f;"></i>
+                                <p style="color:#d9534f;">Stop</p>
+                            </a>
+                            <!-- mount button push : popup event and post mount point -->
+                            <a class="btn btn-app" href="/volume/index?volume_name=<%=t['Volume Name'].delete(' ')%>#popup_mount"><i class="fa fa-download"></i> Mount</a>
+                            <% else %>
                             <a class="btn btn-app" href="/volume/start/<%=t['Volume Name'].delete(' ')%>">
                                 <i class="fa fa-play" style="color:#26B99A;"></i>
                                 <p style="color:#26B99A;">Start</p>
@@ -177,13 +184,6 @@
                             <a class="btn btn-app" href="/volume/delete/<%=t['Volume Name'].delete(' ')%>">
                                 <i class="fa fa-trash"></i> Delete
                             </a>
-                            <% else %>
-                            <a class="btn btn-app" href="/volume/stop/<%=t['Volume Name'].delete(' ')%>">
-                                <i class="fa fa-pause" style="color:#d9534f;"></i>
-                                <p style="color:#d9534f;">Stop</p>
-                            </a>
-                            <!-- mount button push : popup event and post mount point -->
-                            <a class="btn btn-app" href="/volume/index?volume_name=<%=t['Volume Name'].delete(' ')%>#popup_mount"><i class="fa fa-download"></i> Mount</a>
                             <% end %>
                         </div>
 
@@ -350,7 +350,7 @@
             var brick = "";
             if(server_name == "<%=@config['server_name']%>"){
                 brick += "<%=@config['host_ip']%>";
-                brick += "/";
+                brick += ":/";
                 brick += brick_name;
                 bricks.push(brick);
                 console.log(brick);
@@ -366,7 +366,7 @@
         $.ajax({
             method: "POST",
             url: "/volume/create",
-            data: { volume_name : volume_name, bricks : bricks },
+            data: { volume_name : volume_name, volume_type : volume_type, num_of_brick : num_of_brick, bricks : bricks },
             success  : function(result){
                 console.log("volume create success");
             }
