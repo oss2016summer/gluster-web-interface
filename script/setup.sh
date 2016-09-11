@@ -3,6 +3,7 @@
 # setup
 sudo npm install -g bower
 sudo --askpass bower install --allow-root
+gem install bundler
 bundle install
 bin/rake db:migrate
 
