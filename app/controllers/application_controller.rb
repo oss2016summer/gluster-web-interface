@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
       elsif t.include? "host_ip="
         @config["host_ip"] = t.split("host_ip=")[1]
       elsif t.include? "host_port=" and !t.split("host_port=")[1].nil?
-        @config["host_port"] = "-p " + t.split("host_port=")[1] + " "
+        @config["host_port"] = t.split("host_port=")[1] + " "
       elsif t.include? "host_password="
         @config["host_password"] = t.split("host_password=")[1]
       end

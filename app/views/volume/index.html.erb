@@ -167,14 +167,13 @@
                             </div>
 
 
-                            <% if t["Mount State"] == "Mounted" %>
+                            <% if t["Mount State"] == "mounted" %>
                             <a class="btn btn-app" href="/volume/unmount/<%=t['Volume Name'].delete(' ')%>"><i class="fa fa-upload"></i> Unmount</a>
                             <% elsif t["Status"] == " Started" %>
-			    <a class="btn btn-app" href="/volume/stop/<%=t['Volume Name'].delete(' ')%>">
+                            <a class="btn btn-app" href="/volume/stop/<%=t['Volume Name'].delete(' ')%>">
                                 <i class="fa fa-pause" style="color:#d9534f;"></i>
                                 <p style="color:#d9534f;">Stop</p>
                             </a>
-                            <!-- mount button push : popup event and post mount point -->
                             <a class="btn btn-app" href="/volume/index?volume_name=<%=t['Volume Name'].delete(' ')%>#popup_mount"><i class="fa fa-download"></i> Mount</a>
                             <% else %>
                             <a class="btn btn-app" href="/volume/start/<%=t['Volume Name'].delete(' ')%>">
@@ -297,7 +296,7 @@
             new_body += "<div class='row' style='margin:0 0 10px 0'>";
             new_body += "<label class='control-label col-md-3 col-sm-3 col-xs-12'>";
             if(i == 0)
-                new_body += "Bricks <span class='required'>*</span>";
+            new_body += "Bricks <span class='required'>*</span>";
             new_body += "</label>";
             new_body += "<div class='col-md-3 col-sm-3 col-xs-4'>";
             new_body += "<select class='form-control'>";
