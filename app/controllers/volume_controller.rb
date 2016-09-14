@@ -101,7 +101,7 @@ class VolumeController < ApplicationController
         command << "force"
         puts command
         `#{command}`
-        # redirect_to '/volume/index'
+        redirect_to '/volume/index'
     end
 
     def volume_stop
@@ -132,7 +132,7 @@ class VolumeController < ApplicationController
             command << "-p " + @config["host_port"].to_s + " "
         end
         command << @config["host_user"].to_s + "@" + @config["host_ip"].to_s
-        command << " gluster volume start " + volume_name
+        command << " gluster volume start " + volume_name.to_s
         puts command
         `#{command}`
         redirect_to '/volume/index'
