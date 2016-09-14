@@ -186,15 +186,17 @@
                             <% end %>
                         </div>
 
-
                         <!-- right content -->
                         <div class="col-md-6 col-sm-6 col-xs-12">
+                            <% if t["Mount State"] == "mounted" %>
                             <p>Drag multiple files to the box below for multi upload or click to select files.</p>
                             <form action="/file_upload" method="post" enctype="multipart/form-data" class="dropzone" style="border: 1px solid #e5e5e5; height: 300px; overflow:auto;">
                             </form>
                             <br/>
+                            <% elsif t["Status"] == " Started" %>
+                            <% else %>
+                            <% end %>
                         </div>
-
                     </div>
                 </div>
             </div>

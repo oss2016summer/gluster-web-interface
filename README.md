@@ -12,6 +12,8 @@
 
  4. sshpass
 
+ 5. sudo privileges **"without password"** [(see here)](http://askubuntu.com/questions/147241/execute-sudo-without-password)
+
 
 *Setup:*
  1. Clone this repo :  git clone
