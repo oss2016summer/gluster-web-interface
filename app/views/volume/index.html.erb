@@ -93,10 +93,10 @@
                             <input type="hidden" value='<%=@current_dir + "/" + t["name"]%>'>
                             <button type="submit" class="btn btn-primary pull-right">select</botton>
                         </form>
-                        </td>
-                    </tr>
-                    <%end%>
-                    <%end%>
+                    </td>
+                </tr>
+                <%end%>
+                <%end%>
                 </tbody>
             </table>
         </div>
@@ -169,7 +169,7 @@
                                 <i class="fa fa-pause" style="color:#d9534f;"></i>
                                 <p style="color:#d9534f;">Stop</p>
                             </a>
-                            <a class="btn btn-app" href="/volume/index?volume_name=<%=t['Volume Name'].delete(' ')%>#popup_mount"><i class="fa fa-download"></i> Mount</a>
+                            <a class="btn btn-app" href="?volume_name=<%=t['Volume Name'].delete(' ')%>#popup_mount"><i class="fa fa-download"></i> Mount</a>
                             <% else %>
                             <a class="btn btn-app" href="/volume/start/<%=t['Volume Name'].delete(' ')%>">
                                 <i class="fa fa-play" style="color:#26B99A;"></i>
@@ -221,7 +221,7 @@
                 var new_tr = "";
                 new_tr += "<tr role='row' class='odd'> <td><i class='fa fa-reply'></i>";
                 new_tr += "<a style='cursor: pointer' onclick='change_upper(" + '"' + directory + '"' +")'> ..</a>";
-                new_tr += "</td><td> </td><td> </td><td> </td></tr>";
+                new_tr += "</td><td> </td><td>";
                 for( var i = 0; i < result.file.length; i++){
                     if(result.file[i].auth[0] != "d") continue;
                     var row_class = i % 2 == 0 ? 'odd' : 'even';
