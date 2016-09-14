@@ -60,7 +60,7 @@ class VolumeController < ApplicationController
         mount_point = params[:mount_point]
         # make command string
         command = String.new
-        command << "mount -t glusterfs " + @config["host_ip"].to_s + ":/" + volume_name + " " + mount_point
+        command << "sudo mount -t glusterfs " + @config["host_ip"].to_s + ":/" + volume_name + " " + mount_point
         puts command
         `#{command}`
         redirect_to '/volume/index'
@@ -71,7 +71,7 @@ class VolumeController < ApplicationController
         volume_name = params[:volume_name]
         # make command string
         command = String.new
-        command << "umount " + @config["host_ip"].to_s + ":/" + volume_name
+        command << "sudo umount " + @config["host_ip"].to_s + ":/" + volume_name
         puts command
         `#{command}`
         redirect_to '/volume/index'
@@ -92,7 +92,7 @@ class VolumeController < ApplicationController
         end
         command << @config["host_user"].to_s + "@" + @config["host_ip"].to_s
         command << " gluster volume create " + volume_name + " "
-        if !volume_type.equal? "Distribute"
+        if !volume_type.include? "Distribute"
             command << volume_type.downcase + " " + num_of_brick + " "
         end
         bricks.each do |t|
@@ -101,7 +101,7 @@ class VolumeController < ApplicationController
         command << "force"
         puts command
         `#{command}`
-        redirect_to '/volume/index'
+        # redirect_to '/volume/index'
     end
 
     def volume_stop
