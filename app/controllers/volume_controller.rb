@@ -72,8 +72,16 @@ class VolumeController < ApplicationController
         mnt_dest = mnt_dir + "/" + file.original_filename
 
         puts "upload start"
-        u = AvatarUploader.new
-        u.store_path(:dir)
+        # get permission
+#        dir_left = mnt_dir[0..mnt_dir.rindex('/')]
+#        dir_right = mnt_dir.split(dir_left)[1]
+#        pe = `ls -al #{dir_left} | grep #{dir_right}`.split(" ")[0]
+
+#        puts "111" + dir_left
+#        puts "222" + dir_right
+#        puts "333" + pe
+
+        u = AvatarUploader.new(mnt_dir)
         u.store!(file)
         puts "upload end"
 
