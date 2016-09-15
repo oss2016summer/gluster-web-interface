@@ -101,10 +101,8 @@
             </table>
         </div>
     </div>
-
     <!-- page content -->
     <div class="right_col" role="main">
-
         <div class="page-title">
             <div class="title_left">
                 <h3>Volume</h3>
@@ -115,15 +113,15 @@
                 </div>
             </div>
         </div>
-
         <div class="clearfix"></div>
-
         <div class="row">
             <%@volumes.each do |t|%>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
+                        <!-- left title -->
                         <h2>Infomation <small><%=t["Volume Name"]%></small></h2>
+                        <!-- right title -->
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i <%if t!=@volumes[0]%> class="fa fa-chevron-down" <%else%> class="fa fa-chevron-up" <%end%> ></i></a>
                             </li>
@@ -136,17 +134,33 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li><a class="close-link" style="display:none;"><i class="fa fa-close"></i></a>
+                            <li>
+                                <%if t['Mount State'].eql? "mounted" %>
+                                <a><i class="fa fa-circle green"></i></a>
+                                <% else %>
+                                <a><i class="fa fa-circle"></i></a>
+                                <% end %>
+                            </li>
+                            <li>
+                                <%if !t['Mount State'].eql? "mounted" and t['Status'].eql? " Started" %>
+                                <a><i class="fa fa-circle blue"></i></a>
+                                <% else %>
+                                <a><i class="fa fa-circle"></i></a>
+                                <% end %>
+                            </li>
+                            <li>
+                                <%if t['Status'].eql? " Stopped" %>
+                                <a><i class="fa fa-circle red"></i></a>
+                                <% else %>
+                                <a><i class="fa fa-circle"></i></a>
+                                <% end %>
                             </li>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
-
                     <div class="x_content" <%if t!=@volumes[0]%> style="display: none;" <%end%> >
-
                         <!-- left content -->
                         <div class="col-md-6 col-sm-6 col-xs-12">
-
                             <div style="margin: 10px">
                                 <p class="text-muted font-13 m-b-30"><span class="badge bg-blue">Volume Info</span></p>
                                 Type : <%=t["Type"]%> <br>
@@ -160,8 +174,6 @@
                                 performance.readdir-ahead : <%=t["performance.readdir-ahead"]%> <br>
                                 mount state: <%=t["Mount State"]%> <br>
                             </div>
-
-
                             <% if t["Mount State"] == "mounted" %>
                             <a class="btn btn-app" href="/volume/unmount/<%=t['Volume Name'].delete(' ')%>"><i class="fa fa-upload"></i> Unmount</a>
                             <% elsif t["Status"] == " Started" %>
@@ -180,7 +192,6 @@
                             </a>
                             <% end %>
                         </div>
-
                         <!-- right content -->
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <% if t["Mount State"] == "mounted" %>
@@ -237,14 +248,28 @@
                     new_tr += "</tr>";
                 }
                 $("#datatable_body").append(new_tr);
-                mount_btn_clicked();
+                // Add mount overlay functions again
+                $("#popup_mount #datatable_body form").submit(function(){
+                    var mnt_point = $(this).find("input").val();
+                    var url = window.location + '';
+                    var vol_name = url.match(/volume_name=([^#]+)/)[1];
+                    $.ajax({
+                        type: 'post',
+                        url: '/volume/mount',
+                        data: {mount_point: mnt_point, volume_name: vol_name},
+                        success: function(result){
+                        }
+                    });
+                })
             }
         })
     }
     </script>
-    <!-- Mount overlay functions -->
+
+    <!-- On document ready -->
     <script>
-    function mount_btn_clicked(){
+    $("document").ready(function(){
+        // Mount overlay functions
         $("#popup_mount #datatable_body form").submit(function(){
             var mnt_point = $(this).find("input").val();
             var url = window.location + '';
@@ -256,103 +281,99 @@
                 success: function(result){
                 }
             });
-        })
-    }
-    $("document").ready(mount_btn_clicked());
-    </script>
-    <!-- Create overlay functions -->
-    <script>
-    // Volume type changed
-    $("#form_volume_create .form-group").eq(1).change(function (){
-        var $type = $(this).find("option:selected").val();
-        switch ($type) {
-            case "Distribute":
-            case "Stripe":
-            case "Replica":
-            case "Disperse":
-            case "Disperse-data":
-            case "Redundancy":
-            console.log($type);
-            break;
-            default:
-            console.log("something goes wrong");
-            break;
-        }
-    })
-    // Number of bricks changed
-    $("#form_volume_create .form-group").eq(2).change(function (){
-        var $num_of_brick = $(this).find("option:selected").val();
-        var $body = $("#form_volume_create .form-group").eq(3);
-        $body.empty();
-        var new_body = "";
-        for(var i = 0; i < $num_of_brick; ++i) {
-            new_body += "<div class='row' style='margin:0 0 10px 0'>";
-            new_body += "<label class='control-label col-md-3 col-sm-3 col-xs-12'>";
-            if(i == 0)
-            new_body += "Bricks <span class='required'>*</span>";
-            new_body += "</label>";
-            new_body += "<div class='col-md-3 col-sm-3 col-xs-4'>";
-            new_body += "<select class='form-control'>";
-            new_body += "<option><%=@config['server_name']%></option>";
-            new_body += "</select>";
-            new_body += "</div>";
-            new_body += "<div class='col-md-1 col-sm-1 col-xs-1'>"
-            new_body += "<label class='control-label col-md-12 col-sm-12 col-xs-12'>/"
-            new_body += "</label>"
-            new_body += "</div>"
-            new_body += "<div class='col-md-5 col-sm-5 col-xs-7'>";
-            new_body += "<input type='text' required='required' class='form-control col-md-7 col-xs-12'>";
-            new_body += "</div>";
-            new_body += "</div>";
-        }
-        $body.append(new_body);
-    })
-    // Volume create
-    $("#form_volume_create").submit(function(){
-        var volume_name = $(this).find(".form-group:eq(0) input").val();
-        var volume_type = $(this).find(".form-group:eq(1) option:selected").val();
-        var num_of_brick = $(this).find(".form-group:eq(2) option:selected").val() * 1; // convert to Number type
-        var bricks = [];
-        if(volume_name.indexOf(' ') >= 0){
-            alert("Volume name can't contains white spaces");
-            return;
-        }
-        <% @volumes.each do |t| %>
-        if(volume_name == "<%=t["Volume Name"].delete(' ')%>"){
-            alert("Already has a volume which name is same");
-            return;
-        }
-        <% end %>
-        for(var i = 0; i < num_of_brick; i++){
-            var server_name = $(this).find(".form-group .row").eq(i).find("option:selected").val();
-            var brick_name = $(this).find(".form-group .row").eq(i).find("input").val();
-            if(brick_name.indexOf(' ') >= 0) {
-                alert("Brick name can't contain white spaces");
+        });
+        // Create overlay functions
+        $("#popup_create #form_volume_create").submit(function(){
+            var volume_name = $(this).find(".form-group:eq(0) input").val(),
+                volume_type = $(this).find(".form-group:eq(1) option:selected").val(),
+                num_of_brick = $(this).find(".form-group:eq(2) option:selected").val() * 1, // convert to Number type
+                bricks = [];
+            if(volume_name.indexOf(' ') >= 0){
+                alert("Volume name can't contains white spaces");
                 return;
             }
-            if(brick_name.indexOf('/') == 0) {
-                alert("Brick name can't start with slash");
+            <% @volumes.each do |t| %>
+            if(volume_name == "<%=t["Volume Name"].delete(' ')%>"){
+                alert("Already has a volume which name is same");
                 return;
             }
-            var brick = "";
-            if(server_name == "<%=@config['server_name']%>"){
-                brick += "<%=@config['host_ip']%>";
-                brick += ":/";
-                brick += brick_name;
-                bricks.push(brick);
-                console.log(brick);
+            <% end %>
+            for(var i = 0; i < num_of_brick; i++){
+                var server_name = $(this).find(".form-group .row").eq(i).find("option:selected").val();
+                var brick_name = $(this).find(".form-group .row").eq(i).find("input").val();
+                if(brick_name.indexOf(' ') >= 0) {
+                    alert("Brick name can't contain white spaces");
+                    return;
+                }
+                if(brick_name.indexOf('/') == 0) {
+                    alert("Brick name can't start with slash");
+                    return;
+                }
+                var brick = "";
+                if(server_name == "<%=@config['server_name']%>"){
+                    brick += "<%=@config['host_ip']%>";
+                    brick += ":/";
+                    brick += brick_name;
+                    bricks.push(brick);
+                    console.log(brick);
+                }
+                else{
+                    alert("Something goes wrong!");
+                    return;
+                }
             }
-            else{
-                alert("Something goes wrong!");
-                return;
+            $.ajax({
+                method: "POST",
+                url: "/volume/create",
+                data: { volume_name : volume_name, volume_type : volume_type, num_of_brick : num_of_brick, bricks : bricks },
+                success  : function(result){
+                }
+            });
+        });
+        // Volume type changed
+        $("#popup_create #form_volume_create .form-group").eq(1).change(function (){
+            var $type = $(this).find("option:selected").val();
+            switch ($type) {
+                case "Distribute":
+                case "Stripe":
+                case "Replica":
+                case "Disperse":
+                case "Disperse-data":
+                case "Redundancy":
+                console.log($type);
+                break;
+                default:
+                console.log("something goes wrong");
+                break;
             }
-        }
-        $.ajax({
-            method: "POST",
-            url: "/volume/create",
-            data: { volume_name : volume_name, volume_type : volume_type, num_of_brick : num_of_brick, bricks : bricks },
-            success  : function(result){
+        });
+        // Number of bricks changed
+        $("#popup_create #form_volume_create .form-group").eq(2).change(function (){
+            var $num_of_brick = $(this).find("option:selected").val();
+            var $body = $("#form_volume_create .form-group").eq(3);
+            $body.empty();
+            var new_body = "";
+            for(var i = 0; i < $num_of_brick; ++i) {
+                new_body += "<div class='row' style='margin:0 0 10px 0'>";
+                new_body += "<label class='control-label col-md-3 col-sm-3 col-xs-12'>";
+                if(i == 0)
+                new_body += "Bricks <span class='required'>*</span>";
+                new_body += "</label>";
+                new_body += "<div class='col-md-3 col-sm-3 col-xs-4'>";
+                new_body += "<select class='form-control'>";
+                new_body += "<option><%=@config['server_name']%></option>";
+                new_body += "</select>";
+                new_body += "</div>";
+                new_body += "<div class='col-md-1 col-sm-1 col-xs-1'>"
+                new_body += "<label class='control-label col-md-12 col-sm-12 col-xs-12'>/"
+                new_body += "</label>"
+                new_body += "</div>"
+                new_body += "<div class='col-md-5 col-sm-5 col-xs-7'>";
+                new_body += "<input type='text' required='required' class='form-control col-md-7 col-xs-12'>";
+                new_body += "</div>";
+                new_body += "</div>";
             }
-        })
+            $body.append(new_body);
+        });
     });
     </script>
