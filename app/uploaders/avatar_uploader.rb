@@ -11,14 +11,14 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # storage :fog
   @path
 
-  def initialize(dest = "/mnt/dir")
+  def initialize(dest)
     super
     @path = dest
   end
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
-  def cache_dir
+  def store_dir
       @path
   end
 

@@ -24,7 +24,6 @@ class VolumeController < ApplicationController
             else
                 String state = (df.include? volume['Volume Name'].delete(' ')) ? "mounted" : "unmounted"
                 volume['Mount State'] = state
-
                 if state.eql? "mounted"
                     s = df.split("\n")
                     s.each do |t|
@@ -34,7 +33,6 @@ class VolumeController < ApplicationController
                         end
                     end
                 end
-
                 @volumes << volume
                 volume = Hash.new
             end
@@ -70,21 +68,13 @@ class VolumeController < ApplicationController
             end
         end
         mnt_dest = mnt_dir + "/" + file.original_filename
-
-        puts "upload start"
-        # get permission
-#        dir_left = mnt_dir[0..mnt_dir.rindex('/')]
-#        dir_right = mnt_dir.split(dir_left)[1]
-#        pe = `ls -al #{dir_left} | grep #{dir_right}`.split(" ")[0]
-
-#        puts "111" + dir_left
-#        puts "222" + dir_right
-#        puts "333" + pe
-
+        # change permission
+        command = String.new
+        command << "sudo chmod 777 " + mnt_dir
+        puts command
+        `#{command}`
         u = AvatarUploader.new(mnt_dir)
         u.store!(file)
-        puts "upload end"
-
         redirect_to '/volume/index'
     end
 
