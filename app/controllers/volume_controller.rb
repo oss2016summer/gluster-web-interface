@@ -24,6 +24,17 @@ class VolumeController < ApplicationController
             else
                 String state = (df.include? volume['Volume Name'].delete(' ')) ? "mounted" : "unmounted"
                 volume['Mount State'] = state
+
+                if state.eql? "mounted"
+                    s = df.split("\n")
+                    s.each do |t|
+                        if t.include? volume['Volume Name'].delete(' ')
+                            mnt_point = t.split(" ")[5]
+                            volume['Mount Point'] = mnt_point
+                        end
+                    end
+                end
+
                 @volumes << volume
                 volume = Hash.new
             end
@@ -48,10 +59,25 @@ class VolumeController < ApplicationController
     end
 
     def file_upload
-        file_name = params[:file]
-        uploader = AvatarUploader.new
-        uploader.store!(file_name)
-        redirect_to '/volume/info'
+        df = get_df
+        mnt_dir = String.new
+        mnt_dest = String.new
+        file = params[:file]
+        s = df.split("\n")
+        s.each do |t|
+            if t.include? params[:volume_name]
+                mnt_dir = t.split(" ")[5]
+            end
+        end
+        mnt_dest = mnt_dir + "/" + file.original_filename
+
+        puts "upload start"
+        u = AvatarUploader.new
+        u.store_path(:dir)
+        u.store!(file)
+        puts "upload end"
+
+        redirect_to '/volume/index'
     end
 
     def volume_mount

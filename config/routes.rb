@@ -18,7 +18,7 @@ Rails.application.routes.draw do
 
   #Volume
   get 'volume/index' => 'volume#index'
-  post 'file_upload' => 'volume#file_upload'
+  post 'file_upload/:volume_name' => 'volume#file_upload'
   post 'volume/mount' => "volume#volume_mount"
   post 'volume/create' => "volume#volume_create"
   get 'volume/unmount/:volume_name' => "volume#volume_unmount"
