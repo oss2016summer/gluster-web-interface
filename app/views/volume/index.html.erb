@@ -237,23 +237,28 @@
                     new_tr += "</tr>";
                 }
                 $("#datatable_body").append(new_tr);
+                ff();
             }
         })
     }
     </script>
     <!-- Mount overlay functions -->
     <script>
-    $("#popup_mount #datatable_body form").submit(function(){
-        var url = window.location + '';
-        var vol_name = url.match(/volume_name=([^#]+)/)[1];
-        $.ajax({
-            type: 'post',
-            url: '/volume/mount',
-            data: {mount_point: mnt_point, volume_name: vol_name},
-            success: function(result){
-            }
-        });
-    })
+    function mount_btn_clicked(){
+        $("#popup_mount #datatable_body form").submit(function(){
+            var mnt_point = $(this).find("input").val();
+            var url = window.location + '';
+            var vol_name = url.match(/volume_name=([^#]+)/)[1];
+            $.ajax({
+                type: 'post',
+                url: '/volume/mount',
+                data: {mount_point: mnt_point, volume_name: vol_name},
+                success: function(result){
+                }
+            });
+        })
+    }
+    $("document").ready(mount_btn_clicked());
     </script>
     <!-- Create overlay functions -->
     <script>
