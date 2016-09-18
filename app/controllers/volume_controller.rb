@@ -1,6 +1,7 @@
 class VolumeController < ApplicationController
 
     def index
+        @volumes = Array.new
         file_directory("/mnt")
         get_conf
         info = get_volume_info.split("\n")
@@ -12,7 +13,6 @@ class VolumeController < ApplicationController
     end
 
     def parse_info(info)
-        @volumes = Array.new
         volume = Hash.new
         df = get_df
         info << "\n"
