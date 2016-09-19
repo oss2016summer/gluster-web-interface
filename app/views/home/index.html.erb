@@ -1,401 +1,440 @@
 <!-- right click menu -->
 <div class="contextmenu Del_dir">
-	  <ul>
-	    <li class="menuitem"><i class="fa fa-trash"></i>Delete</li>
-	    <input id="delete_name" type="hidden"></input>
-	  </ul>
+	<ul>
+		<li class="menuitem"><i class="fa fa-trash"></i>Delete</li>
+		<input id="delete_name" type="hidden"></input>
+	</ul>
 </div>
 
 <!-- create overlay page -->
-  <div id="popup_mkdir" class="overlay">
-	  <div class="popup">
-	    <h2> Make Directory </h2>
-		  <a class="close" href="#">&times;</a>
-		  
-		  <form id="form_make_directory" data-parsley-validate class="form-horizontal form-label-left" action="/home/mkdir" method="post">
-		    
-        <div class="form-group">
-          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="current-dir">Current Directory <span class="required">*</span>
-          </label>
-          <div class="col-md-6 col-sm-6 col-xs-12">
-            <input type="text" id="current-dir" required="required" class="form-control col-md-7 col-xs-12" name="current_dir" value="<%=@current_dir%>" readonly/>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="directory-name">Directory Name<span class="required">*</span>
-          </label>
-          <div class="col-md-6 col-sm-6 col-xs-12">
-            <input type="text" id="directory-name" required="required" class="form-control col-md-7 col-xs-12" name="directory_name" placeholder="Directory name"/>
-          </div>
-        </div>
-        <div class="ln_solid"></div>
-        <div class="form-group">
-          <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-            <button type="submit" class="btn btn-success">Submit</button>
-          </div>
-        </div>
-      </form>
-      
-    </div>
-  </div>
+<div id="popup_mkdir" class="overlay">
+	<div class="popup">
+		<h2> Make Directory </h2>
+		<a class="close" href="#">&times;</a>
 
+		<form id="form_make_directory" data-parsley-validate class="form-horizontal form-label-left" action="/home/mkdir" method="post">
+
+			<div class="form-group">
+				<label class="control-label col-md-3 col-sm-3 col-xs-12" for="current-dir">Current Directory <span class="required">*</span>
+				</label>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<input type="text" id="current-dir" required="required" class="form-control col-md-7 col-xs-12" name="current_dir" value="<%=@current_dir%>" readonly/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-md-3 col-sm-3 col-xs-12" for="directory-name">Directory Name<span class="required">*</span>
+				</label>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<input type="text" id="directory-name" required="required" class="form-control col-md-7 col-xs-12" name="directory_name" placeholder="Directory name"/>
+				</div>
+			</div>
+			<div class="ln_solid"></div>
+			<div class="form-group">
+				<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+					<button type="submit" class="btn btn-success">Submit</button>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</div>
 
 <!-- page content -->
 <div class="right_col" role="main">
-  <div class="">
-    <div class="page-title">
-      <div class="title_left">
-        <h3>Dash Board</h3>
-      </div>
-      <div class="title_right">
-        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for...">
-            <span class="input-group-btn">
-              <button class="btn btn-default" type="button">Go!</button>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="clearfix"></div>
+	<div class="">
+		<div class="page-title">
+			<div class="title_left">
+				<h3>Dash Board</h3>
+			</div>
+			<div class="title_right">
+				<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Search for...">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button">Go!</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <div class="row">
-      <div class="col-md-12">
-        <div class="x_panel">
-          <div class="x_title">
-            <h2>Input knob</h2>
-            <ul class="nav navbar-right panel_toolbox">
-              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Settings 1</a></li>
-                  <li><a href="#">Settings 2</a></li>
-                </ul>
-              </li>
-              <li><a class="close-link"><i class="fa fa-close"></i></a></li>
-            </ul>
-            <div class="clearfix"></div>
-          </div>
-          <div class="x_content">
-            <div class="col-md-2">
-              <p>Display value</p>
-              <input class="knob" data-width="100" data-height="120" data-min="-100" data-displayPrevious=true data-fgColor="#26B99A" value="44">
-            </div>
-            <div class="col-md-2">
-              <p>&#215; 'cursor' mode</p>
-              <input class="knob" data-width="100" data-height="120" data-cursor=true data-fgColor="#34495E" value="29">
-            </div>
-            <div class="col-md-2">
-              <p>Step 0.1</p>
-              <input class="knob" data-width="100" data-height="120" data-min="-10000" data-displayPrevious=true data-fgColor="#26B99A" data-max="10000" data-step=".1" value="0">
-            </div>
-            <div class="col-md-2">
-              <p>Angle arc</p>
-              <input class="knob" data-width="100" data-height="120" data-angleOffset=-125 data-angleArc=250 data-fgColor="#34495E" data-rotation="anticlockwise" value="35">
-            </div>
-            <div class="col-md-2">
-              <p>Alternate design</p>
-              <input class="knob" data-width="110" data-height="120" data-displayPrevious=true data-fgColor="#26B99A" data-skin="tron" data-thickness=".2" value="75">
-            </div>
-            <div class="col-md-2">
-              <p>Angle offset</p>
-              <input class="knob" data-width="100" data-height="120" data-angleOffset=90 data-linecap=round data-fgColor="#26B99A" value="35">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-          <div class="x_title">
-            <h2>File Manager</h2>
-            <ul class="nav navbar-right panel_toolbox">
-              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-              </li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Settings 1</a>
-                  </li>
-                  <li><a href="#">Settings 2</a>
-                  </li>
-                </ul>
-              </li>
-              <li><a class="close-link"><i class="fa fa-close"></i></a>
-              </li>
-            </ul>
-            <div class="clearfix"></div>
-          </div>
-              
-            <div class="x_content">
-              
-              <div class="col-md-12 col-sm-12 col-xs-12" id="table_div">
-                <p class="text-muted font-13 m-b-30"> <code> Current directory : <span id="select_dir"><%=@current_dir%></span></code></p>
-		            <p style="text-align:right;" >  
-  		             <a class="btn btn-default" href="#popup_mkdir"><i class="fa fa-plus"></i> Make Directory</a>
-		            </p>
-                <table id="datatable" class="table table-striped table-bordered jambo_table">
-                  <thead>
-                    <tr class="headings">
-                      <th>Name</th>
-                      <th>auth</th>
-                      <th>Size</th>
-                      <th>Date</th>
-                    </tr>
-                  </thead>
+		<div class="clearfix"></div>
 
-                  <tbody id="datatable_body">
-                    <tr>
-                      <td><i class="fa fa-reply"></i> 
-                         <a style='cursor: pointer' onclick="change_upper('<%=@current_dir%>')"> ..</a>
-                      </td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <%@files.each do |t|%>
-                      <tr class="dir_delete">
-                        <% if t["auth"][0]=='d'%> 
-                         <td style="color:#0d8ade;"><i class="fa fa-folder-open-o"></i> 
-                           <a style="cursor: pointer" onclick="change_directory('<%=@current_dir + "/" + t["name"]%>')"> <%=t["name"]%></a>
-                          </td>
-                        <% else %>
-                         <td><i class="fa fa-file-o"></i> 
-                           <a style="cursor: pointer"><%=t["name"]%></a>
-                         </td>
-                        <% end %>
-                       <td><%=t["auth"]%></td>
-                       <td><%=t["size"]%></td>
-                       <td><%=t["date"]%></td> 
-                      </tr>
-                    <%end%>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-        </div>
-      </div>
-      
-    </div>
-  </div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="x_panel">
+					<div class="x_title">
+						<h2>Input knob</h2>
+						<ul class="nav navbar-right panel_toolbox">
+							<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#">Settings 1</a></li>
+									<li><a href="#">Settings 2</a></li>
+								</ul>
+							</li>
+							<li><a class="close-link"><i class="fa fa-close"></i></a></li>
+						</ul>
+						<div class="clearfix"></div>
+					</div>
+					<div class="x_content">
+						<div class="col-md-2">
+							<p>Display value</p>
+							<input class="knob" data-width="100" data-height="120" data-min="-100" data-displayPrevious=true data-fgColor="#26B99A" value="44">
+						</div>
+						<div class="col-md-2">
+							<p>&#215; 'cursor' mode</p>
+							<input class="knob" data-width="100" data-height="120" data-cursor=true data-fgColor="#34495E" value="29">
+						</div>
+						<div class="col-md-2">
+							<p>Step 0.1</p>
+							<input class="knob" data-width="100" data-height="120" data-min="-10000" data-displayPrevious=true data-fgColor="#26B99A" data-max="10000" data-step=".1" value="0">
+						</div>
+						<div class="col-md-2">
+							<p>Angle arc</p>
+							<input class="knob" data-width="100" data-height="120" data-angleOffset=-125 data-angleArc=250 data-fgColor="#34495E" data-rotation="anticlockwise" value="35">
+						</div>
+						<div class="col-md-2">
+							<p>Alternate design</p>
+							<input class="knob" data-width="110" data-height="120" data-displayPrevious=true data-fgColor="#26B99A" data-skin="tron" data-thickness=".2" value="75">
+						</div>
+						<div class="col-md-2">
+							<p>Angle offset</p>
+							<input class="knob" data-width="100" data-height="120" data-angleOffset=90 data-linecap=round data-fgColor="#26B99A" value="35">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="x_panel">
+					<div class="x_title">
+						<h2>File Manager</h2>
+						<ul class="nav navbar-right panel_toolbox">
+							<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+							</li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#">Settings 1</a>
+									</li>
+									<li><a href="#">Settings 2</a>
+									</li>
+								</ul>
+							</li>
+							<li><a class="close-link"><i class="fa fa-close"></i></a>
+							</li>
+						</ul>
+						<div class="clearfix"></div>
+					</div>
+
+					<div class="x_content">
+
+						<div class="col-md-12 col-sm-12 col-xs-12" id="table_div">
+							<p class="text-muted font-13 m-b-30"> <code> Current directory : <span id="select_dir"><%=@current_dir%></span></code></p>
+							<p style="text-align:right;" >
+								<a class="btn btn-default" href="#popup_mkdir"><i class="fa fa-plus"></i> Make Directory</a>
+							</p>
+							<table id="datatable" class="table table-striped table-bordered jambo_table">
+								<thead>
+									<tr class="headings">
+										<th>Name</th>
+										<th>auth</th>
+										<th>Size</th>
+										<th>Date</th>
+									</tr>
+								</thead>
+
+								<tbody id="datatable_body">
+									<tr>
+										<td><i class="fa fa-reply"></i>
+											<a style='cursor: pointer' onclick="change_upper('<%=@current_dir%>')"> ..</a>
+										</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<%@files.each do |t|%>
+									<tr class="dir_delete">
+										<% if t["auth"][0]=='d'%>
+										<td style="color:#0d8ade;"><i class="fa fa-folder-open-o"></i>
+											<a style="cursor: pointer" onclick="change_directory('<%=@current_dir + "/" + t["name"]%>')"> <%=t["name"]%></a>
+										</td>
+										<% else %>
+										<td>
+											<form class="form_file_download" data-parsley-validate>
+												<i class="fa fa-file-o"></i>
+												<input type="hidden", value="<%=@current_dir + '/' + t['name']%>">
+												<button type="submit" style="border: none; background: none;"><%=t["name"]%></button>
+											</form>
+										</td>
+										<% end %>
+										<td><%=t["auth"]%></td>
+										<td><%=t["size"]%></td>
+										<td><%=t["date"]%></td>
+									</tr>
+									<%end%>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
 </div>
 <!-- /page content -->
-  
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $('#datatable').dataTable();
-      right_click();
-    });
-  </script>
-  <script>
-        	
-    function right_click(){
-            /* right click */
-        $(".menuitem").mouseover(function(e){
-      	    var $el = $(this);
-      	    if ( !$el.hasClass('hover'))
-      	      $el.addClass('hover');
-      	  }).mouseout(function(e){
-      	  var $el = $(this);
-      	    if($el.hasClass('hover'))
-      	      $el.removeClass('hover');
-      	  });
-      	 
-        	//Contextmenu
-        	$(".dir_delete").on('contextmenu', function(event) {
-        	  ShowContextMenu("Del_dir");
-        	  var Row = this;
-            var Cells = Row.getElementsByTagName("td");
-            var file_name = Cells[0].innerText;
-            file_name = file_name.replace(' ', '');
-            $("#delete_name").val($("#select_dir").text() + "/" + file_name);
-        	  CheckLocation();	  
-        	  return false;
-        	});	
-    }
-     
-    $(".Del_dir").click(function(e){
-            $(location).attr('href', "#loading");
-             $.ajax({
-              method: "POST",
-              url: "/home/delete",
-              data: { file_name: $("#delete_name").val() },
-                success  : function(result){
-                  change_directory($("#select_dir").text());
-                  $(location).attr('href', "#");
-                }
-              })
-      		    $(".contextmenu").hide();
-      		    $(document).unbind('mousedown');
-    });
-  </script>
-  <!-- file manager functions -->
-  <script>
-    function change_upper(directory){
-      if(directory == "/") return;
-      var lastindex = directory.lastIndexOf("/");
-      if(lastindex == 0) lastindex++;
-      change_directory(directory.substring(0, lastindex));
-    }
-    
-    function change_directory(directory){
-      $.ajax({
-      method: "POST",
-      url: "/application/changeDir",
-      data: { path: directory },
-      success  : function(result){
-          $("#current-dir").val(directory);
-          $("#table_div").empty();
-          var new_table = "";
-          new_table += "<p class='text-muted font-13 m-b-30'><code>Current directory : <span id='select_dir'>" + directory+"</span></code></p>";
-          new_table += "<p style='text-align:right;'><a class='btn btn-default' href='#popup_mkdir'><i class='fa fa-plus'></i> Make Directory</a></p>";
-          new_table += "<table id='datatable' class='table table-striped table-bordered jambo_table'>";
-          new_table += "<thead>";
-          new_table += "<tr class='headings'>";
-          new_table += "<th>Name</th>";
-          new_table += "<th>Auth</th>";
-          new_table += "<th>Size</th>";
-          new_table += "<th>Date</th>";
-          new_table += "</tr>";
-          new_table += "</thead>";
-          new_table += "<tbody id='datatable_body'>";
-          
-          var new_tr = "";
-          new_tr += "<tr role='row' class='odd'> <td><i class='fa fa-reply'></i>";
-          new_tr += "<a style='cursor: pointer' onclick='change_upper(" + '"' + directory + '"' +")'> ..</a>";
-          new_tr += "</td><td> </td><td> </td><td> </td></tr>";
-          
-          for( var i = 0; i < result.file.length; i++){
-            var row_class = i % 2 == 0 ? 'odd' : 'even';
-            var cur = result.current != "/" ? result.current : '';
-            new_tr += "<tr role='row' class='dir_delete' class='" + row_class + "'>";
-            if(result.file[i].auth[0] == "d"){
-              new_tr += "<td style='color:#0d8ade;' class='sorting_1'><i class='fa fa-folder-open-o'></i> "; 
-              new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + cur + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
-            }else{
-              new_tr += "<td><i class='fa fa-file-o'></i><a style='cursor: pointer'> " + result.file[i].name + "</a></td>";
-            }
-            new_tr += "<td>"+result.file[i].auth+"</td>";
-            new_tr += "<td>"+result.file[i].size+"</td>";
-            new_tr += "<td>"+result.file[i].date+"</td>";
-            new_tr += "</tr>";
-          }
-          new_table += new_tr;
-          new_table += "</tbody></table>"
-          $("#table_div").append(new_table);
-          $('#datatable').dataTable();
-          right_click();
-        }
-      })
-    }
-  
-	  
-  </script>
-  
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#datatable').dataTable();
+	right_click();
+});
+</script>
+<script>
+
+function right_click(){
+	/* right click */
+	$(".menuitem").mouseover(function(e){
+		var $el = $(this);
+		if ( !$el.hasClass('hover'))
+		$el.addClass('hover');
+	}).mouseout(function(e){
+		var $el = $(this);
+		if($el.hasClass('hover'))
+		$el.removeClass('hover');
+	});
+
+	//Contextmenu
+	$(".dir_delete").on('contextmenu', function(event) {
+		ShowContextMenu("Del_dir");
+		var Row = this;
+		var Cells = Row.getElementsByTagName("td");
+		var file_name = Cells[0].innerText;
+		file_name = file_name.replace(' ', '');
+		$("#delete_name").val($("#select_dir").text() + "/" + file_name);
+		CheckLocation();
+		return false;
+	});
+}
+
+$(".Del_dir").click(function(e){
+	$(location).attr('href', "#loading");
+	$.ajax({
+		method: "POST",
+		url: "/home/delete",
+		data: { file_name: $("#delete_name").val() },
+		success  : function(result){
+			change_directory($("#select_dir").text());
+			$(location).attr('href', "#");
+		}
+	})
+	$(".contextmenu").hide();
+	$(document).unbind('mousedown');
+});
+</script>
+<!-- file manager functions -->
+<script>
+function change_upper(directory){
+	if(directory == "/") return;
+	var lastindex = directory.lastIndexOf("/");
+	if(lastindex == 0) lastindex++;
+	change_directory(directory.substring(0, lastindex));
+}
+
+function change_directory(directory){
+	$.ajax({
+		method: "POST",
+		url: "/application/changeDir",
+		data: { path: directory },
+		success  : function(result){
+			$("#current-dir").val(directory);
+			$("#table_div").empty();
+			var new_table = "";
+			new_table += "<p class='text-muted font-13 m-b-30'><code>Current directory : <span id='select_dir'>" + directory+"</span></code></p>";
+			new_table += "<p style='text-align:right;'><a class='btn btn-default' href='#popup_mkdir'><i class='fa fa-plus'></i> Make Directory</a></p>";
+			new_table += "<table id='datatable' class='table table-striped table-bordered jambo_table'>";
+			new_table += "<thead>";
+			new_table += "<tr class='headings'>";
+			new_table += "<th>Name</th>";
+			new_table += "<th>Auth</th>";
+			new_table += "<th>Size</th>";
+			new_table += "<th>Date</th>";
+			new_table += "</tr>";
+			new_table += "</thead>";
+			new_table += "<tbody id='datatable_body'>";
+
+			var new_tr = "";
+			new_tr += "<tr role='row' class='odd'> <td><i class='fa fa-reply'></i>";
+			new_tr += "<a style='cursor: pointer' onclick='change_upper(" + '"' + directory + '"' +")'> ..</a>";
+			new_tr += "</td><td> </td><td> </td><td> </td></tr>";
+
+			for( var i = 0; i < result.file.length; i++){
+				var row_class = i % 2 == 0 ? 'odd' : 'even';
+				var cur = result.current != "/" ? result.current : '';
+				new_tr += "<tr role='row' class='dir_delete' class='" + row_class + "'>";
+				if(result.file[i].auth[0] == "d"){
+					new_tr += "<td style='color:#0d8ade;' class='sorting_1'><i class='fa fa-folder-open-o'></i> ";
+					new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + cur + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
+				}else{
+					new_tr += "<td>";
+					new_tr += "<form class='form_file_download' data-parsley-validate>";
+					new_tr += "<i class='fa fa-file-o'></i>";
+					new_tr += "<input type='hidden', value='" + cur + "/" + result.file[i].name + "'>";
+					new_tr += "<button type='submit' style='border: none; background: none;'>" + result.file[i].name + "</button>";
+					new_tr += "</form>";
+					new_tr += "</td>";
+				}
+				new_tr += "<td>"+result.file[i].auth+"</td>";
+				new_tr += "<td>"+result.file[i].size+"</td>";
+				new_tr += "<td>"+result.file[i].date+"</td>";
+				new_tr += "</tr>";
+			}
+			new_table += new_tr;
+			new_table += "</tbody></table>"
+			$("#table_div").append(new_table);
+			$('#datatable').dataTable();
+			right_click();
+
+			$(".form_file_download").submit(function(){
+				file_name = $(this).find("input").val();
+				$.ajax({
+					type: 'post',
+					url: '/file_download',
+					data: {file_name: file_name},
+					success: function(result){
+						console.log("post success");
+					}
+				});
+				return false;
+			})
+		}
+	})
+}
+
+</script>
+
+<script>
+
+$("document").ready(function(){
+	$(".form_file_download").submit(function(){
+		file_name = $(this).find("input").val();
+		$.ajax({
+			type: 'post',
+			url: '/file_download',
+			data: {file_name: file_name},
+			success: function(result){
+				console.log("post success");
+			}
+		});
+		return false;
+	})
+});
+
+</script>
 
 
 <!--Test Page specific JS -->
 <script type="text/javascript">
-  
-  //alert ('Test Page specific JS')
-    $(function($) {
 
-      $(".knob").knob({
-        change: function(value) {
-          //console.log("change : " + value);
-        },
-        release: function(value) {
-          //console.log(this.$.attr('value'));
-          console.log("release : " + value);
-        },
-        cancel: function() {
-          console.log("cancel : ", this);
-        },
-        /*format : function (value) {
-         return value + '%';
-         },*/
-        draw: function() {
+//alert ('Test Page specific JS')
+$(function($) {
 
-          // "tron" case
-          if (this.$.data('skin') == 'tron') {
+	$(".knob").knob({
+		change: function(value) {
+			//console.log("change : " + value);
+		},
+		release: function(value) {
+			//console.log(this.$.attr('value'));
+			console.log("release : " + value);
+		},
+		cancel: function() {
+			console.log("cancel : ", this);
+		},
+		/*format : function (value) {
+		return value + '%';
+	},*/
+	draw: function() {
 
-            this.cursorExt = 0.3;
+		// "tron" case
+		if (this.$.data('skin') == 'tron') {
 
-            var a = this.arc(this.cv) // Arc
-              ,
-              pa // Previous arc
-              , r = 1;
+			this.cursorExt = 0.3;
 
-            this.g.lineWidth = this.lineWidth;
+			var a = this.arc(this.cv) // Arc
+			,
+			pa // Previous arc
+			, r = 1;
 
-            if (this.o.displayPrevious) {
-              pa = this.arc(this.v);
-              this.g.beginPath();
-              this.g.strokeStyle = this.pColor;
-              this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, pa.s, pa.e, pa.d);
-              this.g.stroke();
-            }
+			this.g.lineWidth = this.lineWidth;
 
-            this.g.beginPath();
-            this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;
-            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, a.s, a.e, a.d);
-            this.g.stroke();
+			if (this.o.displayPrevious) {
+				pa = this.arc(this.v);
+				this.g.beginPath();
+				this.g.strokeStyle = this.pColor;
+				this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, pa.s, pa.e, pa.d);
+				this.g.stroke();
+			}
 
-            this.g.lineWidth = 2;
-            this.g.beginPath();
-            this.g.strokeStyle = this.o.fgColor;
-            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
-            this.g.stroke();
+			this.g.beginPath();
+			this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;
+			this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, a.s, a.e, a.d);
+			this.g.stroke();
 
-            return false;
-          }
-        }
-      });
+			this.g.lineWidth = 2;
+			this.g.beginPath();
+			this.g.strokeStyle = this.o.fgColor;
+			this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+			this.g.stroke();
 
-      // Example of infinite knob, iPod click wheel
-      var v, up = 0,
-        down = 0,
-        i = 0,
-        $idir = $("div.idir"),
-        $ival = $("div.ival"),
-        incr = function() {
-          i++;
-          $idir.show().html("+").fadeOut();
-          $ival.html(i);
-        },
-        decr = function() {
-          i--;
-          $idir.show().html("-").fadeOut();
-          $ival.html(i);
-        };
-      $("input.infinite").knob({
-        min: 0,
-        max: 20,
-        stopper: false,
-        change: function() {
-          if (v > this.cv) {
-            if (up) {
-              decr();
-              up = 0;
-            } else {
-              up = 1;
-              down = 0;
-            }
-          } else {
-            if (v < this.cv) {
-              if (down) {
-                incr();
-                down = 0;
-              } else {
-                down = 1;
-                up = 0;
-              }
-            }
-          }
-          v = this.cv;
-        }
-      });
-    });
+			return false;
+		}
+	}
+});
+
+// Example of infinite knob, iPod click wheel
+var v, up = 0,
+down = 0,
+i = 0,
+$idir = $("div.idir"),
+$ival = $("div.ival"),
+incr = function() {
+	i++;
+	$idir.show().html("+").fadeOut();
+	$ival.html(i);
+},
+decr = function() {
+	i--;
+	$idir.show().html("-").fadeOut();
+	$ival.html(i);
+};
+$("input.infinite").knob({
+	min: 0,
+	max: 20,
+	stopper: false,
+	change: function() {
+		if (v > this.cv) {
+			if (up) {
+				decr();
+				up = 0;
+			} else {
+				up = 1;
+				down = 0;
+			}
+		} else {
+			if (v < this.cv) {
+				if (down) {
+					incr();
+					down = 0;
+				} else {
+					down = 1;
+					up = 0;
+				}
+			}
+		}
+		v = this.cv;
+	}
+});
+});
 </script>
