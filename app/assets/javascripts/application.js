@@ -57,3 +57,5 @@
 // Right Click Event
 
 //= require contextmenu
+
+//= require js/validator/validator.js

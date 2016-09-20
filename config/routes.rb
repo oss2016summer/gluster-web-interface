@@ -28,6 +28,8 @@ Rails.application.routes.draw do
 
   #Node
   get 'node/index' => 'node#index'
+  post 'node/add' => "node#node_add"
+  get 'node/delete/:node_id' => "node#node_delete"
 
 
 
