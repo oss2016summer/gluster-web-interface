@@ -11,10 +11,10 @@ Rails.application.routes.draw do
   get 'index' => 'plainpage#index'
 
   #Home
+  get 'file_download' => 'home#file_download'
   get 'home/index' => 'home#index'
   post 'home/mkdir' => 'home#make_directory'
   post 'home/delete' => 'home#delete_file'
-  post 'file_download' => 'home#file_download'
 
   #Volume
   get 'volume/index' => 'volume#index'

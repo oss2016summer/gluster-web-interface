@@ -1,19 +1,16 @@
 class HomeController < ApplicationController
   def index
-    config = get_conf
-    #@current_dir = config["project_path"]
     @current_dir = "/mnt"
     file_directory(@current_dir)
   end
 
   def file_download
-      @file_name = params[:file_name]
-      puts "file_name: " + @file_name
-      if File.exist?(@file_name)
-          #File.delete(@file_name)
-          puts "file exist!!"
-          send_file(@file_name)
-          puts "send success"
+      @file_name = params[:file_name].gsub(" ", "/")
+      if !@file_name.nil?
+          send_file @file_name
+      else
+          puts "file name is nil"
+          redirect_to '/home/index'
       end
   end
 

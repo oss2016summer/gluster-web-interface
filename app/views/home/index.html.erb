@@ -162,11 +162,7 @@
 										</td>
 										<% else %>
 										<td>
-											<form class="form_file_download" data-parsley-validate>
-												<i class="fa fa-file-o"></i>
-												<input type="hidden", value="<%=@current_dir + '/' + t['name']%>">
-												<button type="submit" style="border: none; background: none;"><%=t["name"]%></button>
-											</form>
+											<a href="/file_download?file_name=<%=(@current_dir+'/'+t['name']).gsub("/", "+")%>"><%=t['name']%></a>
 										</td>
 										<% end %>
 										<td><%=t["auth"]%></td>
@@ -279,11 +275,7 @@ function change_directory(directory){
 					new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + cur + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
 				}else{
 					new_tr += "<td>";
-					new_tr += "<form class='form_file_download' data-parsley-validate>";
-					new_tr += "<i class='fa fa-file-o'></i>";
-					new_tr += "<input type='hidden', value='" + cur + "/" + result.file[i].name + "'>";
-					new_tr += "<button type='submit' style='border: none; background: none;'>" + result.file[i].name + "</button>";
-					new_tr += "</form>";
+					new_tr += "<a href='/file_download?file_name="+ (cur + "/" + result.file[i].name).replace(/\//, "+") + "'>" + result.file[i].name + "</a>"
 					new_tr += "</td>";
 				}
 				new_tr += "<td>"+result.file[i].auth+"</td>";
@@ -296,44 +288,15 @@ function change_directory(directory){
 			$("#table_div").append(new_table);
 			$('#datatable').dataTable();
 			right_click();
-
-			$(".form_file_download").submit(function(){
-				file_name = $(this).find("input").val();
-				$.ajax({
-					type: 'post',
-					url: '/file_download',
-					data: {file_name: file_name},
-					success: function(result){
-						console.log("post success");
-					}
-				});
-				return false;
-			})
 		}
 	})
 }
-
 </script>
 
 <script>
-
 $("document").ready(function(){
-	$(".form_file_download").submit(function(){
-		file_name = $(this).find("input").val();
-		$.ajax({
-			type: 'post',
-			url: '/file_download',
-			data: {file_name: file_name},
-			success: function(result){
-				console.log("post success");
-			}
-		});
-		return false;
-	})
-});
-
+})
 </script>
-
 
 <!--Test Page specific JS -->
 <script type="text/javascript">
