@@ -1,59 +1,12 @@
 class VolumeController < ApplicationController
 
     def index
-        @volumes = Array.new
         file_directory("/mnt")
         get_conf
-        info = get_volume_info.split("\n")
-        if info.blank?
-            flash[:danger] = "Check Server"
-        else
-            parse_info(info)
-        end
-    end
-
-    def parse_info(info)
-        volume = Hash.new
-        df = get_df
-        info << "\n"
-        info.each do |t|
-            next if t.equal? info.first
-            if t.include? ":"
-                temp = t.split(":")
-                volume[temp[0]] = temp[1]
-            else
-                String state = (df.include? volume['Volume Name'].delete(' ')) ? "mounted" : "unmounted"
-                volume['Mount State'] = state
-                if state.eql? "mounted"
-                    s = df.split("\n")
-                    s.each do |t|
-                        if t.include? volume['Volume Name'].delete(' ')
-                            mnt_point = t.split(" ")[5]
-                            volume['Mount Point'] = mnt_point
-                        end
-                    end
-                end
-                @volumes << volume
-                volume = Hash.new
-            end
-        end
     end
 
     def get_df
         return `df -P`
-    end
-
-    def get_volume_info
-        command = String.new
-        command << "sshpass -p" + @config["host_password"].to_s
-        command << " ssh "
-        if !@config["host_port"].nil?
-            command << "-p " + @config["host_port"].to_s + " "
-        end
-        command << @config["host_user"].to_s + "@" + @config["host_ip"].to_s
-        command << " gluster volume info"
-        puts command
-        return `#{command}`
     end
 
     def file_upload
