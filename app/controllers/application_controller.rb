@@ -6,6 +6,14 @@ class ApplicationController < ActionController::Base
   def get_conf
     @config = Hash.new
     
+    one_node = Node.take
+    if !one_node.nil?
+      @config["host_name"] = one_node.host_name
+      @config["host_ip"] = one_node.host_ip
+      @config["user_name"] = one_node.user_name
+      @config["user_password"] = one_node.user_password
+    end
+    
     output = `cat configure.conf`.split("\n")
     output.each do |t|
       if t.include? "project_path="
