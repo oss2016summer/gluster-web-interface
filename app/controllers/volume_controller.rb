@@ -62,12 +62,10 @@ class VolumeController < ApplicationController
         bricks = params[:bricks]
         # make command string
         command = String.new
-        command << "sshpass -p" + @config["host_password"].to_s
+        command << "sshpass -p" + @config["user_password"].to_s
         command << " ssh "
-        if !@config["host_port"].nil?
-            command << "-p " + @config["host_port"].to_s + " "
-        end
-        command << @config["host_user"].to_s + "@" + @config["host_ip"].to_s
+        
+        command << @config["user_name"].to_s + "@" + @config["host_ip"].to_s
         command << " gluster volume create " + volume_name + " "
         if !volume_type.include? "Distribute"
             command << volume_type.downcase + " " + num_of_brick + " "
@@ -86,12 +84,10 @@ class VolumeController < ApplicationController
         volume_name = params[:volume_name]
         # make command string
         command = String.new
-        command << "yes | sshpass -p" + @config["host_password"].to_s
+        command << "yes | sshpass -p" + @config["user_password"].to_s
         command << " ssh "
-        if !@config["host_port"].nil?
-            command << "-p " + @config["host_port"].to_s + " "
-        end
-        command << @config["host_user"].to_s + "@" + @config["host_ip"].to_s
+       
+        command << @config["user_name"].to_s + "@" + @config["host_ip"].to_s
         command << " gluster volume stop " + volume_name
         puts command
         `#{command}`
@@ -103,12 +99,10 @@ class VolumeController < ApplicationController
         volume_name = params[:volume_name]
         # make command string
         command = String.new
-        command << "sshpass -p" + @config["host_password"].to_s
+        command << "sshpass -p" + @config["user_password"].to_s
         command << " ssh "
-        if !@config["host_port"].nil?
-            command << "-p " + @config["host_port"].to_s + " "
-        end
-        command << @config["host_user"].to_s + "@" + @config["host_ip"].to_s
+     
+        command << @config["user_name"].to_s + "@" + @config["host_ip"].to_s
         command << " gluster volume start " + volume_name.to_s
         puts command
         `#{command}`
@@ -120,12 +114,10 @@ class VolumeController < ApplicationController
         volume_name = params[:volume_name]
         # make command string
         command = String.new
-        command << "yes | sshpass -p" + @config["host_password"].to_s
+        command << "yes | sshpass -p" + @config["user_password"].to_s
         command << " ssh "
-        if !@config["host_port"].nil?
-            command << "-p " + @config["host_port"].to_s + " "
-        end
-        command << @config["host_user"].to_s + "@" + @config["host_ip"].to_s
+ 
+        command << @config["user_name"].to_s + "@" + @config["host_ip"].to_s
         command << " gluster volume delete " + volume_name
         puts command
         `#{command}`
