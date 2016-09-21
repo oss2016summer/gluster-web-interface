@@ -18,7 +18,6 @@ class NodeController < ApplicationController
     new_node = Node.new	
     new_node.host_name = params[:host_name]
     new_node.host_ip = params[:host_ip]
-    new_node.host_port = params[:host_port]
     new_node.user_name = params[:user_name]
     new_node.user_password = params[:user_password]
     new_node.save

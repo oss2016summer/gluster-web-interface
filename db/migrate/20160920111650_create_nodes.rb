@@ -4,7 +4,6 @@ class CreateNodes < ActiveRecord::Migration
 
       t.string :host_name
       t.string :host_ip
-      t.integer :host_port
       t.string :user_name
       t.string :user_password
       

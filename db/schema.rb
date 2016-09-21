@@ -16,7 +16,6 @@ ActiveRecord::Schema.define(version: 20160920111650) do
   create_table "nodes", force: :cascade do |t|
     t.string   "host_name"
     t.string   "host_ip"
-    t.integer  "host_port"
     t.string   "user_name"
     t.string   "user_password"
     t.datetime "created_at",    null: false

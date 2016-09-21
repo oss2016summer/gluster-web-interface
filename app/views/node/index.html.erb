@@ -52,14 +52,6 @@
                     </div>
                    
                     <div class="item form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Host Port <span class="required">*</span>
-                      </label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="number" id="number" name="host_port" required="required" data-validate-length-range="4" data-validate-minmax="0,9999" placeholder="0~9999" class="form-control col-md-7 col-xs-12">
-                      </div>
-                    </div>
-                   
-                    <div class="item form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">User Name <span class="required">*</span>
                       </label>
                       <div class="col-md-6 col-sm-6 col-xs-12">
@@ -114,10 +106,9 @@
                                 <th>#</th>
                                 <th>Host Name</th>
                                 <th>Host IP</th>
-                                <th>Host Port</th>
                                 <th>User Name</th>
-                                <th>User Password</th>
                                 <th>Date</th>
+                            <!--    <th></th>-->
                                 <th></th>
                             </tr>
                         </thead>
@@ -127,10 +118,9 @@
                                 <th scope="row"><%=t.id%></th>
                                 <td><%=t.host_name%></td>
                                 <td><%=t.host_ip%></td>
-                                <td><%=t.host_port%></td>
                                 <td><%=t.user_name%></td>
-                                <td><%=t.user_password%></td>
                                 <td><%=t.created_at%></td>
+                              <!--  <td><i class="fa fa-pencil"></i></td>-->
                                 <td><a href="/node/delete/<%=t.id%>"><i class="fa fa-trash"></i></a></td>
                             </tr>
                             <%end%>

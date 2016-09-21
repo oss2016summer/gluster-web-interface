@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   def get_conf
     @config = Hash.new
+    
     output = `cat configure.conf`.split("\n")
     output.each do |t|
       if t.include? "project_path="
@@ -21,6 +22,8 @@ class ApplicationController < ActionController::Base
         @config["host_password"] = t.split("host_password=")[1]
       end
     end
+    
+    
     return @config
   end
 
