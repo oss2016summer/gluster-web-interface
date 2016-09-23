@@ -143,7 +143,10 @@
 									<% end %>
 									<td><%=t["auth"]%></td>
 									<td><%=t["size"]%></td>
-									<td><%=t["date"]%></td>
+									<td>
+										<%=t["date"]%>
+										<a class='pull-right' onclick="delete_file('<%=@current_dir + "/" + t["name"]%>')" href="#"><i class="fa fa-trash"></i></a>
+									</td>
 								</tr>
 								<% end %>
 							</tbody>
@@ -271,6 +274,19 @@
 
 <!-- File manager functions -->
 <script>
+function delete_file(directory){
+	if (confirm("Are you sure you want to delete '"+ directory+"' ?")) {
+		$.ajax({
+			method: "POST",
+			url: "/home/delete",
+			data: { file_name: directory },
+			success  : function(result){
+				location.reload(true);
+			}
+		})
+	} 
+	//alert(directory);
+}
 function change_upper(directory){
 	if(directory == "/") return;
 	var lastindex = directory.lastIndexOf("/");
@@ -310,16 +326,19 @@ function change_directory(directory){
 				new_tr += "<tr role='row' class='dir_delete' class='" + row_class + "'>";
 				if(result.file[i].auth[0] == "d"){
 					new_tr += "<td style='color:#0d8ade;' class='sorting_1'><i class='fa fa-folder-open-o'></i> ";
-					new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + cur + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
+					new_tr += "<a style='cursor: pointer'  onclick='change_directory(" +'"' + cur + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
 				}else{
 					new_tr += "<td>";
 					new_tr += "<i class='fa fa-file-o'></i>"
 					new_tr += "<a href='/file_download?file_name="+ (cur + "/" + result.file[i].name).replace(/\//, "+") + "'> " + result.file[i].name + "</a>"
 					new_tr += "</td>";
 				}
+				
 				new_tr += "<td>"+result.file[i].auth+"</td>";
 				new_tr += "<td>"+result.file[i].size+"</td>";
-				new_tr += "<td>"+result.file[i].date+"</td>";
+				new_tr += "<td>"+result.file[i].date+" <a class='pull-right' onclick='delete_file(" +'"' + cur + "/" + result.file[i].name +'"'+ ")'  href='#'><i class='fa fa-trash'></i></a></td>";
+
+								
 				new_tr += "</tr>";
 			}
 			new_table += new_tr;
@@ -330,7 +349,6 @@ function change_directory(directory){
 	})
 }
 </script>
-
 <!-- On document ready -->
 <script>
 $(document).ready(function() {
