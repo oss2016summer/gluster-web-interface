@@ -1,4 +1,5 @@
 class VolumeController < ApplicationController
+        before_action :require_login
 
     def index
         file_directory("/mnt")

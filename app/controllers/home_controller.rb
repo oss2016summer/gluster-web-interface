@@ -1,6 +1,8 @@
 class HomeController < ApplicationController
-
+    before_action :require_login
+    
     def index
+        
         @current_dir = "/mnt"
         file_directory(@current_dir)
     end

@@ -1,4 +1,6 @@
 class NodeController < ApplicationController
+      before_action :require_login
+      
   def index
     @hosts = Array.new
     @nodes = Node.all.order("id asc") 

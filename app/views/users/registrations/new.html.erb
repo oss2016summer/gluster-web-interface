@@ -20,8 +20,9 @@
               </div>
       
           <div>
-            <input type="text" class="form-control" placeholder="Username" required="" />
+            <%= f.text_field :username, autofocus: true , class: "form-control", placeholder: "Username", required: ""%>
           </div>
+          
           <div>
             <%= f.email_field :email, autofocus: true , class: "form-control", placeholder: "Email", required: ""%>
           </div>
