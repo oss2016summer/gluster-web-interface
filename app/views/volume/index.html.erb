@@ -39,7 +39,9 @@
                     </label>
                     <div class="col-md-3 col-sm-3 col-xs-4">
                         <select class="form-control">
-                            <option><%=@config["server_name"]%></option>
+                            <% get_conf_all.each do |t| %>
+                            <option><%= t['host_name'] %></option>
+                            <% end %>
                         </select>
                     </div>
                     <div class="col-md-1 col-sm-1 col-xs-1">
@@ -77,26 +79,26 @@
             </thead>
             <tbody id="datatable_body">
                 <tr>
-                    <td><i class="fa fa-reply"></i> <a style="cursor: pointer" onclick="change_upper('<%=@current_dir%>')"> ..</a></td>
+                    <td><i class="fa fa-reply"></i> <a style="cursor: pointer" onclick="change_upper('<%= @current_dir %>')"> ..</a></td>
                     <td></td>
                     <td></td>
                 </tr>
-                <%@files.each do |t|%>
-                <% if t["auth"][0]=='d'%>
+                <% @files.each do |t| %>
+                <% if t["auth"][0]=='d' %>
                 <tr>
                     <td style="color:#0d8ade;"><i class="fa fa-folder-open-o"></i>
-                        <a style="cursor: pointer" onclick="change_directory('<%=@current_dir + "/" + t["name"]%>')"> <%=t["name"]%></a>
+                        <a style="cursor: pointer" onclick="change_directory('<%= @current_dir + "/" + t["name"] %>')"> <%= t["name"] %></a>
                     </td>
                     <td><%=t["auth"]%></td>
                     <td>
                         <form data-parsley-validate>
-                            <input type="hidden" value='<%=@current_dir + "/" + t["name"]%>'>
+                            <input type="hidden" value='<%= @current_dir + "/" + t["name"] %>'>
                             <button type="submit" class="btn btn-primary pull-right">select</botton>
-                        </form>
-                    </td>
-                </tr>
-                <%end%>
-                <%end%>
+                            </form>
+                        </td>
+                    </tr>
+                    <% end %>
+                    <% end %>
                 </tbody>
             </table>
         </div>
@@ -115,7 +117,7 @@
         </div>
         <div class="clearfix"></div>
         <div class="row">
-            <% get_volumes.each_with_index do |t, index| %>
+            <% volumes.each_with_index do |t, index| %>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
@@ -165,215 +167,208 @@
                     </div>
                     <% if index == 0 %>
                     <div class="x_content">
-                    <% else %>
-                    <div class="x_content" style="display: none;">
-                    <% end %>
-                        <!-- left content -->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <div style="margin: 10px">
-                                <p class="text-muted font-13 m-b-30"><span class="badge bg-blue">Volume Info</span></p>
-                                <%= volume_info t %>
+                        <% else %>
+                        <div class="x_content" style="display: none;">
+                            <% end %>
+                            <!-- left content -->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div style="margin: 10px">
+                                    <p class="text-muted font-13 m-b-30"><span class="badge bg-blue">Volume Info</span></p>
+                                    <%= volume_info t %>
+                                </div>
+                                <% if t["Mount State"] == "mounted" %>
+                                <a class="btn btn-app" href="/volume/unmount/<%=t['Volume Name'].delete(' ')%>"><i class="fa fa-upload"></i> Unmount</a>
+                                <% elsif t["Status"] == " Started" %>
+                                <a class="btn btn-app" href="/volume/stop/<%=t['Volume Name'].delete(' ')%>">
+                                    <i class="fa fa-pause" style="color:#d9534f;"></i>
+                                    <p style="color:#d9534f;">Stop</p>
+                                </a>
+                                <a class="btn btn-app" href="?volume_name=<%=t['Volume Name'].delete(' ')%>#popup_mount"><i class="fa fa-download"></i> Mount</a>
+                                <% else %>
+                                <a class="btn btn-app" href="/volume/start/<%=t['Volume Name'].delete(' ')%>">
+                                    <i class="fa fa-play" style="color:#26B99A;"></i>
+                                    <p style="color:#26B99A;">Start</p>
+                                </a>
+                                <a class="btn btn-app" href="/volume/delete/<%=t['Volume Name'].delete(' ')%>">
+                                    <i class="fa fa-trash"></i> Delete
+                                </a>
+                                <% end %>
                             </div>
-                            <% if t["Mount State"] == "mounted" %>
-                            <a class="btn btn-app" href="/volume/unmount/<%=t['Volume Name'].delete(' ')%>"><i class="fa fa-upload"></i> Unmount</a>
-                            <% elsif t["Status"] == " Started" %>
-                            <a class="btn btn-app" href="/volume/stop/<%=t['Volume Name'].delete(' ')%>">
-                                <i class="fa fa-pause" style="color:#d9534f;"></i>
-                                <p style="color:#d9534f;">Stop</p>
-                            </a>
-                            <a class="btn btn-app" href="?volume_name=<%=t['Volume Name'].delete(' ')%>#popup_mount"><i class="fa fa-download"></i> Mount</a>
-                            <% else %>
-                            <a class="btn btn-app" href="/volume/start/<%=t['Volume Name'].delete(' ')%>">
-                                <i class="fa fa-play" style="color:#26B99A;"></i>
-                                <p style="color:#26B99A;">Start</p>
-                            </a>
-                            <a class="btn btn-app" href="/volume/delete/<%=t['Volume Name'].delete(' ')%>">
-                                <i class="fa fa-trash"></i> Delete
-                            </a>
-                            <% end %>
-                        </div>
-                        <!-- right content -->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <% if t["Mount State"] == "mounted" %>
-                            <p class="text-muted font-13 m-b-30"><span class="badge bg-green">Uploader</span> Activated</p>
-                            <form action="/file_upload/<%=t['Volume Name'].delete(' ')%>" method="post" enctype="multipart/form-data" class="dropzone" style="border: 1px solid #e5e5e5; height: 300px; overflow:auto;">
-                            </form>
-                            <br/>
-                            <% else %>
-                            <p class="text-muted font-13 m-b-30"><span class="badge bg-red">Uploader</span> Inactivated</p>
-                            <form style="border: 1px solid #e5e5e5; height: 300px; overflow:auto;">
-                            </form>
-                            <br/>
-                            <% end %>
+                            <!-- right content -->
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <% if t["Mount State"] == "mounted" %>
+                                <p class="text-muted font-13 m-b-30"><span class="badge bg-green">Uploader</span> Activated</p>
+                                <form action="/file_upload/<%=t['Volume Name'].delete(' ')%>" method="post" enctype="multipart/form-data" class="dropzone" style="border: 1px solid #e5e5e5; height: 300px; overflow:auto;">
+                                </form>
+                                <br/>
+                                <% else %>
+                                <p class="text-muted font-13 m-b-30"><span class="badge bg-red">Uploader</span> Inactivated</p>
+                                <form style="border: 1px solid #e5e5e5; height: 300px; overflow:auto;">
+                                </form>
+                                <br/>
+                                <% end %>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <%end%>
             </div>
-            <%end%>
         </div>
-    </div>
-    <!-- /page content -->
+        <!-- /page content -->
 
-    <!-- File manager functions -->
-    <script>
-    function change_upper(directory){
-        if(directory == "/") return;
-        var lastindex = directory.lastIndexOf("/");
-        if(lastindex == 0) lastindex++;
-        change_directory(directory.substring(0, lastindex));
-    }
-    function change_directory(directory){
-        $.ajax({
-            method: "POST",
-            url: "/application/changeDir",
-            data: { path: directory },
-            success  : function(result){
-                $("#datatable_body").empty();
-                var new_tr = "";
-                new_tr += "<tr role='row' class='odd'> <td><i class='fa fa-reply'></i>";
-                new_tr += "<a style='cursor: pointer' onclick='change_upper(" + '"' + directory + '"' +")'> ..</a>";
-                new_tr += "</td><td> </td><td>";
-                for( var i = 0; i < result.file.length; i++){
-                    if(result.file[i].auth[0] != "d") continue;
-                    var row_class = i % 2 == 0 ? 'odd' : 'even';
-                    var cur = result.current != "/" ? result.current : '';
-                    new_tr += "<tr role='row' class='" + row_class + "'>";
-                    new_tr += "<td style='color:#0d8ade;' class='sorting_1'><i class='fa fa-folder-open-o'></i> ";
-                    new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + cur + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
-                    new_tr += "<td>"+result.file[i].auth+"</td>";
-                    new_tr += "<td><form data-parsley-validate>";
-                    new_tr += "<input type='hidden' value='" + cur + "/" + result.file[i].name + "'>";
-                    new_tr += "<button type='submit' class='btn btn-primary pull-right'>select</botton>";
-                    new_tr += "</form></td>"
-                    new_tr += "</tr>";
-                }
-                $("#datatable_body").append(new_tr);
-                // Add mount overlay functions again
-                $("#popup_mount #datatable_body form").submit(function(){
-                    var mnt_point = $(this).find("input").val();
-                    var url = window.location + '';
-                    var vol_name = url.match(/volume_name=([^#]+)/)[1];
-                    $.ajax({
-                        type: 'post',
-                        url: '/volume/mount',
-                        data: {mount_point: mnt_point, volume_name: vol_name},
-                        success: function(result){
-                        }
-                    });
-                })
-            }
-        })
-    }
-    </script>
-
-    <!-- On document ready -->
-    <script>
-    $("document").ready(function(){
-        // Mount overlay functions
-        $("#popup_mount #datatable_body form").submit(function(){
-            var mnt_point = $(this).find("input").val();
-            var url = window.location + '';
-            var vol_name = url.match(/volume_name=([^#]+)/)[1];
+        <!-- File manager functions -->
+        <script>
+        function change_upper(directory){
+            if(directory == "/") return;
+            var lastindex = directory.lastIndexOf("/");
+            if(lastindex == 0) lastindex++;
+            change_directory(directory.substring(0, lastindex));
+        }
+        function change_directory(directory){
             $.ajax({
-                type: 'post',
-                url: '/volume/mount',
-                data: {mount_point: mnt_point, volume_name: vol_name},
-                success: function(result){
+                method: "POST",
+                url: "/application/changeDir",
+                data: { path: directory },
+                success  : function(result){
+                    $("#datatable_body").empty();
+                    var new_tr = "";
+                    new_tr += "<tr role='row' class='odd'> <td><i class='fa fa-reply'></i>";
+                    new_tr += "<a style='cursor: pointer' onclick='change_upper(" + '"' + directory + '"' +")'> ..</a>";
+                    new_tr += "</td><td> </td><td>";
+                    for( var i = 0; i < result.file.length; i++){
+                        if(result.file[i].auth[0] != "d") continue;
+                        var row_class = i % 2 == 0 ? 'odd' : 'even';
+                        var cur = result.current != "/" ? result.current : '';
+                        new_tr += "<tr role='row' class='" + row_class + "'>";
+                        new_tr += "<td style='color:#0d8ade;' class='sorting_1'><i class='fa fa-folder-open-o'></i> ";
+                        new_tr += "<a  style='cursor: pointer'  onclick='change_directory(" +'"' + cur + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
+                        new_tr += "<td>"+result.file[i].auth+"</td>";
+                        new_tr += "<td><form data-parsley-validate>";
+                        new_tr += "<input type='hidden' value='" + cur + "/" + result.file[i].name + "'>";
+                        new_tr += "<button type='submit' class='btn btn-primary pull-right'>select</botton>";
+                        new_tr += "</form></td>"
+                        new_tr += "</tr>";
+                    }
+                    $("#datatable_body").append(new_tr);
+                    // Add mount overlay functions again
+                    $("#popup_mount #datatable_body form").submit(function(){
+                        var mnt_point = $(this).find("input").val();
+                        var url = window.location + '';
+                        var vol_name = url.match(/volume_name=([^#]+)/)[1];
+                        $.ajax({
+                            type: 'post',
+                            url: '/volume/mount',
+                            data: {mount_point: mnt_point, volume_name: vol_name},
+                            success: function(result){
+                            }
+                        });
+                    })
                 }
+            })
+        }
+        </script>
+
+        <!-- On document ready -->
+        <script>
+        $(document).ready(function(){
+            // Mount overlay functions
+            $("#popup_mount #datatable_body form").submit(function(){
+                var mnt_point = $(this).find("input").val();
+                var url = window.location + '';
+                var vol_name = url.match(/volume_name=([^#]+)/)[1];
+                $.ajax({
+                    type: 'post',
+                    url: '/volume/mount',
+                    data: {mount_point: mnt_point, volume_name: vol_name},
+                    success: function(result){
+                    }
+                });
             });
-        });
-        // Create overlay functions
-        $("#popup_create #form_volume_create").submit(function(){
-            var volume_name = $(this).find(".form-group:eq(0) input").val(),
+            // Create overlay functions
+            $("#popup_create #form_volume_create").submit(function(){
+                var volume_name = $(this).find(".form-group:eq(0) input").val(),
                 volume_type = $(this).find(".form-group:eq(1) option:selected").val(),
                 num_of_brick = $(this).find(".form-group:eq(2) option:selected").val() * 1, // convert to Number type
                 bricks = [];
-            if(volume_name.indexOf(' ') >= 0){
-                alert("Volume name can't contains white spaces");
-                return;
-            }
-            <% get_volumes.each do |t| %>
-            if(volume_name == "<%=t["Volume Name"].delete(' ')%>"){
-                alert("Already has a volume which name is same");
-                return;
-            }
-            <% end %>
-            for(var i = 0; i < num_of_brick; i++){
-                var server_name = $(this).find(".form-group .row").eq(i).find("option:selected").val();
-                var brick_name = $(this).find(".form-group .row").eq(i).find("input").val();
-                if(brick_name.indexOf(' ') >= 0) {
-                    alert("Brick name can't contain white spaces");
+                if(volume_name.indexOf(' ') >= 0){
+                    alert("Volume name can't contains white spaces");
                     return;
                 }
-                if(brick_name.indexOf('/') == 0) {
-                    alert("Brick name can't start with slash");
+                <% volumes.each do |t| %>
+                if(volume_name == "<%=t["Volume Name"].delete(' ')%>"){
+                    alert("Already has a volume which name is same");
                     return;
                 }
-                var brick = "";
-                if(server_name == "<%=@config['server_name']%>"){
-                    brick += "<%=@config['host_ip']%>";
-                    brick += ":/";
-                    brick += brick_name;
+                <% end %>
+                for(var i = 0; i < num_of_brick; i++){
+                    var host_name = $(this).find(".form-group .row").eq(i).find("option:selected").val();
+                    var brick_name = $(this).find(".form-group .row").eq(i).find("input").val();
+                    if(brick_name.indexOf(' ') >= 0) {
+                        alert("Brick name can't contain white spaces");
+                        return;
+                    }
+                    if(brick_name.indexOf('/') == 0) {
+                        alert("Brick name can't start with slash");
+                        return;
+                    }
+                    var brick = host_name + ":/" + brick_name;
                     bricks.push(brick);
                     console.log(brick);
                 }
-                else{
-                    alert("Something goes wrong!");
-                    return;
-                }
-            }
-            $.ajax({
-                method: "POST",
-                url: "/volume/create",
-                data: { volume_name : volume_name, volume_type : volume_type, num_of_brick : num_of_brick, bricks : bricks },
-                success  : function(result){
+                $.ajax({
+                    method: "POST",
+                    url: "/volume/create",
+                    data: { volume_name : volume_name, volume_type : volume_type, num_of_brick : num_of_brick, bricks : bricks },
+                    success  : function(result){
+                    }
+                });
+            });
+            // Volume type changed
+            $("#popup_create #form_volume_create .form-group").eq(1).change(function (){
+                var $type = $(this).find("option:selected").val();
+                switch ($type) {
+                    case "Distribute":
+                    case "Stripe":
+                    case "Replica":
+                    case "Disperse":
+                    case "Disperse-data":
+                    case "Redundancy":
+                    console.log($type);
+                    break;
+                    default:
+                    console.log("something goes wrong");
+                    break;
                 }
             });
+            // Number of bricks changed
+            $("#popup_create #form_volume_create .form-group").eq(2).change(function (){
+                var $num_of_brick = $(this).find("option:selected").val();
+                var $body = $("#form_volume_create .form-group").eq(3);
+                $body.empty();
+                var new_body = "";
+                for(var i = 0; i < $num_of_brick; ++i) {
+                    new_body += "<div class='row' style='margin:0 0 10px 0'>";
+                    new_body += "<label class='control-label col-md-3 col-sm-3 col-xs-12'>";
+                    if(i == 0)
+                    new_body += "Bricks <span class='required'>*</span>";
+                    new_body += "</label>";
+                    new_body += "<div class='col-md-3 col-sm-3 col-xs-4'>";
+                    new_body += "<select class='form-control'>";
+                    <% get_conf_all.each do |t| %>
+                    new_body += "<option><%= t['host_name'] %></option>";
+                    <% end %>
+                    new_body += "</select>";
+                    new_body += "</div>";
+                    new_body += "<div class='col-md-1 col-sm-1 col-xs-1'>"
+                    new_body += "<label class='control-label col-md-12 col-sm-12 col-xs-12'>/"
+                    new_body += "</label>"
+                    new_body += "</div>"
+                    new_body += "<div class='col-md-5 col-sm-5 col-xs-7'>";
+                    new_body += "<input type='text' required='required' class='form-control col-md-7 col-xs-12'>";
+                    new_body += "</div>";
+                    new_body += "</div>";
+                }
+                $body.append(new_body);
+            });
         });
-        // Volume type changed
-        $("#popup_create #form_volume_create .form-group").eq(1).change(function (){
-            var $type = $(this).find("option:selected").val();
-            switch ($type) {
-                case "Distribute":
-                case "Stripe":
-                case "Replica":
-                case "Disperse":
-                case "Disperse-data":
-                case "Redundancy":
-                console.log($type);
-                break;
-                default:
-                console.log("something goes wrong");
-                break;
-            }
-        });
-        // Number of bricks changed
-        $("#popup_create #form_volume_create .form-group").eq(2).change(function (){
-            var $num_of_brick = $(this).find("option:selected").val();
-            var $body = $("#form_volume_create .form-group").eq(3);
-            $body.empty();
-            var new_body = "";
-            for(var i = 0; i < $num_of_brick; ++i) {
-                new_body += "<div class='row' style='margin:0 0 10px 0'>";
-                new_body += "<label class='control-label col-md-3 col-sm-3 col-xs-12'>";
-                if(i == 0)
-                new_body += "Bricks <span class='required'>*</span>";
-                new_body += "</label>";
-                new_body += "<div class='col-md-3 col-sm-3 col-xs-4'>";
-                new_body += "<select class='form-control'>";
-                new_body += "<option><%=@config['server_name']%></option>";
-                new_body += "</select>";
-                new_body += "</div>";
-                new_body += "<div class='col-md-1 col-sm-1 col-xs-1'>"
-                new_body += "<label class='control-label col-md-12 col-sm-12 col-xs-12'>/"
-                new_body += "</label>"
-                new_body += "</div>"
-                new_body += "<div class='col-md-5 col-sm-5 col-xs-7'>";
-                new_body += "<input type='text' required='required' class='form-control col-md-7 col-xs-12'>";
-                new_body += "</div>";
-                new_body += "</div>";
-            }
-            $body.append(new_body);
-        });
-    });
-    </script>
+        </script>

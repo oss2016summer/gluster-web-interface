@@ -2,11 +2,6 @@ class VolumeController < ApplicationController
 
     def index
         file_directory("/mnt")
-        get_conf
-    end
-
-    def get_df
-        return `df -P`
     end
 
     def file_upload
@@ -14,64 +9,71 @@ class VolumeController < ApplicationController
         mnt_dir = String.new
         mnt_dest = String.new
         file = params[:file]
-        s = df.split("\n")
-        s.each do |t|
-            if t.include? params[:volume_name]
-                mnt_dir = t.split(" ")[5]
+        df.each do |t|
+            if t['Filesystem'].include? params[:volume_name]
+                mnt_dir = t['Mounted on']
             end
         end
         mnt_dest = mnt_dir + "/" + file.original_filename
         # change permission
         command = String.new
-        command << "sudo chmod 777 " + mnt_dir
+        command << "sudo chmod 777 #{mnt_dir}"
         puts command
         `#{command}`
+        # upload file
         u = AvatarUploader.new(mnt_dir)
         u.store!(file)
         redirect_to '/volume/index'
     end
 
     def volume_mount
-        get_conf
+        conf = get_conf
         volume_name = params[:volume_name]
         mount_point = params[:mount_point]
         # make command string
         command = String.new
-        command << "sudo mount -t glusterfs " + @config["host_ip"].to_s + ":/" + volume_name + " " + mount_point
+        command << "sudo mount -t glusterfs #{conf['host_ip']}:/#{volume_name} #{mount_point}"
         puts command
         `#{command}`
         redirect_to '/volume/index'
     end
 
     def volume_unmount
-        get_conf
+        conf = get_conf
         volume_name = params[:volume_name]
         # make command string
         command = String.new
-        command << "sudo umount " + @config["host_ip"].to_s + ":/" + volume_name
+        command << "sudo umount #{conf['host_ip']}:/#{volume_name}"
         puts command
         `#{command}`
         redirect_to '/volume/index'
     end
 
     def volume_create
-        get_conf
+        conf = get_conf
         volume_name = params[:volume_name]
         volume_type = params[:volume_type]
         num_of_brick = params[:num_of_brick]
         bricks = params[:bricks]
         # make command string
         command = String.new
-        command << "sshpass -p" + @config["user_password"].to_s
-        command << " ssh "
-        
-        command << @config["user_name"].to_s + "@" + @config["host_ip"].to_s
-        command << " gluster volume create " + volume_name + " "
+        command << "sshpass -p#{conf['user_password']} "
+        command << "ssh #{conf['user_name']}@#{conf['host_ip']} "
+        command << "gluster volume create #{volume_name} "
         if !volume_type.include? "Distribute"
-            command << volume_type.downcase + " " + num_of_brick + " "
+            command << "#{volume_type.downcase} #{num_of_brick}"
         end
+        conf_all = get_conf_all
         bricks.each do |t|
-            command << t + " "
+            host_name = t.split(":/")[0]
+            brick_name = t.split(":/")[1]
+            host_ip = ""
+            conf_all.each do |u|
+                next if !u['host_name'].eql? host_name
+                host_ip = u['host_ip']
+            end
+            brick = "#{host_ip}:/#{brick_name}"
+            command << "#{brick} "
         end
         command << "force"
         puts command
@@ -80,45 +82,39 @@ class VolumeController < ApplicationController
     end
 
     def volume_stop
-        get_conf
+        conf = get_conf
         volume_name = params[:volume_name]
         # make command string
         command = String.new
-        command << "yes | sshpass -p" + @config["user_password"].to_s
-        command << " ssh "
-       
-        command << @config["user_name"].to_s + "@" + @config["host_ip"].to_s
-        command << " gluster volume stop " + volume_name
+        command << "yes | sshpass -p#{conf['user_password']} "
+        command << "ssh #{conf['user_name']}@#{conf['host_ip']} "
+        command << "gluster volume stop #{volume_name}"
         puts command
         `#{command}`
         redirect_to '/volume/index'
     end
 
     def volume_start
-        get_conf
+        conf = get_conf
         volume_name = params[:volume_name]
         # make command string
         command = String.new
-        command << "sshpass -p" + @config["user_password"].to_s
-        command << " ssh "
-     
-        command << @config["user_name"].to_s + "@" + @config["host_ip"].to_s
-        command << " gluster volume start " + volume_name.to_s
+        command << "sshpass -p#{conf['user_password']} "
+        command << "ssh #{conf['user_name']}@#{conf['host_ip']} "
+        command << " gluster volume start #{volume_name}"
         puts command
         `#{command}`
         redirect_to '/volume/index'
     end
 
     def volume_delete
-        get_conf
+        conf = get_conf
         volume_name = params[:volume_name]
         # make command string
         command = String.new
-        command << "yes | sshpass -p" + @config["user_password"].to_s
-        command << " ssh "
- 
-        command << @config["user_name"].to_s + "@" + @config["host_ip"].to_s
-        command << " gluster volume delete " + volume_name
+        command << "yes | sshpass -p#{conf['user_password']} "
+        command << "ssh #{conf['user_name']}@#{conf['host_ip']} "
+        command << " gluster volume delete #{volume_name}"
         puts command
         `#{command}`
         redirect_to '/volume/index'
