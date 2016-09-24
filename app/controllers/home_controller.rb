@@ -3,7 +3,6 @@ class HomeController < ApplicationController
 
     def index
         @current_dir = "/mnt"
-        file_directory(@current_dir)
     end
 
     def file_download

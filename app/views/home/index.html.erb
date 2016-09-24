@@ -113,7 +113,6 @@
 					</ul>
 					<div class="clearfix"></div>
 				</div>
-
 				<div class="x_content">
 					<div class="col-md-12 col-sm-12 col-xs-12" id="table_div">
 						<table id="datatable" class="table table-striped table-bordered jambo_table">
@@ -136,7 +135,7 @@
 									<td></td>
 									<td></td>
 								</tr>
-								<% @files.each do |t| %>
+								<% (files @current_dir).each do |t| %>
 								<tr class="dir_delete">
 									<% if t["auth"][0]=='d'%>
 									<td style="color:#0d8ade;"><i class="fa fa-folder-open-o"></i>
@@ -167,31 +166,53 @@
 		<div class="col-md-4 col-sm-4 col-xs-12">
 			<div class="panel panel-body">
 				<div class="x_title">
-					<h4>Easy Pie Chart</h4>
+					<h4>Disk usage</h4>
 				</div>
-				<p>Easy pie chart is a jQuery plugin that uses the canvas element to render highly customizable, very easy to implement, simple pie charts for single values.</p>
 				<div class="row">
-					<div class="col-xs-4">
-						<span class="chart" data-percent="86">
-							<span class="percent"></span>
-						</span>
-					</div>
-					<div class="col-xs-4">
-						<span class="chart" data-percent="73">
-							<span class="percent"></span>
-						</span>
-					</div>
-					<div class="col-xs-4">
-						<span class="chart" data-percent="60">
-							<span class="percent"></span>
-						</span>
-					</div>
-					<div class="clearfix"></div>
+					<table class="" style="width:100%">
+						<tr>
+							<th style="width:37%;">
+								<p>Chart</p>
+							</th>
+							<th>
+								<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+									<p class="">Name</p>
+								</div>
+								<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+									<p class="">Usage</p>
+								</div>
+							</th>
+						</tr>
+						<tr>
+							<td>
+								<canvas id="canvas1" height="140" width="140" style="margin: 15px 10px 10px 0"></canvas>
+							</td>
+							<td>
+								<table class="tile_info">
+									<% (get_du(@current_dir)).each_with_index do |t, index| %>
+									<tr>
+										<td>
+											<p>
+												<i class="fa fa-square <%= ["blue", "green", "red", "purple", "grey"][index % 5] %>"></i>
+												<%= t['file_name'] %>
+											</p>
+										</td>
+										<td>
+											<p>
+												<%= format("%.2f", t['usage']*100) %>%
+											</p>
+										</td>
+									</tr>
+									<% end %>
+								</table>
+							</td>
+						</tr>
+					</table>
 				</div>
-
 			</div>
 		</div>
 		<!-- /disk usage -->
+
 	</div>
 
 	<div class ="row">
@@ -357,6 +378,7 @@ function change_directory(directory){
 			new_tr += "<a class='pull-right' href='#popup_mkdir'><i class='fa fa-plus'></i><i class='fa fa-folder'></i></a></td>";
 			new_tr += "<td></td> <td></td> <td></td>"
 			new_tr += "</tr>";
+
 			for( var i = 0; i < result.file.length; i++){
 				var row_class = i % 2 == 0 ? 'odd' : 'even';
 				var cur = result.current != "/" ? result.current : '';
@@ -374,14 +396,26 @@ function change_directory(directory){
 				new_tr += "<td>"+result.file[i].auth+"</td>";
 				new_tr += "<td>"+result.file[i].size+"</td>";
 				new_tr += "<td>"+result.file[i].date+" <a class='pull-right' onclick='delete_file(" +'"' + cur + "/" + result.file[i].name +'"'+ ")'  href='#'><i class='fa fa-trash'></i></a></td>";
-
-
 				new_tr += "</tr>";
 			}
+
 			new_table += new_tr;
 			new_table += "</tbody></table>"
 			$("#table_div").append(new_table);
 			$('#datatable').dataTable( {"bSort": false});
+
+			// disk usage
+			$("table .tile_info").empty();
+			var new_tr = "";
+			<% (get_du @current_dir).each_with_index do |t, index| %>
+			new_tr += "<tr><td>";
+			new_tr += "<p><i class='fa fa-square <%= ["blue", "green", "red", "purple", "grey"][index % 5] %>''></i>";
+			new_tr += "<%= t['file_name'] %></td><td>";
+			new_tr += "<p><%= format("%.2f", t['usage']*100) %>%</p>"
+			new_tr += "</p></td></tr>"
+			<% end %>
+			$("table .tile_info").append(new_tr);
+			draw_chart();
 		}
 	})
 }
@@ -389,57 +423,46 @@ function change_directory(directory){
 
 <!-- On document ready -->
 <script>
-$(document).ready(function() {
+$('document').ready(function() {
 	$('#datatable').dataTable( {"bSort": false});
+	draw_chart();
 });
 </script>
 
-<!-- Easy pie chart -->
+<!-- Doughnut Chart -->
 <script>
-$(function() {
-	$('.chart').easyPieChart({
-		easing: 'easeOutBounce',
-		lineWidth: '6',
-		barColor: '#75BCDD',
-		onStep: function(from, to, percent) {
-			$(this.el).find('.percent').text(Math.round(percent));
-		}
-	});
-	var chart = window.chart = $('.chart').data('easyPieChart');
-	$('.js_update').on('click', function() {
-		chart.update(Math.random() * 200 - 100);
-	});
-
-	//hover and retain popover when on popover content
-	var originalLeave = $.fn.popover.Constructor.prototype.leave;
-	$.fn.popover.Constructor.prototype.leave = function(obj) {
-		var self = obj instanceof this.constructor ?
-		obj : $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type)
-		var container, timeout;
-
-		originalLeave.call(this, obj);
-
-		if (obj.currentTarget) {
-			container = $(obj.currentTarget).siblings('.popover')
-			timeout = self.timeout;
-			container.one('mouseenter', function() {
-				//We entered the actual popover – call off the dogs
-				clearTimeout(timeout);
-				//Let's monitor popover content instead
-				container.one('mouseleave', function() {
-					$.fn.popover.Constructor.prototype.leave.call(self, self);
-				});
-			})
-		}
+function draw_chart() {
+	var options = {
+		legend: false,
+		responsive: false
 	};
-	$('body').popover({
-		selector: '[data-popover]',
-		trigger: 'click hover',
-		delay: {
-			show: 50,
-			hide: 400
-		}
-	});
 
-});
+	var colors = ["#3498DB", "#26B99A", "#E74C3C", "#9B59B6", "#BDC3C7"];
+	var labels = [];
+	var data = [];
+	var backgroundColor = [];
+	var hoverBackgroundColor = [];
+
+	<% (get_du(@current_dir)).each_with_index do |t, index| %>
+	labels.push("<%= t['file_name'] %>");
+	data.push("<%= t['usage'] %>");
+	backgroundColor.push(colors[<%= index % 5 %>]);
+	hoverBackgroundColor.push(colors[<%= index % 5 %>]);
+	<% end %>
+
+	new Chart(document.getElementById("canvas1"), {
+		type: 'doughnut',
+		tooltipFillColor: "rgba(51, 51, 51, 0.55)",
+		data: {
+			labels: labels,
+			datasets: [{
+				data: data,
+				backgroundColor: backgroundColor,
+				hoverBackgroundColor: hoverBackgroundColor
+			}]
+		},
+		options: options
+	});
+};
 </script>
+<!-- /Doughnut Chart -->

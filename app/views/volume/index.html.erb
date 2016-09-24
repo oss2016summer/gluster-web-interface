@@ -83,7 +83,7 @@
                     <td></td>
                     <td></td>
                 </tr>
-                <% @files.each do |t| %>
+                <% (files @current_dir).each do |t| %>
                 <% if t["auth"][0]=='d' %>
                 <tr>
                     <td style="color:#0d8ade;"><i class="fa fa-folder-open-o"></i>

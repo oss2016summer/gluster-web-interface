@@ -51,4 +51,21 @@ module ApplicationHelper
         return volumes
     end
 
+    def files(dir)
+        files = Array.new
+        file = Hash.new
+        output = `ls #{dir} -l`.split("\n")
+        output.each do |t|
+            next if t.equal? output.first
+            s = t.split(" ")
+            file["auth"] = s[0]
+            file["size"] = s[4]
+            file["date"] = s[5] + " " + s[6] + " " + s[7]
+            file["name"] = s[8]
+            files << file
+            file = Hash.new
+        end
+        return files
+    end
+
 end
