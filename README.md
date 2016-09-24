@@ -23,9 +23,7 @@
 
  3. script/setup.sh
 
- 4. fix configure.conf
-
- 5. rails s
+ 4. rails s
 
 That's it!
 
