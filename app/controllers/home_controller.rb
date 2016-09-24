@@ -1,8 +1,7 @@
 class HomeController < ApplicationController
     before_action :require_login
-    
+
     def index
-        
         @current_dir = "/mnt"
         file_directory(@current_dir)
     end
@@ -27,8 +26,7 @@ class HomeController < ApplicationController
         `#{command}`
         redirect_to '/home/index'
     end
-    
-    
+
     def delete_file
         file_name = params[:file_name]
         # delete file

@@ -12,10 +12,8 @@
 //
 //= require jquery
 //= require bootstrap-sprockets
-
 //= require jquery_ujs
 //= require turbolinks
-
 //= require js/bootstrap.min.js
 //= require js/flot/jquery.flot.js
 //= require js/flot/jquery.flot.pie.js
@@ -26,7 +24,6 @@
 //= require js/flot/jquery.flot.stack.js
 //= require js/flot/curvedLines.js
 //= require js/flot/jquery.flot.resize.js
-
 //= require js/progressbar/bootstrap-progressbar.min.js
 //= require js/icheck/icheck.min.js
 //= require js/moment/moment.min.js
@@ -35,8 +32,10 @@
 //= require js/pace/pace.min.js
 //= require js/nprogress.js
 //= require flash.js
-//= require js/knob/jquery.knob.min.js
 //= require js/dropzone/dropzone.js
+//= require js/validator/validator.js
+//= require js/easypie/jquery.easypiechart.min.js
+
 
 // Datatables
 
@@ -53,9 +52,3 @@
 //= require js/datatables/dataTables.responsive.min.js
 //= require js/datatables/responsive.bootstrap.min.js
 //= require js/datatables/dataTables.scroller.min.js
-
-// Right Click Event
-
-//= require contextmenu
-
-//= require js/validator/validator.js

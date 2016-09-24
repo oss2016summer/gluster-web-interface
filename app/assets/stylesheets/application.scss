@@ -15,15 +15,11 @@
 
  */
 
-//Right Click Event 
-@import "contextmenu";
+//Right Click Event
 @import "loading";
-
 @import "bootstrap-sprockets";
 @import "bootstrap";
-
 @import "font-awesome";
-
 @import "css/animate.min";
 @import "css/custom";
 @import "css/icheck/flat/green";
@@ -35,7 +31,6 @@
 @import "pace";
 
 //DataTable
-
 @import "js/datatables/jquery.dataTables.min";
 @import "js/datatables/buttons.bootstrap.min";
 @import "js/datatables/responsive.bootstrap.min";

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= content_for?(:title) ? yield(:title) : "gluster-web" %> </title>
+    <title><%= content_for?(:title) ? yield(:title) : "gluster-web" %> </title>
+    
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => false %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => false %>
 
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => false %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => false %>
-
-  <%= csrf_meta_tags %>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
 
 <div id="loading" class="overlay">
-      <div class="sk-fading-circle" class="overlay">
+    <div class="sk-fading-circle" class="overlay">
         <div class="sk-circle1 sk-circle"></div>
         <div class="sk-circle2 sk-circle"></div>
         <div class="sk-circle3 sk-circle"></div>
@@ -25,26 +25,26 @@
         <div class="sk-circle10 sk-circle"></div>
         <div class="sk-circle11 sk-circle"></div>
         <div class="sk-circle12 sk-circle"></div>
-      </div>
+    </div>
 </div>
-  
+
 <body class="nav-md">
-  
-  <div class="container body">
-    
-    <% flash.each do |key, value| %>
-      <div align="center" id="flash" class="alert alert-<%= key %>"><%= value %>
-        <a href="#" data-dismiss="alert" class="close">×</a>
-      </div>
-    <% end %>
 
-    <%= render "partials/sidenav" %>
-    <%= render "partials/topnav" %>
+    <div class="container body">
 
-    <%= yield %>
+        <% flash.each do |key, value| %>
+        <div align="center" id="flash" class="alert alert-<%= key %>"><%= value %>
+            <a href="#" data-dismiss="alert" class="close">×</a>
+        </div>
+        <% end %>
 
-    <%= render "partials/footer" %>
-    <%= javascript_include_tag 'footermanifest', 'data-turbolinks-track' => false %>
+        <%= render "partials/sidenav" %>
+        <%= render "partials/topnav" %>
 
-</body>
-</html>
+        <%= yield %>
+
+        <%= render "partials/footer" %>
+        <%= javascript_include_tag 'footermanifest', 'data-turbolinks-track' => false %>
+
+    </body>
+    </html>
