@@ -17,7 +17,7 @@
                 <div class="col-md-9 col-sm-9 col-xs-12">
                     <select class="form-control">
                         <% ['Distribute', 'Stripe', 'Replica', 'Disperse', 'Disperse-data', 'Redundancy'].each do |types|%>
-                        <option><%=types%></option>
+                        <option><%= types %></option>
                         <% end %>
                     </select>
                 </div>
@@ -28,7 +28,7 @@
                 <div class="col-md-9 col-sm-9 col-xs-12">
                     <select class="form-control">
                         <% for i in 1...11 do %>
-                        <option><%=i%></option>
+                        <option><%= i %></option>
                         <% end %>
                     </select>
                 </div>
@@ -39,8 +39,8 @@
                     </label>
                     <div class="col-md-3 col-sm-3 col-xs-4">
                         <select class="form-control">
-                            <% get_conf_all.each do |t| %>
-                            <option><%= t['host_name'] %></option>
+                            <% Node.all.each do |t| %>
+                            <option><%= t.host_name %></option>
                             <% end %>
                         </select>
                     </div>
@@ -354,8 +354,8 @@
                     new_body += "</label>";
                     new_body += "<div class='col-md-3 col-sm-3 col-xs-4'>";
                     new_body += "<select class='form-control'>";
-                    <% get_conf_all.each do |t| %>
-                    new_body += "<option><%= t['host_name'] %></option>";
+                    <% Node.all.each do |t| %>
+                    new_body += "<option><%= t.host_name %></option>";
                     <% end %>
                     new_body += "</select>";
                     new_body += "</div>";

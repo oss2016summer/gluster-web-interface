@@ -37,15 +37,15 @@
 
 	<!-- top tiles -->
 	<div class="row tile_count">
-		<div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+		<div class="animated flipInY col-md-2 col-sm-6 col-xs-6 tile_stats_count">
 			<div class="left"></div>
 			<div class="right">
 				<span class="count_top"><i class="fa fa-clock-o"></i> Current signed in</span>
 				<div class="count"><%= current_user.current_sign_in_at.strftime("%a, %H:%M") %></div>
-				<span class="count_bottom"> From <i class="green"><%= current_user.current_sign_in_ip %></i></span>
+				<span class="count_bottom"> From <i class="blue"><%= current_user.current_sign_in_ip %></i></span>
 			</div>
 		</div>
-		<div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+		<div class="animated flipInY col-md-2 col-sm-6 col-xs-6 tile_stats_count">
 			<div class="left"></div>
 			<div class="right">
 				<span class="count_top"><i class="fa fa-clock-o"></i> Last signed in</span>
@@ -53,33 +53,40 @@
 				<span class="count_bottom"> From <i class="red"><%= current_user.last_sign_in_ip %></i></span>
 			</div>
 		</div>
-		<div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+		<div class="animated flipInY col-md-2 col-sm-6 col-xs-6 tile_stats_count">
 			<div class="left"></div>
 			<div class="right">
 				<span class="count_top"><i class="fa fa-user"></i> Members</span>
-				<div class="count"><%= users.length %></div>
+				<div class="count"><%= User.all.length %></div>
+				<span class="count_bottom"><i class="green"><%= User.where(:last_sign_in_at => Date.today..Date.tomorrow).length %></i> user signed Today</span>
 			</div>
 		</div>
-		<div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+		<div class="animated flipInY col-md-2 col-sm-6 col-xs-6 tile_stats_count">
 			<div class="left"></div>
 			<div class="right">
 				<span class="count_top"><i class="fa fa-cubes"></i> Total Nodes</span>
-				<div class="count"><%= nodes.length %></div>
+				<div class="count"><%= Node.all.length %></div>
+				<span class="count_bottom"><i class="green"><%= Node.where(:created_at => Date.today..Date.tomorrow).length %></i> Node added Today</span>
 			</div>
 		</div>
-		<div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+		<div class="animated flipInY col-md-2 col-sm-6 col-xs-6 tile_stats_count">
 			<div class="left"></div>
 			<div class="right">
 				<span class="count_top"><i class="fa fa-database"></i> Total volumes</span>
-				<div class="count"><%= volumes.length %></div>
+				<% v = volumes %>
+				<div class="count"><%= v.length %></div>
+				<span class="count_bottom">
+					<i class="blue"><%= v.count{|x| x['Status'].eql? " Started"} %></i> started /
+					<i class="green"><%= v.count{|x| x['Mount State'].eql? "mounted"} %></i> mounted
+				</span>
 			</div>
 		</div>
-		<div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+		<div class="animated flipInY col-md-2 col-sm-6 col-xs-6 tile_stats_count">
 			<div class="left"></div>
 			<div class="right">
 				<span class="count_top"><i class="fa fa-user"></i> Total Connections</span>
-				<div class="count">7,325</div>
-				<span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+				<div class="count"><%= User.sum("sign_in_count") %></div>
+				<span class="count_bottom"><i class="green"><%= User.where(:last_sign_in_at => Date.today..Date.tomorrow).sum("sign_in_count") %></i> connected today</span>
 			</div>
 		</div>
 	</div>

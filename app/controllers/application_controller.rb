@@ -3,39 +3,11 @@ class ApplicationController < ActionController::Base
     # For APIs, you may want to use :null_session instead.
     # protect_from_forgery with: :exception
 
-
     def require_login
         unless user_signed_in?
             flash[:error] = "Please, Login required to use the service."
             redirect_to "/users/sign_in" # halts request cycle
         end
-    end
-  
-    def get_conf
-        config = Hash.new
-        one_node = Node.take
-        if !one_node.nil?
-            config["host_name"] = one_node.host_name
-            config["host_ip"] = one_node.host_ip
-            config["user_name"] = one_node.user_name
-            config["user_password"] = one_node.user_password
-        end
-        return config
-    end
-
-    def get_conf_all
-        config = Array.new
-        config_each = Hash.new
-        all_node = Node.all
-        all_node.each do |one_node|
-            config_each["host_name"] = one_node.host_name
-            config_each["host_ip"] = one_node.host_ip
-            config_each["user_name"] = one_node.user_name
-            config_each["user_password"] = one_node.user_password
-            config << config_each
-            config_each = Hash.new
-        end
-        return config
     end
 
     def get_df
@@ -66,7 +38,7 @@ class ApplicationController < ActionController::Base
         parsing_list = dir_list.split("\n")
         @files = Array.new
         file = Hash.new
-
+        
         @total_list = parsing_list[0]
         for t in 1..(parsing_list.length-1)
             parsing_file = parsing_list[t].split(" ")
