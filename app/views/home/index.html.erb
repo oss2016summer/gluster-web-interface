@@ -36,6 +36,11 @@
 	<div class="clearfix"></div>
 
 	<!-- top tiles -->
+	<% users = User.all %>
+	<% nodes = Node.all %>
+	<% vols = volumes %>
+	<% today_user = User.where(:last_sign_in_at => Date.today..Date.tomorrow) %>
+	<% today_node = Node.where(:created_at => Date.today..Date.tomorrow) %>
 	<div class="row tile_count">
 		<div class="animated flipInY col-md-2 col-sm-6 col-xs-6 tile_stats_count">
 			<div class="left"></div>
@@ -57,27 +62,32 @@
 			<div class="left"></div>
 			<div class="right">
 				<span class="count_top"><i class="fa fa-user"></i> Members</span>
-				<div class="count"><%= User.all.length %></div>
-				<span class="count_bottom"><i class="green"><%= User.where(:last_sign_in_at => Date.today..Date.tomorrow).length %></i> user signed Today</span>
+				<div class="count"><%= users.nil? ? 0 : users.length %></div>
+				<span class="count_bottom">
+					<i class="green"><%= today_user.nil? ? 0 : today_user.length %></i>
+					 user signed Today
+				 </span>
 			</div>
 		</div>
 		<div class="animated flipInY col-md-2 col-sm-6 col-xs-6 tile_stats_count">
 			<div class="left"></div>
 			<div class="right">
 				<span class="count_top"><i class="fa fa-cubes"></i> Total Nodes</span>
-				<div class="count"><%= Node.all.length %></div>
-				<span class="count_bottom"><i class="green"><%= Node.where(:created_at => Date.today..Date.tomorrow).length %></i> Node added Today</span>
+				<div class="count"><%= nodes.nil? ? 0 : nodes.length %></div>
+				<span class="count_bottom">
+					<i class="green"><%= today_node.nil? ? 0 : today_node.length %></i>
+					 Node added Today
+				 </span>
 			</div>
 		</div>
 		<div class="animated flipInY col-md-2 col-sm-6 col-xs-6 tile_stats_count">
 			<div class="left"></div>
 			<div class="right">
 				<span class="count_top"><i class="fa fa-database"></i> Total volumes</span>
-				<% v = volumes %>
-				<div class="count"><%= v.length %></div>
+				<div class="count"><%= vols.nil? ? 0 : vols.length %></div>
 				<span class="count_bottom">
-					<i class="blue"><%= v.count{|x| x['Status'].eql? " Started"} %></i> started /
-					<i class="green"><%= v.count{|x| x['Mount State'].eql? "mounted"} %></i> mounted
+					<i class="blue"><%= vols.count{|x| x['Status'].eql? " Started"} %></i> started /
+					<i class="green"><%= vols.count{|x| x['Mount State'].eql? "mounted"} %></i> mounted
 				</span>
 			</div>
 		</div>
@@ -85,8 +95,8 @@
 			<div class="left"></div>
 			<div class="right">
 				<span class="count_top"><i class="fa fa-user"></i> Total Connections</span>
-				<div class="count"><%= User.sum("sign_in_count") %></div>
-				<span class="count_bottom"><i class="green"><%= User.where(:last_sign_in_at => Date.today..Date.tomorrow).sum("sign_in_count") %></i> connected today</span>
+				<div class="count"><%= users.sum("sign_in_count") %></div>
+				<span class="count_bottom"><i class="green"><%= today_user.sum("sign_in_count") %></i> connected today</span>
 			</div>
 		</div>
 	</div>

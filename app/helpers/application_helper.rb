@@ -27,6 +27,12 @@ module ApplicationHelper
         volume = Hash.new
         node = Node.take
         df = get_df
+
+        # error check : node is nil
+        if node.nil?
+            return volumes
+        end
+
         command = String.new
         command << "sshpass -p#{node.user_password} ssh #{node.user_name}@#{node.host_ip} gluster volume info"
         puts command
