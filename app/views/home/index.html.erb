@@ -137,7 +137,7 @@
 							<tbody id="datatable_body">
 								<tr>
 									<td>
-										<a style='cursor: pointer' onclick="change_upper('<%=@current_dir%>')"><i class="fa fa-reply"></i></a>
+										<a style='cursor: pointer' onclick="change_upper('<%= @current_dir %>')"><i class="fa fa-reply"></i></a>
 										<%= @current_dir %>
 										<a class='pull-right' href="#popup_mkdir"><i class="fa fa-plus"></i><i class="fa fa-folder"></i></a>
 									</td>
@@ -431,14 +431,6 @@ function change_directory(directory){
 }
 </script>
 
-<!-- On document ready -->
-<script>
-$('document').ready(function() {
-	$('#datatable').dataTable( {"bSort": false});
-	draw_chart();
-});
-</script>
-
 <!-- Doughnut Chart -->
 <script>
 function draw_chart() {
@@ -476,3 +468,11 @@ function draw_chart() {
 };
 </script>
 <!-- /Doughnut Chart -->
+
+<!-- On document ready -->
+<script>
+$('document').ready(function() {
+	$('#datatable').dataTable( {"bSort": false});
+	draw_chart();
+});
+</script>

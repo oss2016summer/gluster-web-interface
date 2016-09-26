@@ -9,15 +9,19 @@ module ApplicationHelper
         output = `#{command}`.split("\n")
         output.each do |t|
             next if t.equal? output.first
-            s = t.split(' ')
-            df_each['Filesystem'] = s[0]
-            df_each['Size'] = s[1]
-            df_each['Used'] = s[2]
-            df_each['Avail'] = s[3]
-            df_each['Use%'] = s[4]
-            df_each['Mounted on'] = s[5]
-            df << df_each
-            df_each = Hash.new
+            begin
+                s = t.split(' ')
+                df_each['Filesystem'] = s[0]
+                df_each['Size'] = s[1]
+                df_each['Used'] = s[2]
+                df_each['Avail'] = s[3]
+                df_each['Use%'] = s[4]
+                df_each['Mounted on'] = s[5]
+                df << df_each
+                df_each = Hash.new
+            rescue => ex
+                puts ex
+            end
         end
         return df
     end
@@ -27,12 +31,10 @@ module ApplicationHelper
         volume = Hash.new
         node = Node.take
         df = get_df
-
         # error check : node is nil
         if node.nil?
             return volumes
         end
-
         command = String.new
         command << "sshpass -p#{node.user_password} ssh #{node.user_name}@#{node.host_ip} gluster volume info"
         puts command
@@ -60,16 +62,23 @@ module ApplicationHelper
     def files(dir)
         files = Array.new
         file = Hash.new
-        output = `ls #{dir} -l`.split("\n")
+        command = String.new
+        command << "ls #{dir} -l"
+        puts command
+        output = `#{command}`.split("\n")
         output.each do |t|
             next if t.equal? output.first
-            s = t.split(" ")
-            file["auth"] = s[0]
-            file["size"] = s[4]
-            file["date"] = s[5] + " " + s[6] + " " + s[7]
-            file["name"] = s[8]
-            files << file
-            file = Hash.new
+            begin
+                s = t.split(" ")
+                file["auth"] = s[0]
+                file["size"] = s[4]
+                file["date"] = s[5] + " " + s[6] + " " + s[7]
+                file["name"] = s[8]
+                files << file
+                file = Hash.new
+            rescue => ex
+                puts ex
+            end
         end
         return files
     end
