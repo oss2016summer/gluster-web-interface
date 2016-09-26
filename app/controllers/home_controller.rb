@@ -26,14 +26,4 @@ class HomeController < ApplicationController
         redirect_to '/home/index'
     end
 
-    def delete_file
-        file_name = params[:file_name]
-        # delete file
-        command = String.new
-        command << "sudo rm -rf #{file_name}"
-        puts command
-         `#{command}`
-        redirect_to '/home/index'
-    end
-
 end

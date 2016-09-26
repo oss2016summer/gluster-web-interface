@@ -6,10 +6,10 @@
 		<a class="close" href="#">&times;</a>
 		<form id="form_make_directory" data-parsley-validate class="form-horizontal form-label-left" action="/home/mkdir" method="post">
 			<div class="form-group">
-				<label class="control-label col-md-3 col-sm-3 col-xs-12" for="current-dir">Current Directory <span class="required">*</span>
+				<label class="control-label col-md-3 col-sm-3 col-xs-12" for="current_dir">Current Directory <span class="required">*</span>
 				</label>
 				<div class="col-md-6 col-sm-6 col-xs-12">
-					<input type="text" id="current-dir" required="required" class="form-control col-md-7 col-xs-12" name="current_dir" value="<%=@current_dir%>" readonly/>
+					<input type="text" id="current_dir" required="required" class="form-control col-md-7 col-xs-12" name="current_dir" value="<%= @current_dir %>" readonly/>
 				</div>
 			</div>
 			<div class="form-group">
@@ -103,6 +103,7 @@
 	<!-- /top tiles -->
 
 	<div class="row">
+
 		<!-- file manager -->
 		<div class="col-md-8 col-sm-8 col-xs-12">
 			<div class="x_panel">
@@ -124,8 +125,8 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-					<div class="col-md-12 col-sm-12 col-xs-12" id="table_div">
-						<%= raw file_manager_table %>
+					<div class="col-md-12 col-sm-12 col-xs-12" id="file_manager_div">
+						<%= file_manager_table @current_dir %>
 					</div>
 				</div>
 			</div>
@@ -138,46 +139,8 @@
 				<div class="x_title">
 					<h4>Disk usage</h4>
 				</div>
-				<div class="row">
-					<table class="" style="width:100%">
-						<tr>
-							<th style="width:37%;">
-								<p>Chart</p>
-							</th>
-							<th>
-								<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-									<p class="">Name</p>
-								</div>
-								<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-									<p class="">Usage</p>
-								</div>
-							</th>
-						</tr>
-						<tr>
-							<td>
-								<canvas id="canvas1" height="140" width="140" style="margin: 15px 10px 10px 0"></canvas>
-							</td>
-							<td>
-								<table class="tile_info">
-									<% get_du(@current_dir).each_with_index do |t, index| %>
-									<tr>
-										<td>
-											<p>
-												<i class="fa fa-square <%= ["blue", "green", "red", "purple", "grey"][index % 5] %>"></i>
-												<%= t['file_name'] %>
-											</p>
-										</td>
-										<td>
-											<p>
-												<%= format("%.2f", t['usage']*100) %>%
-											</p>
-										</td>
-									</tr>
-									<% end %>
-								</table>
-							</td>
-						</tr>
-					</table>
+				<div class="row" id="disk_usage_div">
+					<%= raw disk_usage_table %>
 				</div>
 			</div>
 		</div>
@@ -302,51 +265,77 @@
 
 <!-- File manager functions -->
 <script>
-function delete_file(directory){
-	if (confirm("Are you sure you want to delete '"+ directory+"' ?")) {
-		$.ajax({
-			method: "POST",
-			url: "/home/delete",
-			data: { file_name: directory },
-			success  : function(result){
-				location.reload(true);
-			}
-		})
-	}
-	//alert(directory);
-}
-function change_upper(directory){
-	if(directory == "/") return;
-	var lastindex = directory.lastIndexOf("/");
-	if(lastindex == 0) lastindex++;
-	change_directory(directory.substring(0, lastindex));
-}
-function change_directory(dir){
+$(document).on("click", "#file_manager_div .chdir", function(){
+	var file_name = $(this).text().trim();
+	var current_dir = $("#file_manager_div span").text();
+	var next_dir = current_dir + "/" + file_name;
+
 	$.ajax({
 		method: "POST",
-		url: "/application/changeDir",
-		data: { path: dir },
+		url: "/application/chdir",
+		data: { next_dir : next_dir },
 		success  : function(result){
-			$("#current-dir").val(dir);
-			$("#table_div").empty();
-			$("#table_div").append("<%= file_manager_table @current_dir %>");
+			$("#current_dir").val(next_dir);
+			$("#file_manager_div").empty();
+			$("#file_manager_div").append("<%= file_manager_table(@current_dir) %>");
 			$('#datatable').dataTable( {"bSort": false});
 
 			// disk usage
-			$("table .tile_info").empty();
-			var new_tr = "";
-			<% (get_du @current_dir).each_with_index do |t, index| %>
-			new_tr += "<tr><td>";
-			new_tr += "<p><i class='fa fa-square <%= ["blue", "green", "red", "purple", "grey"][index % 5] %>''></i>";
-			new_tr += "<%= t['file_name'] %></td><td>";
-			new_tr += "<p><%= format("%.2f", t['usage']*100) %>%</p>"
-			new_tr += "</p></td></tr>"
-			<% end %>
-			$("table .tile_info").append(new_tr);
+			$("disk_usage_div").empty();
+			$("disk_usage_div").append("<%= disk_usage_table %>");
 			draw_chart();
 		}
-	});
-}
+	})
+})
+
+$(document).on("click", "#file_manager_div .chupper", function(){
+	var current_dir = $("#file_manager_div .chupper span").text();
+	if(current_dir == "/") return;
+	var lastindex = current_dir.lastIndexOf("/");
+	if(lastindex == 0) lastindex++;
+	var next_dir = current_dir.substring(0, lastindex);
+
+	$.ajax({
+		method: "POST",
+		url: "/application/chdir",
+		data: { next_dir : next_dir },
+		success  : function(result){
+			$("#current_dir").val(next_dir);
+			$("#file_manager_div").empty();
+			$("#file_manager_div").append("<%= file_manager_table(@current_dir) %>");
+			$('#datatable').dataTable( {"bSort": false});
+
+			// disk usage
+			$("disk_usage_div").empty();
+			$("disk_usage_div").append("<%= disk_usage_table %>");
+			draw_chart();
+		}
+	})
+})
+
+$(document).on("click", "#file_manager_div .rmdir", function(){
+	var file_name = $(this).text();
+	var current_dir = $("#file_manager_div .chupper span").text();
+	var target = current_dir + "/" + file_name;
+	if(confirm("Are you sure you want to delete '"+ file_name +"' ?")) {
+		$.ajax({
+			method: "POST",
+			url: "/application/delete",
+			data: { target : target },
+			success  : function(result){
+				$("#current_dir").val(current_dir);
+				$("#file_manager_div").empty();
+				$("#file_manager_div").append("<%= file_manager_table(@current_dir) %>");
+				$('#datatable').dataTable( {"bSort": false});
+
+				// disk usage
+				$("disk_usage_div").empty();
+				$("disk_usage_div").append("<%= disk_usage_table %>");
+				draw_chart();
+			}
+		})
+	}
+})
 </script>
 
 <!-- Doughnut Chart -->

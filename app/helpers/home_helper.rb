@@ -19,6 +19,7 @@ module HomeHelper
             end
         end
 
+        command = ""
         command << "sudo du -s #{dir}/*"
         puts command
         output = `#{command}`.split("\n")
@@ -37,6 +38,41 @@ module HomeHelper
             end
         end
         return du
+    end
+
+    def disk_usage_table(dir = "/mnt")
+        html = String.new
+        html << "<table class='' style='width:100%'>"
+        html << "<tr>"
+        html << "<th style='width:37%;'>"
+        html << "<p>Chart</p>"
+        html << "</th><th>"
+        html << "<div class='col-lg-7 col-md-7 col-sm-7 col-xs-7'>"
+        html << "<p class=''>Name</p></div>"
+        html << "<div class='col-lg-5 col-md-5 col-sm-5 col-xs-5'>"
+        html << "<p class=''>Usage</p></div>"
+        html << "</th></tr>"
+        html << "<tr>"
+        html << "<td><canvas id='canvas1' height='140' width='140' style='margin: 15px 10px 10px 0'></canvas></td>"
+        html << "<td>"
+        html << "<table class='tile_info'>"
+
+        get_du(dir).each_with_index do |t, index|
+            color = ['blue', 'green', 'red', 'purple', 'grey'][index % 5]
+            html << "<tr><td>"
+            html << "<p><i class='fa fa-square #{color}'></i>"
+            html << t['file_name']
+            html << "</p></td>"
+            html << "<td><p>"
+            html << format("%.2f", t['usage']*100) + "%"
+            html << "</p></td>"
+            html << "</tr>"
+        end
+
+        html << "</table>"
+        html << "</td></tr>"
+        html << "</table>"
+        return html
     end
 
 end

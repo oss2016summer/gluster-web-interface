@@ -33,8 +33,18 @@ class ApplicationController < ActionController::Base
         return df
     end
 
-    def checkDir
-        @current_dir = params[:path]
+    def chdir
+        @current_dir = params[:next_dir]
+        puts "current_dir : " + @current_dir
         render :json => {:dir => @current_dir}
     end
+
+    def rmdir
+        file_name = params[:file_name]
+        command = String.new
+        command << "sudo rm -rf #{file_name}"
+        puts command
+         `#{command}`
+    end
+
 end
