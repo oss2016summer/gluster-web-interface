@@ -83,4 +83,53 @@ module ApplicationHelper
         return files
     end
 
+    def file_manager_table(dir = "/mnt", id = "datatable", class_option = "table table-striped table-bordered jambo_table")
+        html = String.new
+        html << "<table id='" + id + "' class='" + class_option + "'>"
+
+        html << "<thead>"
+        html << "<tr class='headings'>"
+        html << "<th>Name</th>"
+        html << "<th>auth</th>"
+        html << "<th>Size</th>"
+        html << "<th>Date</th>"
+        html << "</tr>"
+        html << "</thead>"
+
+        html << "<tbody id='" + id + "_body'>"
+        html << "<tr>"
+        html << "<td>"
+        html << "<a style='cursor: pointer' onclick='change_upper(" + "\"" + dir + "\"" + ")'><i class='fa fa-reply'></i></a>"
+        html << " " + dir
+        html << "<a class='pull-right' href='#popup_mkdir'><i class='fa fa-plus'></i><i class='fa fa-folder'></i></a>"
+        html << "</td>"
+        html << "<td></td>"
+        html << "<td></td>"
+        html << "<td></td>"
+        html << "</tr>"
+
+        files(dir).each do |file|
+            html << "<tr class='dir_delete'>"
+            if file["auth"][0]=='d'
+                html << "<td style='color:#0d8ade;'><i class='fa fa-folder-open-o'></i>"
+                html << "<a style='cursor: pointer' onclick='change_directory(" + "\"" + dir + "/" + file['name'] + "\"" + ")'> " + file['name'] + "</a>"
+                html << "</td>"
+            else
+                html << "<td><i class='fa fa-file-o'></i>"
+                html << "<a href='/file_download?file_name=" + (dir + '/' + file['name']).gsub("/", "+") + "'> " + file['name'] + "</a>"
+                html << "</td>"
+            end
+            html << "<td>" + file['auth'] + "</td>"
+            html << "<td>" + file['size'] + "</td>"
+            html << "<td>"
+            html << file["date"]
+            html << "<a class='pull-right' onclick='delete_file(" + "\"" + dir + "/" + file["name"] + "\"" + ")' href='#'><i class='fa fa-trash'></i></a>"
+            html << "</td>"
+            html << "</tr>"
+        end
+
+        html << "</tbody>"
+        html << "</table>"
+        return html
+    end
 end

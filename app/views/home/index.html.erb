@@ -125,47 +125,7 @@
 				</div>
 				<div class="x_content">
 					<div class="col-md-12 col-sm-12 col-xs-12" id="table_div">
-						<table id="datatable" class="table table-striped table-bordered jambo_table">
-							<thead>
-								<tr class="headings">
-									<th>Name</th>
-									<th>auth</th>
-									<th>Size</th>
-									<th>Date</th>
-								</tr>
-							</thead>
-							<tbody id="datatable_body">
-								<tr>
-									<td>
-										<a style='cursor: pointer' onclick="change_upper('<%= @current_dir %>')"><i class="fa fa-reply"></i></a>
-										<%= @current_dir %>
-										<a class='pull-right' href="#popup_mkdir"><i class="fa fa-plus"></i><i class="fa fa-folder"></i></a>
-									</td>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
-								<% (files @current_dir).each do |t| %>
-								<tr class="dir_delete">
-									<% if t["auth"][0]=='d'%>
-									<td style="color:#0d8ade;"><i class="fa fa-folder-open-o"></i>
-										<a style="cursor: pointer" onclick="change_directory('<%=@current_dir + "/" + t["name"]%>')"> <%=t["name"]%></a>
-									</td>
-									<% else %>
-									<td><i class="fa fa-file-o"></i>
-										<a href="/file_download?file_name=<%=(@current_dir+'/'+t['name']).gsub("/", "+")%>"><%=t['name']%></a>
-									</td>
-									<% end %>
-									<td><%=t["auth"]%></td>
-									<td><%=t["size"]%></td>
-									<td>
-										<%=t["date"]%>
-										<a class='pull-right' onclick="delete_file('<%=@current_dir + "/" + t["name"]%>')" href="#"><i class="fa fa-trash"></i></a>
-									</td>
-								</tr>
-								<% end %>
-							</tbody>
-						</table>
+						<%= raw file_manager_table %>
 					</div>
 				</div>
 			</div>
@@ -199,7 +159,7 @@
 							</td>
 							<td>
 								<table class="tile_info">
-									<% (get_du(@current_dir)).each_with_index do |t, index| %>
+									<% get_du(@current_dir).each_with_index do |t, index| %>
 									<tr>
 										<td>
 											<p>
@@ -361,57 +321,15 @@ function change_upper(directory){
 	if(lastindex == 0) lastindex++;
 	change_directory(directory.substring(0, lastindex));
 }
-function change_directory(directory){
+function change_directory(dir){
 	$.ajax({
 		method: "POST",
 		url: "/application/changeDir",
-		data: { path: directory },
+		data: { path: dir },
 		success  : function(result){
-			$("#current-dir").val(directory);
+			$("#current-dir").val(dir);
 			$("#table_div").empty();
-			var new_table = "";
-			new_table += "<table id='datatable' class='table table-striped table-bordered jambo_table'>";
-			new_table += "<thead>";
-			new_table += "<tr class='headings'>";
-			new_table += "<th>Name</th>";
-			new_table += "<th>Auth</th>";
-			new_table += "<th>Size</th>";
-			new_table += "<th>Date</th>";
-			new_table += "</tr>";
-			new_table += "</thead>";
-			new_table += "<tbody id='datatable_body'>";
-
-			var new_tr = "";
-			new_tr += "<tr role='row' class='odd'>";
-			new_tr += "<td><a style='cursor: pointer' onclick='change_upper(" + '"' + directory + '"' +")'><i class='fa fa-reply'></i></a>";
-			new_tr += "&nbsp" + directory
-			new_tr += "<a class='pull-right' href='#popup_mkdir'><i class='fa fa-plus'></i><i class='fa fa-folder'></i></a></td>";
-			new_tr += "<td></td> <td></td> <td></td>"
-			new_tr += "</tr>";
-
-			for( var i = 0; i < result.file.length; i++){
-				var row_class = i % 2 == 0 ? 'odd' : 'even';
-				var cur = result.current != "/" ? result.current : '';
-				new_tr += "<tr role='row' class='dir_delete' class='" + row_class + "'>";
-				if(result.file[i].auth[0] == "d"){
-					new_tr += "<td style='color:#0d8ade;' class='sorting_1'><i class='fa fa-folder-open-o'></i> ";
-					new_tr += "<a style='cursor: pointer'  onclick='change_directory(" +'"' + cur + "/" + result.file[i].name +'"'+ ")'>" + result.file[i].name + "</a></td>";
-				}else{
-					new_tr += "<td>";
-					new_tr += "<i class='fa fa-file-o'></i>"
-					new_tr += "<a href='/file_download?file_name="+ (cur + "/" + result.file[i].name).replace(/\//, "+") + "'> " + result.file[i].name + "</a>"
-					new_tr += "</td>";
-				}
-
-				new_tr += "<td>"+result.file[i].auth+"</td>";
-				new_tr += "<td>"+result.file[i].size+"</td>";
-				new_tr += "<td>"+result.file[i].date+" <a class='pull-right' onclick='delete_file(" +'"' + cur + "/" + result.file[i].name +'"'+ ")'  href='#'><i class='fa fa-trash'></i></a></td>";
-				new_tr += "</tr>";
-			}
-
-			new_table += new_tr;
-			new_table += "</tbody></table>"
-			$("#table_div").append(new_table);
+			$("#table_div").append("<%= file_manager_table @current_dir %>");
 			$('#datatable').dataTable( {"bSort": false});
 
 			// disk usage
@@ -427,7 +345,7 @@ function change_directory(directory){
 			$("table .tile_info").append(new_tr);
 			draw_chart();
 		}
-	})
+	});
 }
 </script>
 

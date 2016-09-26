@@ -35,6 +35,6 @@ class ApplicationController < ActionController::Base
 
     def checkDir
         @current_dir = params[:path]
-        render :json => {:file => files(@current_dir) , :current => @current_dir}
+        render :json => {:dir => @current_dir}
     end
 end
