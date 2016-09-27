@@ -48,9 +48,9 @@ module HomeHelper
         return html
     end
 
-    def disk_usage_table(dir = @current_dir)
+    def disk_usage_table(dir = @current_dir, id = "disk_usage_table")
         html = String.new
-        html << "<table class='' style='width:100%'>"
+        html << "<table id='#{id}' class='' style='width:100%'>"
         html << "<tr>"
         html << "<th style='width:37%;'>"
         html << "<p>Chart</p>"
@@ -61,9 +61,9 @@ module HomeHelper
         html << "<p class=''>Usage</p></div>"
         html << "</th></tr>"
         html << "<tr>"
-        html << "<td><canvas id='disk_usage_canvas' height='140' width='140' style='margin: 15px 10px 10px 0'></canvas></td>"
+        html << "<td><canvas id='#{id}_canvas' height='140' width='140' style='margin: 15px 10px 10px 0'></canvas></td>"
         html << "<td>"
-        html << "<table class='tile_info'>"
+        html << "<table class='#{id}_tile_info'>"
 
         get_du(dir).each_with_index do |file, index|
             color = ['blue', 'green', 'red', 'purple', 'grey'][index % 5]

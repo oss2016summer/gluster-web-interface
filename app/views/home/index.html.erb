@@ -282,7 +282,7 @@ function draw_chart(du){
 		hoverBackgroundColor.push(colors[i % 5]);
 	}
 
-	new Chart(document.getElementById("disk_usage_canvas"), {
+	new Chart(document.getElementById("disk_usage_table_canvas"), {
 		type: 'doughnut',
 		tooltipFillColor: "rgba(51, 51, 51, 0.55)",
 		data: {
@@ -298,7 +298,10 @@ function draw_chart(du){
 }
 
 $(document).ready(function() {
-	$('#file_manager_table').dataTable( {"bSort": false});
+	$('#file_manager_table').dataTable( {
+		"bFilter": false,
+		"bSort": false
+	});
 
 	var options = {
 		legend: false,
@@ -317,7 +320,7 @@ $(document).ready(function() {
 	hoverBackgroundColor.push(colors[<%= index %> % 5]);
 	<% end %>
 
-	new Chart(document.getElementById("disk_usage_canvas"), {
+	new Chart(document.getElementById("disk_usage_table_canvas"), {
 		type: 'doughnut',
 		tooltipFillColor: "rgba(51, 51, 51, 0.55)",
 		data: {
@@ -350,11 +353,14 @@ $(document).on("click", "#file_manager_div .chdir", function(){
 		success  : function(result){
 			$("#current_dir").val(next_dir);
 			$("#file_manager_div").empty();
-			$("#file_manager_div").append(result.file_manager_table);
 			$("#disk_usage_div").empty();
+			$("#file_manager_div").append(result.file_manager_table);
 			$("#disk_usage_div").append(result.disk_usage_table);
 
-			$('#file_manager_table').dataTable( {"bSort": false});
+			$('#file_manager_table').dataTable( {
+				"processing" : true,  // show indicator
+				"bSort": false
+			});
 			draw_chart(result.du);
 		}
 	})
@@ -376,11 +382,14 @@ $(document).on("click", "#file_manager_div .chupper", function(){
 		success  : function(result){
 			$("#current_dir").val(next_dir);
 			$("#file_manager_div").empty();
-			$("#file_manager_div").append(result.file_manager_table);
 			$("#disk_usage_div").empty();
+			$("#file_manager_div").append(result.file_manager_table);
 			$("#disk_usage_div").append(result.disk_usage_table);
 
-			$('#file_manager_table').dataTable( {"bSort": false});
+			$('#file_manager_table').dataTable( {
+				"processing" : true,  // show indicator
+				"bSort": false
+			});
 			draw_chart(result.du);
 		}
 	})
@@ -398,8 +407,8 @@ $(document).on("click", "#file_manager_div .rmdir", function(){
 			success  : function(result){
 				$("#current_dir").val(current_dir);
 				$("#file_manager_div").empty();
-				$("#file_manager_div").append(result.file_manager_table);
 				$("#disk_usage_div").empty();
+				$("#file_manager_div").append(result.file_manager_table);
 				$("#disk_usage_div").append(result.disk_usage_table);
 
 				$('#file_manager_table').dataTable( {"bSort": false});
