@@ -26,6 +26,54 @@ module ApplicationHelper
         return df
     end
 
+    def get_du(dir = @current_dir)
+        du = Array.new
+        du_each = Hash.new
+        command = String.new
+        avail = 0.0
+        if dir.eql? "/"
+            command = "sudo df /"
+            s = `#{command}`.split("\n")[1].split(" ")
+            avail = s[2].to_f + s[3].to_f
+            dir = ""
+        else
+            command << "sudo du -s #{dir}"
+            begin
+                avail = `#{command}`.split(" ")[0].to_f
+            rescue
+                # some directory is not connected
+                avail = `#{command}`.split(" ")[1].to_f
+            end
+        end
+
+        command = ""
+        command << "sudo du -s #{dir}/*"
+        puts command
+        output = `#{command}`.split("\n")
+        output.each do |t|
+            begin
+                du_each['usage'] = t.split(" ")[0].to_f / avail
+                du_each['file_name'] = t.split(" ")[1].split("/").last
+                du << du_each
+                du_each = Hash.new
+            rescue
+                # directory is not connected
+                du_each['usage'] = 0.0
+                du_each['file_name'] = t.split(" ")[1].split("/").last.split("'")[0]
+                du << du_each
+                du_each = Hash.new
+            end
+        end
+
+        if du.length == 0
+            du_each['usage'] = 1.0
+            du_each['file_name'] = "empty"
+            du << du_each
+        end
+
+        return du
+    end
+
     def volumes
         volumes = Array.new
         volume = Hash.new
@@ -83,51 +131,4 @@ module ApplicationHelper
         return files
     end
 
-    def file_manager_table(dir = "/mnt", id = "datatable", class_option = "table table-striped table-bordered jambo_table")
-        html = String.new
-        html << "<table id='#{id}' class='#{class_option}'>"
-        html << "<thead>"
-        html << "<tr class='headings'>"
-        html << "<th>Name</th>"
-        html << "<th>auth</th>"
-        html << "<th>Size</th>"
-        html << "<th>Date</th>"
-        html << "</tr>"
-        html << "</thead>"
-        html << "<tbody id='#{id}_body'>"
-        html << "<tr>"
-        html << "<td>"
-        html << "<a class='chupper' style='cursor: pointer'><i class='fa fa-reply'></i></a>"
-        html << "<span style='line-height:0'> #{dir}</span>"
-        html << "<a class='pull-right' href='#popup_mkdir'><i class='fa fa-plus'></i><i class='fa fa-folder'></i></a>"
-        html << "</td>"
-        html << "<td></td>"
-        html << "<td></td>"
-        html << "<td></td>"
-        html << "</tr>"
-
-        files(dir).each do |file|
-            html << "<tr class='dir_delete'>"
-            if file["auth"][0]=='d'
-                html << "<td style='color:#0d8ade;'><i class='fa fa-folder-open-o'></i>"
-                html << "<a class='chdir' style='cursor: pointer'> #{file['name']}</a>"
-                html << "</td>"
-            else
-                conv_name = (dir + '/' + file['name']).gsub("/", "+")
-                html << "<td><i class='fa fa-file-o'></i>"
-                html << "<a href='/file_download?file_name=#{conv_name}'> #{file['name']}</a>"
-                html << "</td>"
-            end
-            html << "<td>#{file['auth']}</td>"
-            html << "<td>#{file['size']}</td>"
-            html << "<td>#{file["date"]}"
-            html << "<a class='pull-right rmdir' href='#'><i class='fa fa-trash'></i></a>"
-            html << "</td>"
-            html << "</tr>"
-        end
-
-        html << "</tbody>"
-        html << "</table>"
-        return raw html
-    end
 end

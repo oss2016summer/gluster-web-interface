@@ -65,8 +65,8 @@
 				<div class="count"><%= users.nil? ? 0 : users.length %></div>
 				<span class="count_bottom">
 					<i class="green"><%= today_user.nil? ? 0 : today_user.length %></i>
-					 user signed Today
-				 </span>
+					user signed Today
+				</span>
 			</div>
 		</div>
 		<div class="animated flipInY col-md-2 col-sm-6 col-xs-6 tile_stats_count">
@@ -76,8 +76,8 @@
 				<div class="count"><%= nodes.nil? ? 0 : nodes.length %></div>
 				<span class="count_bottom">
 					<i class="green"><%= today_node.nil? ? 0 : today_node.length %></i>
-					 Node added Today
-				 </span>
+					Node added Today
+				</span>
 			</div>
 		</div>
 		<div class="animated flipInY col-md-2 col-sm-6 col-xs-6 tile_stats_count">
@@ -126,7 +126,7 @@
 				</div>
 				<div class="x_content">
 					<div class="col-md-12 col-sm-12 col-xs-12" id="file_manager_div">
-						<%= file_manager_table @current_dir %>
+						<%= raw file_manager_table %>
 					</div>
 				</div>
 			</div>
@@ -260,106 +260,29 @@
 	</div>
 
 </div>
-</div>
 <!-- /page content -->
 
-<!-- File manager functions -->
+<!-- on load -->
 <script>
-$(document).on("click", "#file_manager_div .chdir", function(){
-	var file_name = $(this).text().trim();
-	var current_dir = $("#file_manager_div span").text();
-	var next_dir = current_dir + "/" + file_name;
-
-	$.ajax({
-		method: "POST",
-		url: "/application/chdir",
-		data: { next_dir : next_dir },
-		success  : function(result){
-			$("#current_dir").val(next_dir);
-			$("#file_manager_div").empty();
-			$("#file_manager_div").append("<%= file_manager_table(@current_dir) %>");
-			$('#datatable').dataTable( {"bSort": false});
-
-			// disk usage
-			$("disk_usage_div").empty();
-			$("disk_usage_div").append("<%= disk_usage_table %>");
-			draw_chart();
-		}
-	})
-})
-
-$(document).on("click", "#file_manager_div .chupper", function(){
-	var current_dir = $("#file_manager_div .chupper span").text();
-	if(current_dir == "/") return;
-	var lastindex = current_dir.lastIndexOf("/");
-	if(lastindex == 0) lastindex++;
-	var next_dir = current_dir.substring(0, lastindex);
-
-	$.ajax({
-		method: "POST",
-		url: "/application/chdir",
-		data: { next_dir : next_dir },
-		success  : function(result){
-			$("#current_dir").val(next_dir);
-			$("#file_manager_div").empty();
-			$("#file_manager_div").append("<%= file_manager_table(@current_dir) %>");
-			$('#datatable').dataTable( {"bSort": false});
-
-			// disk usage
-			$("disk_usage_div").empty();
-			$("disk_usage_div").append("<%= disk_usage_table %>");
-			draw_chart();
-		}
-	})
-})
-
-$(document).on("click", "#file_manager_div .rmdir", function(){
-	var file_name = $(this).text();
-	var current_dir = $("#file_manager_div .chupper span").text();
-	var target = current_dir + "/" + file_name;
-	if(confirm("Are you sure you want to delete '"+ file_name +"' ?")) {
-		$.ajax({
-			method: "POST",
-			url: "/application/delete",
-			data: { target : target },
-			success  : function(result){
-				$("#current_dir").val(current_dir);
-				$("#file_manager_div").empty();
-				$("#file_manager_div").append("<%= file_manager_table(@current_dir) %>");
-				$('#datatable').dataTable( {"bSort": false});
-
-				// disk usage
-				$("disk_usage_div").empty();
-				$("disk_usage_div").append("<%= disk_usage_table %>");
-				draw_chart();
-			}
-		})
-	}
-})
-</script>
-
-<!-- Doughnut Chart -->
-<script>
-function draw_chart() {
+function draw_chart(du){
 	var options = {
 		legend: false,
 		responsive: false
 	};
-
 	var colors = ["#3498DB", "#26B99A", "#E74C3C", "#9B59B6", "#BDC3C7"];
 	var labels = [];
 	var data = [];
 	var backgroundColor = [];
 	var hoverBackgroundColor = [];
 
-	<% (get_du(@current_dir)).each_with_index do |t, index| %>
-	labels.push("<%= t['file_name'] %>");
-	data.push("<%= t['usage'] %>");
-	backgroundColor.push(colors[<%= index % 5 %>]);
-	hoverBackgroundColor.push(colors[<%= index % 5 %>]);
-	<% end %>
+	for(var i = 0; i < du.length; i++){
+		labels.push(du[i]['file_name']);
+		data.push(du[i]['usage']);
+		backgroundColor.push(colors[i % 5]);
+		hoverBackgroundColor.push(colors[i % 5]);
+	}
 
-	new Chart(document.getElementById("canvas1"), {
+	new Chart(document.getElementById("disk_usage_canvas"), {
 		type: 'doughnut',
 		tooltipFillColor: "rgba(51, 51, 51, 0.55)",
 		data: {
@@ -372,14 +295,117 @@ function draw_chart() {
 		},
 		options: options
 	});
-};
-</script>
-<!-- /Doughnut Chart -->
+}
 
-<!-- On document ready -->
+$(document).ready(function() {
+	$('#file_manager_table').dataTable( {"bSort": false});
+
+	var options = {
+		legend: false,
+		responsive: false
+	};
+	var colors = ["#3498DB", "#26B99A", "#E74C3C", "#9B59B6", "#BDC3C7"];
+	var labels = [];
+	var data = [];
+	var backgroundColor = [];
+	var hoverBackgroundColor = [];
+
+	<% get_du.each_with_index do |du, index| %>
+	labels.push("<%= du['file_name'] %>");
+	data.push("<%= du['usage'] %>");
+	backgroundColor.push(colors[<%= index %> % 5]);
+	hoverBackgroundColor.push(colors[<%= index %> % 5]);
+	<% end %>
+
+	new Chart(document.getElementById("disk_usage_canvas"), {
+		type: 'doughnut',
+		tooltipFillColor: "rgba(51, 51, 51, 0.55)",
+		data: {
+			labels: labels,
+			datasets: [{
+				data: data,
+				backgroundColor: backgroundColor,
+				hoverBackgroundColor: hoverBackgroundColor
+			}]
+		},
+		options: options
+	});
+})
+</script>
+<!-- /on load -->
+
+<!-- File manager functions -->
 <script>
-$('document').ready(function() {
-	$('#datatable').dataTable( {"bSort": false});
-	draw_chart();
-});
+// change directory
+$(document).on("click", "#file_manager_div .chdir", function(){
+	var file_name = $(this).text().trim();
+	var current_dir = $("#file_manager_div span").text().trim();
+	if(current_dir == "/") current_dir = "";
+	var next_dir = current_dir + "/" + file_name;
+
+	$.ajax({
+		method: "post",
+		url: "/application/chdir",
+		data: { next_dir : next_dir },
+		success  : function(result){
+			$("#current_dir").val(next_dir);
+			$("#file_manager_div").empty();
+			$("#file_manager_div").append(result.file_manager_table);
+			$("#disk_usage_div").empty();
+			$("#disk_usage_div").append(result.disk_usage_table);
+
+			$('#file_manager_table').dataTable( {"bSort": false});
+			draw_chart(result.du);
+		}
+	})
+})
+// change upper
+$(document).on("click", "#file_manager_div .chupper", function(){
+	var current_dir = $("#file_manager_div span").text().trim();
+	if(current_dir == "/") return;
+	var lastindex = current_dir.lastIndexOf("/");
+	console.log("curdir : " + current_dir);
+	console.log("last idx : " + lastindex);
+	if(lastindex == 0) lastindex++;
+	var next_dir = current_dir.substring(0, lastindex);
+
+	$.ajax({
+		method: "POST",
+		url: "/application/chdir",
+		data: { next_dir : next_dir },
+		success  : function(result){
+			$("#current_dir").val(next_dir);
+			$("#file_manager_div").empty();
+			$("#file_manager_div").append(result.file_manager_table);
+			$("#disk_usage_div").empty();
+			$("#disk_usage_div").append(result.disk_usage_table);
+
+			$('#file_manager_table').dataTable( {"bSort": false});
+			draw_chart(result.du);
+		}
+	})
+})
+
+$(document).on("click", "#file_manager_div .rmdir", function(){
+	var file_name = $(this).text().trim();
+	var current_dir = $("#file_manager_div span").text().trim();
+	var target = current_dir + "/" + file_name;
+	if(confirm("Are you sure you want to delete '"+ file_name +"' ?")) {
+		$.ajax({
+			method: "POST",
+			url: "/application/rmdir",
+			data: { target : target },
+			success  : function(result){
+				$("#current_dir").val(current_dir);
+				$("#file_manager_div").empty();
+				$("#file_manager_div").append(result.file_manager_table);
+				$("#disk_usage_div").empty();
+				$("#disk_usage_div").append(result.disk_usage_table);
+
+				$('#file_manager_table').dataTable( {"bSort": false});
+				draw_chart(result.du);
+			}
+		})
+	}
+})
 </script>

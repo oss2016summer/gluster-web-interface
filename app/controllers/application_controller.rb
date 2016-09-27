@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
     # For APIs, you may want to use :null_session instead.
     # protect_from_forgery with: :exception
     include ApplicationHelper
+    include HomeHelper
+    include VolumeHelper
 
     def require_login
         unless user_signed_in?
@@ -36,7 +38,12 @@ class ApplicationController < ActionController::Base
     def chdir
         @current_dir = params[:next_dir]
         puts "current_dir : " + @current_dir
-        render :json => {:dir => @current_dir}
+        render :json => {
+            :dir => @current_dir,
+            :file_manager_table => file_manager_table(@current_dir),
+            :disk_usage_table => disk_usage_table(@current_dir),
+            :du => get_du(@current_dir),
+        }
     end
 
     def rmdir
