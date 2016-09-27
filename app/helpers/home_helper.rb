@@ -63,18 +63,21 @@ module HomeHelper
         html << "<tr>"
         html << "<td><canvas id='#{id}_canvas' height='140' width='140' style='margin: 15px 10px 10px 0'></canvas></td>"
         html << "<td>"
-        html << "<table class='#{id}_tile_info'>"
+        html << "<table class='tile_info'>"
 
         get_du(dir).each_with_index do |file, index|
             color = ['blue', 'green', 'red', 'purple', 'grey'][index % 5]
             html << "<tr><td>"
-            html << "<p><i class='fa fa-square #{color}'></i>"
+            html << "<div class='col-lg-7 col-md-7 col-sm-7 col-xs-7'>"
+            html << "<p><i class='fa fa-square #{color}'></i> "
             html << file['file_name']
-            html << "</p></td>"
-            html << "<td><p>"
+            html << "</p></div>"
+            html << "</td><td>"
+            html << "<div class='col-lg-7 col-md-7 col-sm-7 col-xs-7'>"
+            html << "<p style='float:right'>"
             html << format("%.2f", file['usage']*100) + "%"
-            html << "</p></td>"
-            html << "</tr>"
+            html << "</p></div>"
+            html << "</td></tr>"
         end
 
         html << "</table>"
