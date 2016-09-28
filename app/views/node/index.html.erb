@@ -9,7 +9,7 @@
 
     <div class="clearfix"></div>
     <div class="row">
-        <div class="col-md-6 col-sm-6 col-xs-6">
+        <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
                     <h2><i class="fa fa-plus-square-o"></i> Add Node</h2>
@@ -24,8 +24,6 @@
                                 <li><a href="#">Settings 2</a>
                                 </li>
                             </ul>
-                        </li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
@@ -77,7 +75,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-6">
+        <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
                     <h2><i class="fa fa-align-left"></i> Node List <small>Try hovering over the rows</small></h2>
@@ -93,8 +91,6 @@
                                 </li>
                             </ul>
                         </li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a>
-                        </li>
                     </ul>
                     <div class="clearfix"></div>
                 </div>
@@ -102,121 +98,67 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>Ping</th> <!-- Ping-->
+                                <th>Status</th>
                                 <th>Host Name</th>
                                 <th>Host IP</th>
                                 <th>User Name</th>
                                 <th>Date</th>
-                                <!--    <th></th>-->
-                                <th></th>
+                                <th></th> <!-- Delete-->
                             </tr>
                         </thead>
                         <tbody>
                             <%@nodes.each do |t|%>
                             <tr>
-                                <th scope="row"><%=t.id%></th>
-                                <td><%=t.host_name%></td>
+                                <%if ping_test?(t.host_ip)%>
+                                    <td><i class="fa fa-circle-o green"></i></a></td>
+                                    <td><input type="checkbox" class="js-switch prove" value="<%=t.id%>" checked/>Attached</td>
+                                <%else%>
+                                    <td><i class="fa fa-close red"></i></a></td>
+                                    <td><input type="checkbox" class="js-switch" disabled/></td>
+                                <%end%>
+                                <th scope="row"><%=t.host_name%></th>
                                 <td><%=t.host_ip%></td>
                                 <td><%=t.user_name%></td>
                                 <td><%=t.created_at%></td>
-                                <!--  <td><i class="fa fa-pencil"></i></td>-->
                                 <td><a href="/node/delete/<%=t.id%>"><i class="fa fa-trash"></i></a></td>
                             </tr>
                             <%end%>
                         </tbody>
                     </table>
+                    
+                     
+
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6 col-sm-6 col-xs-6">
-              <div class="x_panel">
-                <div class="x_title">
-                  <h2><i class="fa fa-align-left"></i> Node List</h2>
-                  <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Settings 1</a>
-                        </li>
-                        <li><a href="#">Settings 2</a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                  </ul>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-
-                  <!-- start accordion -->
-                  <div class="accordion" id="accordion1" role="tablist" aria-multiselectable="true">
-                    <div class="panel">
-                      <a class="panel-heading" role="tab" id="headingOne1" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne1" aria-expanded="true" aria-controls="collapseOne">
-                        <h4 class="panel-title">Collapsible Group Item #1</h4>
-                      </a>
-                      <div id="collapseOne1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                        <div class="panel-body">
-                          <table class="table table-striped">
-                            <thead>
-                              <tr>
-                                <th>#</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="panel">
-                      <a class="panel-heading collapsed" role="tab" id="headingTwo1" data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo1" aria-expanded="false" aria-controls="collapseTwo">
-                        <h4 class="panel-title">Collapsible Group Item #2</h4>
-                      </a>
-                      <div id="collapseTwo1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                        <div class="panel-body">
-                          <p><strong>Collapsible Item 2 data</strong>
-                          </p>
-                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- end of accordion -->
-
-
-                </div>
-              </div>
-            </div>
-    </div>
 </div>
 <!-- /page content -->
-<script>
+<script> 
+$('.prove').change(function() {
+        $(location).attr('href',"#loading");
+        if($(this).is(":checked")) {
+            $.ajax({
+        		method: "POST",
+        		url: "/node/prove",
+        		data: { node_id : this.value },
+        		success  : function(result){
+                    $(location).attr('href',"#");
+        		}
+        	})
+        } else {
+             $.ajax({
+        		method: "POST",
+        		url: "/node/detach",
+        		data: { node_id : this.value },
+        		success  : function(result){
+                    $(location).attr('href',"#");
+        		}
+        	})
+        }
+});
+
 // initialize the validator function
 validator.message['date'] = 'not a real date';
 

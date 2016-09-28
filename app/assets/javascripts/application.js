@@ -52,3 +52,6 @@
 //= require js/datatables/dataTables.responsive.min.js
 //= require js/datatables/responsive.bootstrap.min.js
 //= require js/datatables/dataTables.scroller.min.js
+
+
+//= require js/switchery/switchery.min.js
