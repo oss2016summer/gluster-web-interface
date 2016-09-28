@@ -305,6 +305,31 @@ $(document).ready(function() {
 			});
 		}
 	});
+	
+	var table = $('#tile_info').dataTable( {
+		"bSort": false//,
+		/*
+		initComplete: function(){
+			$('#file_manager_table_filter').detach().appendTo("#file_manager_filter_div").css({
+				'width':'250px'
+			});
+			$('#file_manager_table_length').detach().appendTo("#file_manager_filter_div").css({
+				'width':'150px',
+				'float':'right'
+			});
+			$('#tile_info_div').css({
+				'width':'100%',
+				'height':'48px',
+			});
+			$('#file_manager_filter_div input').css({
+				'width':'70%',
+				'height':'70%',
+				'font-size':'14px',
+				'padding':'5px'
+			});
+		}
+		*/
+	});
 
 	var options = {
 		legend: false,
