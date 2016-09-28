@@ -69,38 +69,7 @@
     <div class="popup">
         <h2> Choose mount point </h2>
         <a class="close" href="#">&times;</a>
-        <table id="datatable" class="table table-striped jambo_table">
-            <thead>
-                <tr class="headings">
-                    <th>Name</th>
-                    <th>auth</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody id="datatable_body">
-                <tr>
-                    <td><i class="fa fa-reply"></i> <a style="cursor: pointer" onclick="change_upper('<%= @current_dir %>')"> ..</a></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <% (files @current_dir).each do |t| %>
-                <% if t["auth"][0]=='d' %>
-                <tr>
-                    <td style="color:#0d8ade;"><i class="fa fa-folder-open-o"></i>
-                        <a style="cursor: pointer" onclick="change_directory('<%= @current_dir + "/" + t["name"] %>')"> <%= t["name"] %></a>
-                    </td>
-                    <td><%=t["auth"]%></td>
-                    <td>
-                        <form data-parsley-validate>
-                            <input type="hidden" value='<%= @current_dir + "/" + t["name"] %>'>
-                            <button type="submit" class="btn btn-primary pull-right">select</botton>
-                            </form>
-                        </td>
-                    </tr>
-                    <% end %>
-                    <% end %>
-                </tbody>
-            </table>
+        <%= raw mount_table %>
         </div>
     </div>
     <!-- page content -->
