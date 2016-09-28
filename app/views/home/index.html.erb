@@ -347,7 +347,7 @@ $(document).on("click", "#file_manager_div .chdir", function(){
 
 	$.ajax({
 		method: "post",
-		url: "/application/chdir",
+		url: "/home/chdir",
 		data: { next_dir : next_dir },
 		success  : function(result){
 			$("#current_dir").val(next_dir);
@@ -375,7 +375,7 @@ $(document).on("click", "#file_manager_div .chupper", function(){
 
 	$.ajax({
 		method: "POST",
-		url: "/application/chdir",
+		url: "/home/chdir",
 		data: { next_dir : next_dir },
 		success  : function(result){
 			$("#current_dir").val(next_dir);
@@ -399,7 +399,7 @@ $(document).on("click", "#file_manager_div .rmdir", function(){
 	if(confirm("Are you sure you want to delete '"+ file_name +"' ?")) {
 		$.ajax({
 			method: "POST",
-			url: "/application/rmdir",
+			url: "/home/rmdir",
 			data: { target : target },
 			success  : function(result){
 				$("#current_dir").val(current_dir);

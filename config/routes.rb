@@ -6,25 +6,26 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'home#index'
 
-  post 'application/chdir' => 'application#chdir'
-  post 'application/rmdir' => 'application#rmdir'
-
   get 'index' => 'plainpage#index'
 
   #Home
   get 'file_download' => 'home#file_download'
   get 'home/index' => 'home#index'
   post 'home/mkdir' => 'home#make_directory'
+  post 'home/chdir' => 'home#chdir'
+  post 'home/rmdir' => 'home#rmdir'
 
   #Volume
   get 'volume/index' => 'volume#index'
-  post 'file_upload/:volume_name' => 'volume#file_upload'
-  post 'volume/mount' => "volume#volume_mount"
-  post 'volume/create' => "volume#volume_create"
   get 'volume/unmount/:volume_name' => "volume#volume_unmount"
   get 'volume/start/:volume_name' => "volume#volume_start"
   get 'volume/stop/:volume_name' => "volume#volume_stop"
   get 'volume/delete/:volume_name' => "volume#volume_delete"
+  post 'file_upload/:volume_name' => 'volume#file_upload'
+  post 'volume/mount' => "volume#volume_mount"
+  post 'volume/create' => "volume#volume_create"
+  post 'volume/chdir' => 'volume#chdir'
+
 
   #Node
   get 'node/index' => 'node#index'

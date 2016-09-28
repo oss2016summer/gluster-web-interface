@@ -5,6 +5,15 @@ class VolumeController < ApplicationController
         @current_dir = "/mnt"
     end
 
+    def chdir
+        @current_dir = params[:next_dir]
+        puts "current_dir : " + @current_dir
+        render :json => {
+            :dir => @current_dir,
+            :mount_table => mount_table(@current_dir),
+        }
+    end
+
     def file_upload
         df = get_df
         mnt_dir = String.new

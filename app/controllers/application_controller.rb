@@ -12,24 +12,5 @@ class ApplicationController < ActionController::Base
             redirect_to "/users/sign_in" # halts request cycle
         end
     end
-
-    def chdir
-        @current_dir = params[:next_dir]
-        puts "current_dir : " + @current_dir
-        render :json => {
-            :dir => @current_dir,
-            :file_manager_table => file_manager_table(@current_dir),
-            :disk_usage_table => disk_usage_table(@current_dir),
-            :du => get_du(@current_dir),
-        }
-    end
-
-    def rmdir
-        file_name = params[:file_name]
-        command = String.new
-        command << "sudo rm -rf #{file_name}"
-        puts command
-        `#{command}`
-    end
-
+    
 end
