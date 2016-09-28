@@ -14,8 +14,8 @@ module HomeHelper
         html << "<tbody id='#{id}_body'>"
         html << "<tr>"
         html << "<td>"
-        html << "<a class='chupper' style='cursor: pointer'><i class='fa fa-reply'></i></a>"
-        html << "<span style='line-height:0'> #{dir}</span>"
+        html << "<a class='chupper' style='cursor: pointer'><i class='fa fa-reply'></i></a> "
+        html << "<span style='line-height:0'>#{dir}</span>"
         html << "<a class='pull-right' href='#popup_mkdir'><i class='fa fa-plus'></i><i class='fa fa-folder'></i></a>"
         html << "</td>"
         html << "<td></td>"
@@ -63,7 +63,14 @@ module HomeHelper
         html << "<tr>"
         html << "<td><canvas id='#{id}_canvas' height='140' width='140' style='margin: 15px 10px 10px 0'></canvas></td>"
         html << "<td>"
-        html << "<table class='tile_info'>"
+        html << "<table id='disk_usage_tile_table' class='tile_info'>"
+        html << "<thead>"
+        html << "<tr class='headings'>"
+        html << "<th></th>"
+        html << "<th></th>"
+        html << "</tr>"
+        html << "</thead>"
+        html << "<tbody>"
 
         get_du(dir).each_with_index do |file, index|
             color = ['blue', 'green', 'red', 'purple', 'grey'][index % 5]
@@ -80,6 +87,7 @@ module HomeHelper
             html << "</td></tr>"
         end
 
+        html << "</tbody>"
         html << "</table>"
         html << "</td></tr>"
         html << "</table>"

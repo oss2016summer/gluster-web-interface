@@ -52,12 +52,14 @@ module ApplicationHelper
         output = `#{command}`.split("\n")
         output.each do |t|
             begin
+                du_each['size'] = t.split(" ")[0].to_i
                 du_each['usage'] = t.split(" ")[0].to_f / avail
                 du_each['file_name'] = t.split(" ")[1].split("/").last
                 du << du_each
                 du_each = Hash.new
             rescue
                 # directory is not connected
+                du_each['size'] = 0
                 du_each['usage'] = 0.0
                 du_each['file_name'] = t.split(" ")[1].split("/").last.split("'")[0]
                 du << du_each
@@ -66,11 +68,14 @@ module ApplicationHelper
         end
 
         if du.length == 0
+            du_each['size'] = 0
             du_each['usage'] = 1.0
             du_each['file_name'] = "empty"
             du << du_each
         end
-
+        
+        du.sort_by! { |k| k['usage'] }
+        du.reverse!
         return du
     end
 
