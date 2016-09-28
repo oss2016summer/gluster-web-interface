@@ -299,7 +299,6 @@ function draw_chart(du){
 
 $(document).ready(function() {
 	$('#file_manager_table').dataTable( {
-		"bFilter": false,
 		"bSort": false
 	});
 
@@ -358,7 +357,6 @@ $(document).on("click", "#file_manager_div .chdir", function(){
 			$("#disk_usage_div").append(result.disk_usage_table);
 
 			$('#file_manager_table').dataTable( {
-				"processing" : true,  // show indicator
 				"bSort": false
 			});
 			draw_chart(result.du);
@@ -387,14 +385,13 @@ $(document).on("click", "#file_manager_div .chupper", function(){
 			$("#disk_usage_div").append(result.disk_usage_table);
 
 			$('#file_manager_table').dataTable( {
-				"processing" : true,  // show indicator
 				"bSort": false
 			});
 			draw_chart(result.du);
 		}
 	})
 })
-
+// remove directory
 $(document).on("click", "#file_manager_div .rmdir", function(){
 	var file_name = $(this).text().trim();
 	var current_dir = $("#file_manager_div span").text().trim();
@@ -411,10 +408,13 @@ $(document).on("click", "#file_manager_div .rmdir", function(){
 				$("#file_manager_div").append(result.file_manager_table);
 				$("#disk_usage_div").append(result.disk_usage_table);
 
-				$('#file_manager_table').dataTable( {"bSort": false});
+				$('#file_manager_table').dataTable( {
+					"bSort": false
+				});
 				draw_chart(result.du);
 			}
 		})
 	}
 })
 </script>
+<!-- /File manager functions -->

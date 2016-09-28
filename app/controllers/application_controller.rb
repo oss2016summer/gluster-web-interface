@@ -13,28 +13,6 @@ class ApplicationController < ActionController::Base
         end
     end
 
-    def get_df
-        df = Array.new
-        df_each = Hash.new
-        command = String.new
-        command << "df -hP"
-        puts command
-        output = `#{command}`.split("\n")
-        output.each do |t|
-            next if t.equal? output.first
-            s = t.split(' ')
-            df_each['Filesystem'] = s[0]
-            df_each['Size'] = s[1]
-            df_each['Used'] = s[2]
-            df_each['Avail'] = s[3]
-            df_each['Use%'] = s[4]
-            df_each['Mounted on'] = s[5]
-            df << df_each
-            df_each = Hash.new
-        end
-        return df
-    end
-
     def chdir
         @current_dir = params[:next_dir]
         puts "current_dir : " + @current_dir
@@ -51,7 +29,7 @@ class ApplicationController < ActionController::Base
         command = String.new
         command << "sudo rm -rf #{file_name}"
         puts command
-         `#{command}`
+        `#{command}`
     end
 
 end
