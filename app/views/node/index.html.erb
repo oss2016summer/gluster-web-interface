@@ -112,10 +112,10 @@
                             <tr>
                                 <%if ping_test?(t.host_ip)%>
                                     <td><i class="fa fa-circle-o green"></i></a></td>
-                                    <td>Prove</td>
+                                    <td><input type="checkbox" class="js-switch prove" value="<%=t.id%>" checked/>Attached</td>
                                 <%else%>
                                     <td><i class="fa fa-close red"></i></a></td>
-                                    <td>-</td>
+                                    <td><input type="checkbox" class="js-switch" disabled/></td>
                                 <%end%>
                                 <th scope="row"><%=t.host_name%></th>
                                 <td><%=t.host_ip%></td>
@@ -126,13 +126,39 @@
                             <%end%>
                         </tbody>
                     </table>
+                    
+                     
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- /page content -->
-<script>
+<script> 
+$('.prove').change(function() {
+        $(location).attr('href',"#loading");
+        if($(this).is(":checked")) {
+            $.ajax({
+        		method: "POST",
+        		url: "/node/prove",
+        		data: { node_id : this.value },
+        		success  : function(result){
+                    $(location).attr('href',"#");
+        		}
+        	})
+        } else {
+             $.ajax({
+        		method: "POST",
+        		url: "/node/detach",
+        		data: { node_id : this.value },
+        		success  : function(result){
+                    $(location).attr('href',"#");
+        		}
+        	})
+        }
+});
+
 // initialize the validator function
 validator.message['date'] = 'not a real date';
 

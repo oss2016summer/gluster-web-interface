@@ -29,4 +29,16 @@ class NodeController < ApplicationController
     one_node.destroy
     redirect_to '/node/index'
   end
+  
+  def node_prove
+    one_node = Node.find(params[:node_id])
+    puts "gluster peer probe #{one_node.host_name}"
+    redirect_to '/node/index'
+  end
+  
+  def node_detach
+    one_node = Node.find(params[:node_id])
+    puts "gluster peer detach #{one_node.host_name}"
+    redirect_to '/node/index'
+  end
 end
