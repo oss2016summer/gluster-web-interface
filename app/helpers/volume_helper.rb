@@ -13,7 +13,7 @@ module VolumeHelper
         html << "<div class='x_panel'>"
         html << "<div class='x_title'>"
         # left title
-        html << "<h2>Infomation <small>#{volume['Volume Name']}</small></h2>"
+        html << "<h2 value = '#{volume['Volume name'].delete(' ')}'>Infomation <small>#{volume['Volume Name']}</small></h2>"
         # right title
         html << "<ul class='nav navbar-right panel_toolbox'>"
         html << "<li><a class='collapse-link'>"
@@ -48,7 +48,7 @@ module VolumeHelper
         html << "</div>"
         # buttons
         if volume["Mount State"] == "mounted"
-            html << "<a class='btn btn-app' href='/volume/unmount/#{volume['Volume Name'].delete(' ')}'><i class='fa fa-upload'></i> Unmount</a>"
+            html << "<button class='btn_mount btn btn-app' value='#{index}'><i class='fa fa-upload'></i> Unmount</button>"
         elsif volume["Status"] == " Started"
             html << "<a class='btn btn-app' href='/volume/stop/#{volume['Volume Name'].delete(' ')}'>"
             html << "<i class='fa fa-pause' style='color:#d9534f;'></i>"

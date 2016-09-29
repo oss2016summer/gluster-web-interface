@@ -241,3 +241,94 @@ $(document).on("click", "#mount_table_div .chupper", function(){
 })
 </script>
 <!-- /File manager functions -->
+
+<script>
+$(document).on("click", ".btn_mount", function(){
+    var index = $(this).val();
+    var volume_name = $(this).parents('h2').val();//.eq(index).val();
+    
+    console.log("read volume name for mount");
+
+    $.ajax({
+        method: "POST",
+        url: "/volume/mount",
+        data: { volume_name : volume_name, index : index },
+        success  : function(result){
+            $(".btn_mount").empty();
+            $(".btn_mount").append(result.volume_info);
+            
+            console.log("mount success");
+        }
+    })
+})
+</script>
+<!-- /Mount click functions -->
+
+<script>
+$(document).on("click", ".btn_unmount", function(){
+    var index = $(this).val();
+    var volume_name = $(this).parents('h2').val();//.eq(index).val();
+    
+    console.log("read volume name for unmount");
+
+    $.ajax({
+        method: "POST",
+        url: "/volume/unmount",
+        data: { volume_name : volume_name, index : index },
+        success  : function(result){
+            $(".btn_unmount").empty();
+            $(".btn_unmount").append(result.volume_info);
+            
+            console.log("unmount success");
+
+        }
+    })
+})
+</script>
+<!-- /UnMount click functions -->
+
+<script>
+$(document).on("click", ".btn_stop", function(){
+    var index = $(this).val();
+    var volume_name = $(this).parents('h2').val();//.eq(index).val();
+    
+    console.log("read volume name for stop");
+
+    $.ajax({
+        method: "POST",
+        url: "/volume/stop",
+        data: { volume_name : volume_name, index : index },
+        success  : function(result){
+            $(".btn_stop").empty();
+            $(".btn_stop").append(result.volume_info);
+            
+            console.log("stop success");
+
+        }
+    })
+})
+</script>
+<!-- /stop click functions -->
+
+<script>
+$(document).on("click", ".btn_start", function(){
+    var index = $(this).val();
+    var volume_name = $(this).parents('h2').val();//.eq(index).val();
+    
+    console.log("read volume name for start");
+
+    $.ajax({
+        method: "POST",
+        url: "/volume/start",
+        data: { volume_name : volume_name, index : index },
+        success  : function(result){
+            $(".btn_start").empty();
+            $(".btn_start").append(result.volume_info);
+            
+            console.log("start success");
+
+        }
+    })
+})
+</script>
+<!-- /start click functions -->
