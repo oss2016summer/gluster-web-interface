@@ -70,266 +70,174 @@
         <h2> Choose mount point </h2>
         <a class="close" href="#">&times;</a>
         <div id="mount_table_div">
-        <%= raw mount_table %>
-        </div>
+            <%= raw mount_table %>
         </div>
     </div>
-    <!-- page content -->
-    <div class="right_col" role="main">
-        <div class="page-title">
-            <div class="title_left">
-                <h3>Volume</h3>
-            </div>
-            <div class="title_right">
-                <div class="col-md-5 col-sm-5 col-xs-12 pull-right">
-                    <a class="btn btn-success btn-lg pull-right" href="#popup_create">Create Volume</a>
-                </div>
+</div>
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>Volume</h3>
+        </div>
+        <div class="title_right">
+            <div class="col-md-5 col-sm-5 col-xs-12 pull-right">
+                <a class="btn btn-success btn-lg pull-right" href="#popup_create">Create Volume</a>
             </div>
         </div>
-        <div class="clearfix"></div>
-        <div class="row">
-            <% volumes.each_with_index do |t, index| %>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <!-- left title -->
-                        <h2>Infomation <small><%=t["Volume Name"]%></small></h2>
-                        <!-- right title -->
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link">
-                                <% if index == 0 %>
-                                <i class="fa fa-chevron-up"></i>
-                                <% else %>
-                                <i class="fa fa-chevron-down"></i>
-                                <% end %></a>
-                            </li>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">Settings 1</a>
-                                    </li>
-                                    <li><a href="#">Settings 2</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <%if t['Mount State'].eql? "mounted" %>
-                                <a><i class="fa fa-circle green"></i></a>
-                                <% else %>
-                                <a><i class="fa fa-circle"></i></a>
-                                <% end %>
-                            </li>
-                            <li>
-                                <%if !t['Mount State'].eql? "mounted" and t['Status'].eql? " Started" %>
-                                <a><i class="fa fa-circle blue"></i></a>
-                                <% else %>
-                                <a><i class="fa fa-circle"></i></a>
-                                <% end %>
-                            </li>
-                            <li>
-                                <%if t['Status'].eql? " Stopped" or t['Status'].eql? " Created" %>
-                                <a><i class="fa fa-circle red"></i></a>
-                                <% else %>
-                                <a><i class="fa fa-circle"></i></a>
-                                <% end %>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <% if index == 0 %>
-                    <div class="x_content">
-                        <% else %>
-                        <div class="x_content" style="display: none;">
-                            <% end %>
-                            <!-- left content -->
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div style="margin: 10px">
-                                    <p class="text-muted font-13 m-b-30"><span class="badge bg-blue">Volume Info</span></p>
-                                    <%= volume_info t %>
-                                </div>
-                                <% if t["Mount State"] == "mounted" %>
-                                <a class="btn btn-app" href="/volume/unmount/<%=t['Volume Name'].delete(' ')%>"><i class="fa fa-upload"></i> Unmount</a>
-                                <% elsif t["Status"] == " Started" %>
-                                <a class="btn btn-app" href="/volume/stop/<%=t['Volume Name'].delete(' ')%>">
-                                    <i class="fa fa-pause" style="color:#d9534f;"></i>
-                                    <p style="color:#d9534f;">Stop</p>
-                                </a>
-                                <a class="btn btn-app" href="?volume_name=<%=t['Volume Name'].delete(' ')%>#popup_mount"><i class="fa fa-download"></i> Mount</a>
-                                <% else %>
-                                <a class="btn btn-app" href="/volume/start/<%=t['Volume Name'].delete(' ')%>">
-                                    <i class="fa fa-play" style="color:#26B99A;"></i>
-                                    <p style="color:#26B99A;">Start</p>
-                                </a>
-                                <a class="btn btn-app" href="/volume/delete/<%=t['Volume Name'].delete(' ')%>">
-                                    <i class="fa fa-trash"></i> Delete
-                                </a>
-                                <% end %>
-                            </div>
-                            <!-- right content -->
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <% if t["Mount State"] == "mounted" %>
-                                <p class="text-muted font-13 m-b-30"><span class="badge bg-green">Uploader</span> Activated</p>
-                                <form action="/file_upload/<%=t['Volume Name'].delete(' ')%>" method="post" enctype="multipart/form-data" class="dropzone" style="border: 1px solid #e5e5e5; height: 300px; overflow:auto;">
-                                </form>
-                                <br/>
-                                <% else %>
-                                <p class="text-muted font-13 m-b-30"><span class="badge bg-red">Uploader</span> Inactivated</p>
-                                <form style="border: 1px solid #e5e5e5; height: 300px; overflow:auto;">
-                                </form>
-                                <br/>
-                                <% end %>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <%end%>
-            </div>
-        </div>
-        <!-- /page content -->
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+        <% volumes.each_with_index do |volume, index| %>
+        <%= raw volume_info(volume, index) %>
+        <%end%>
+    </div>
+</div>
+<!-- /page content -->
 
-        <!-- On document ready -->
-        <script>
-        $(document).ready(function(){
-            // Mount overlay functions
-            $("#popup_mount #mount_table_body form").submit(function(){
-                var mnt_point = $(this).find("input").val();
-                var url = window.location + '';
-                var vol_name = url.match(/volume_name=([^#]+)/)[1];
-                $.ajax({
-                    type: 'post',
-                    url: '/volume/mount',
-                    data: {mount_point: mnt_point, volume_name: vol_name},
-                    success: function(result){
-                    }
-                });
-            });
-            // Create overlay functions
-            $("#popup_create #form_volume_create").submit(function(){
-                var volume_name = $(this).find(".form-group:eq(0) input").val(),
-                volume_type = $(this).find(".form-group:eq(1) option:selected").val(),
-                num_of_brick = $(this).find(".form-group:eq(2) option:selected").val() * 1, // convert to Number type
-                bricks = [];
-                if(volume_name.indexOf(' ') >= 0){
-                    alert("Volume name can't contains white spaces");
-                    return;
-                }
-                <% volumes.each do |t| %>
-                if(volume_name == "<%=t["Volume Name"].delete(' ')%>"){
-                    alert("Already has a volume which name is same");
-                    return;
-                }
-                <% end %>
-                for(var i = 0; i < num_of_brick; i++){
-                    var host_name = $(this).find(".form-group .row").eq(i).find("option:selected").val();
-                    var brick_name = $(this).find(".form-group .row").eq(i).find("input").val();
-                    if(brick_name.indexOf(' ') >= 0) {
-                        alert("Brick name can't contain white spaces");
-                        return;
-                    }
-                    if(brick_name.indexOf('/') == 0) {
-                        alert("Brick name can't start with slash");
-                        return;
-                    }
-                    var brick = host_name + ":/" + brick_name;
-                    bricks.push(brick);
-                    console.log(brick);
-                }
-                $.ajax({
-                    method: "POST",
-                    url: "/volume/create",
-                    data: { volume_name : volume_name, volume_type : volume_type, num_of_brick : num_of_brick, bricks : bricks },
-                    success  : function(result){
-                    }
-                });
-            });
-            // Volume type changed
-            $("#popup_create #form_volume_create .form-group").eq(1).change(function (){
-                var $type = $(this).find("option:selected").val();
-                switch ($type) {
-                    case "Distribute":
-                    case "Stripe":
-                    case "Replica":
-                    case "Disperse":
-                    case "Disperse-data":
-                    case "Redundancy":
-                    console.log($type);
-                    break;
-                    default:
-                    console.log("something goes wrong");
-                    break;
-                }
-            });
-            // Number of bricks changed
-            $("#popup_create #form_volume_create .form-group").eq(2).change(function (){
-                var $num_of_brick = $(this).find("option:selected").val();
-                var $body = $("#form_volume_create .form-group").eq(3);
-                $body.empty();
-                var new_body = "";
-                for(var i = 0; i < $num_of_brick; ++i) {
-                    new_body += "<div class='row' style='margin:0 0 10px 0'>";
-                    new_body += "<label class='control-label col-md-3 col-sm-3 col-xs-12'>";
-                    if(i == 0)
-                    new_body += "Bricks <span class='required'>*</span>";
-                    new_body += "</label>";
-                    new_body += "<div class='col-md-3 col-sm-3 col-xs-4'>";
-                    new_body += "<select class='form-control'>";
-                    <% Node.all.each do |t| %>
-                    new_body += "<option><%= t.host_name %></option>";
-                    <% end %>
-                    new_body += "</select>";
-                    new_body += "</div>";
-                    new_body += "<div class='col-md-1 col-sm-1 col-xs-1'>"
-                    new_body += "<label class='control-label col-md-12 col-sm-12 col-xs-12'>/"
-                    new_body += "</label>"
-                    new_body += "</div>"
-                    new_body += "<div class='col-md-5 col-sm-5 col-xs-7'>";
-                    new_body += "<input type='text' required='required' class='form-control col-md-7 col-xs-12'>";
-                    new_body += "</div>";
-                    new_body += "</div>";
-                }
-                $body.append(new_body);
-            });
+<!-- On document ready -->
+<script>
+$(document).ready(function(){
+    // Mount overlay functions
+    $("#popup_mount #mount_table_body form").submit(function(){
+        var mnt_point = $(this).find("input").val();
+        var url = window.location + '';
+        var vol_name = url.match(/volume_name=([^#]+)/)[1];
+        $.ajax({
+            type: 'post',
+            url: '/volume/mount',
+            data: {mount_point: mnt_point, volume_name: vol_name},
+            success: function(result){
+            }
         });
-        </script>
+    });
+    // Create overlay functions
+    $("#popup_create #form_volume_create").submit(function(){
+        var volume_name = $(this).find(".form-group:eq(0) input").val(),
+        volume_type = $(this).find(".form-group:eq(1) option:selected").val(),
+        num_of_brick = $(this).find(".form-group:eq(2) option:selected").val() * 1, // convert to Number type
+        bricks = [];
+        if(volume_name.indexOf(' ') >= 0){
+            alert("Volume name can't contains white spaces");
+            return;
+        }
+        <% volumes.each do |t| %>
+        if(volume_name == "<%=t["Volume Name"].delete(' ')%>"){
+            alert("Already has a volume which name is same");
+            return;
+        }
+        <% end %>
+        for(var i = 0; i < num_of_brick; i++){
+            var host_name = $(this).find(".form-group .row").eq(i).find("option:selected").val();
+            var brick_name = $(this).find(".form-group .row").eq(i).find("input").val();
+            if(brick_name.indexOf(' ') >= 0) {
+                alert("Brick name can't contain white spaces");
+                return;
+            }
+            if(brick_name.indexOf('/') == 0) {
+                alert("Brick name can't start with slash");
+                return;
+            }
+            var brick = host_name + ":/" + brick_name;
+            bricks.push(brick);
+            console.log(brick);
+        }
+        $.ajax({
+            method: "POST",
+            url: "/volume/create",
+            data: { volume_name : volume_name, volume_type : volume_type, num_of_brick : num_of_brick, bricks : bricks },
+            success  : function(result){
+            }
+        });
+    });
+    // Volume type changed
+    $("#popup_create #form_volume_create .form-group").eq(1).change(function (){
+        var $type = $(this).find("option:selected").val();
+        switch ($type) {
+            case "Distribute":
+            case "Stripe":
+            case "Replica":
+            case "Disperse":
+            case "Disperse-data":
+            case "Redundancy":
+            console.log($type);
+            break;
+            default:
+            console.log("something goes wrong");
+            break;
+        }
+    });
+    // Number of bricks changed
+    $("#popup_create #form_volume_create .form-group").eq(2).change(function (){
+        var $num_of_brick = $(this).find("option:selected").val();
+        var $body = $("#form_volume_create .form-group").eq(3);
+        $body.empty();
+        var new_body = "";
+        for(var i = 0; i < $num_of_brick; ++i) {
+            new_body += "<div class='row' style='margin:0 0 10px 0'>";
+            new_body += "<label class='control-label col-md-3 col-sm-3 col-xs-12'>";
+            if(i == 0)
+            new_body += "Bricks <span class='required'>*</span>";
+            new_body += "</label>";
+            new_body += "<div class='col-md-3 col-sm-3 col-xs-4'>";
+            new_body += "<select class='form-control'>";
+            <% Node.all.each do |t| %>
+            new_body += "<option><%= t.host_name %></option>";
+            <% end %>
+            new_body += "</select>";
+            new_body += "</div>";
+            new_body += "<div class='col-md-1 col-sm-1 col-xs-1'>"
+            new_body += "<label class='control-label col-md-12 col-sm-12 col-xs-12'>/"
+            new_body += "</label>"
+            new_body += "</div>"
+            new_body += "<div class='col-md-5 col-sm-5 col-xs-7'>";
+            new_body += "<input type='text' required='required' class='form-control col-md-7 col-xs-12'>";
+            new_body += "</div>";
+            new_body += "</div>";
+        }
+        $body.append(new_body);
+    });
+});
+</script>
 
-        <!-- File manager functions -->
-        <script>
-        // change directory
-        $(document).on("click", "#mount_table_div .chdir", function(){
-        	var file_name = $(this).text().trim();
-        	var current_dir = $("#mount_table_div span").text().trim();
-        	if(current_dir == "/") current_dir = "";
-        	var next_dir = current_dir + "/" + file_name;
+<!-- File manager functions -->
+<script>
+// change directory
+$(document).on("click", "#mount_table_div .chdir", function(){
+    var file_name = $(this).text().trim();
+    var current_dir = $("#mount_table_div span").text().trim();
+    if(current_dir == "/") current_dir = "";
+    var next_dir = current_dir + "/" + file_name;
 
-        	$.ajax({
-        		method: "post",
-        		url: "/volume/chdir",
-        		data: { next_dir : next_dir },
-        		success  : function(result){
-        			$("#mount_table_div").empty();
-        			$("#mount_table_div").append(result.mount_table);
-        		}
-        	})
-        })
-        // change upper
-        $(document).on("click", "#mount_table_div .chupper", function(){
-        	var current_dir = $("#mount_table_div span").text().trim();
-        	if(current_dir == "/") return;
-        	var lastindex = current_dir.lastIndexOf("/");
-        	console.log("curdir : " + current_dir);
-        	console.log("last idx : " + lastindex);
-        	if(lastindex == 0) lastindex++;
-        	var next_dir = current_dir.substring(0, lastindex);
+    $.ajax({
+        method: "post",
+        url: "/volume/chdir",
+        data: { next_dir : next_dir },
+        success  : function(result){
+            $("#mount_table_div").empty();
+            $("#mount_table_div").append(result.mount_table);
+        }
+    })
+})
+// change upper
+$(document).on("click", "#mount_table_div .chupper", function(){
+    var current_dir = $("#mount_table_div span").text().trim();
+    if(current_dir == "/") return;
+    var lastindex = current_dir.lastIndexOf("/");
+    console.log("curdir : " + current_dir);
+    console.log("last idx : " + lastindex);
+    if(lastindex == 0) lastindex++;
+    var next_dir = current_dir.substring(0, lastindex);
 
-        	$.ajax({
-        		method: "POST",
-        		url: "/volume/chdir",
-        		data: { next_dir : next_dir },
-        		success  : function(result){
-        			$("#mount_table_div").empty();
-        			$("#mount_table_div").append(result.mount_table);
-        		}
-        	})
-        })
-        </script>
-        <!-- /File manager functions -->
+    $.ajax({
+        method: "POST",
+        url: "/volume/chdir",
+        data: { next_dir : next_dir },
+        success  : function(result){
+            $("#mount_table_div").empty();
+            $("#mount_table_div").append(result.mount_table);
+        }
+    })
+})
+</script>
+<!-- /File manager functions -->
