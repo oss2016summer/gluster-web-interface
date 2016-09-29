@@ -33,37 +33,6 @@ class NodeController < ApplicationController
       
       end
     end
-      volumes = Array.new
-        volume = Hash.new
-        node = Node.take
-        df = get_df
-        # error check : node is nil
-        if node.nil?
-            return volumes
-        end
-        command = String.new
-        command << "sshpass -p#{node.user_password} ssh #{node.user_name}@#{node.host_ip} gluster volume info"
-        puts command
-        output = `#{command}`.split("\n")
-        output << "\n"
-        output.each do |t|
-            next if t.equal? output.first
-            if t.include? ":"
-                temp = t.split(":")
-                volume[temp[0]] = temp[1]
-            else
-                volume['Mount State'] = "unmounted"
-                df.each do |u|
-                    next if !u['Filesystem'].include? volume['Volume Name'].delete(' ')
-                    volume['Mount State'] = "mounted"
-                    volume['Mount Point'] = u['Mounted on']
-                end
-                volumes << volume
-                volume = Hash.new
-            end
-        end
-        return volumes
-    
   
     if get_hosts.blank?
       flash[:danger] = "Check Server"
