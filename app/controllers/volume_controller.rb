@@ -39,24 +39,34 @@ class VolumeController < ApplicationController
     def volume_mount
         node = Node.take
         volume_name = params[:volume_name]
+        index = params[:index]
         mount_point = params[:mount_point]
         # make command string
         command = String.new
         command << "sudo mount -t glusterfs #{node.host_ip}:/#{volume_name} #{mount_point}"
         puts command
         `#{command}`
-        redirect_to '/volume/index'
+        #redirect_to '/volume/index'
+        
+         render :json => {
+            :volume_info => volume_info(volume_name, index),
+        }
     end
 
     def volume_unmount
         node = Node.take
         volume_name = params[:volume_name]
+        index = params[:index]
         # make command string
         command = String.new
         command << "sudo umount #{node.host_ip}:/#{volume_name}"
         puts command
         `#{command}`
-        redirect_to '/volume/index'
+        #redirect_to '/volume/index'
+
+        render :json => {
+            :volume_info => volume_info(volume_name, index),
+        }
     end
 
     def volume_create
@@ -94,6 +104,7 @@ class VolumeController < ApplicationController
     def volume_stop
         node = Node.take
         volume_name = params[:volume_name]
+        index = params[:index]
         # make command string
         command = String.new
         command << "yes | sshpass -p#{node.user_password} "
@@ -101,12 +112,17 @@ class VolumeController < ApplicationController
         command << "gluster volume stop #{volume_name}"
         puts command
         `#{command}`
-        redirect_to '/volume/index'
+        #redirect_to '/volume/index'
+        
+        render :json => {
+            :volume_info => volume_info(volume_name, index),
+        }
     end
 
     def volume_start
         node = Node.take
         volume_name = params[:volume_name]
+        index = params[:index]
         # make command string
         command = String.new
         command << "sshpass -p#{node.user_password} "
@@ -114,7 +130,11 @@ class VolumeController < ApplicationController
         command << " gluster volume start #{volume_name}"
         puts command
         `#{command}`
-        redirect_to '/volume/index'
+        #redirect_to '/volume/index'
+        
+        render :json => {
+            :volume_info => volume_info(volume_name, index),
+        }
     end
 
     def volume_delete
