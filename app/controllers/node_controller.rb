@@ -2,7 +2,31 @@ class NodeController < ApplicationController
     before_action :require_login
   def index
     @hosts = Array.new
-    @nodes = Node.all.order("id asc") 
+    @nodes = Node.all.order("id asc")
+    
+    @node_connect = Hash.new
+    @node_info = Array.new
+    one_node = Node.take
+    if !one_node.blank?
+      if ping_test?(one_node.host_ip)
+        command = String.new
+        command << "sshpass -p#{one_node.user_password} ssh #{one_node.user_name}@#{one_node.host_ip} gluster peer status info"
+        puts command
+        output = `#{command}`.split("\n")
+        output << "\n"
+        output.each do |t|
+            next if t.equal? output.first
+            if t.include? ":"
+                temp = t.split(":")
+                @node_info << temp[1]
+            else
+                @node_connect[one_node.id] << @node_info
+                @node_info = Array.new
+            end
+        end
+      end
+    end
+  
     if get_hosts.blank?
       flash[:danger] = "Check Server"
     else
