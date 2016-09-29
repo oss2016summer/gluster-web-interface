@@ -50,11 +50,11 @@ module VolumeHelper
         if volume["Mount State"] == "mounted"
             html << "<a class='btn btn-app' href='/volume/unmount/#{volume['Volume Name'].delete(' ')}'><i class='fa fa-upload'></i> Unmount</a>"
         elsif volume["Status"] == " Started"
-            html << "<a class='btn btn-app' href='/volume/stop/#{volume['Volume Name'].delete(' ')}%>'>"
+            html << "<a class='btn btn-app' href='/volume/stop/#{volume['Volume Name'].delete(' ')}'>"
             html << "<i class='fa fa-pause' style='color:#d9534f;'></i>"
             html << "<p style='color:#d9534f;'>Stop</p>"
             html << "</a>"
-            html << "<a class='btn btn-app' href='?volume_name=#{volume['Volume Name'].delete(' ')}%>#popup_mount'><i class='fa fa-download'></i> Mount</a>"
+            html << "<a class='btn btn-app' href='?volume_name=#{volume['Volume Name'].delete(' ')}#popup_mount'><i class='fa fa-download'></i> Mount</a>"
         else
             html << "<a class='btn btn-app' href='/volume/start/#{volume['Volume Name'].delete(' ')}'>"
             html << "<i class='fa fa-play' style='color:#26B99A;'></i>"
