@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
     include ApplicationHelper
     include HomeHelper
     include VolumeHelper
+    include NodeHelper
 
     def require_login
         unless user_signed_in?
@@ -12,5 +13,4 @@ class ApplicationController < ActionController::Base
             redirect_to "/users/sign_in" # halts request cycle
         end
     end
-    
 end
