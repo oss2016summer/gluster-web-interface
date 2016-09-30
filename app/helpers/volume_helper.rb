@@ -13,7 +13,7 @@ module VolumeHelper
         html << "<div class='x_panel'>"
         html << "<div class='x_title'>"
         # left title
-        html << "<h2 value = '#{volume['Volume name'].delete(' ')}'>Infomation <small>#{volume['Volume Name']}</small></h2>"
+        html << "<h2>Infomation <small>#{volume['Volume Name']}</small></h2>"
         # right title
         html << "<ul class='nav navbar-right panel_toolbox'>"
         html << "<li><a class='collapse-link'>"
@@ -25,13 +25,15 @@ module VolumeHelper
         html << "<li><a href='#'>Settings 2</a></li>"
         html << "</ul>"
         html << "</li>"
+        html << "<ul class='nav panel_toolbox lights'>"
         html << "<li><a><i class='fa fa-circle #{lights[2]}'></i></a></li>"
         html << "<li><a><i class='fa fa-circle #{lights[1]}'></i></a></li>"
         html << "<li><a><i class='fa fa-circle #{lights[0]}'></i></a></li>"
         html << "</ul>"
+        html << "</ul>"
         html << "<div class='clearfix'></div>"
         html << "</div>"
-        html << "<div class='x_content' #{display}>"
+        html << "<div class='x_content'#{display}>"
         # left content
         html << "<div class='col-md-6 col-sm-6 col-xs-12'>"
         html << "<div style='margin: 10px'>"
@@ -48,21 +50,26 @@ module VolumeHelper
         html << "</div>"
         # buttons
         if volume["Mount State"] == "mounted"
-            html << "<button class='btn_unmount btn btn-app' value='#{index}'><i class='fa fa-upload'></i> Unmount</button>"
+            html << "<button class='btn-volume-unmount btn btn-app' data-name='#{volume['Volume Name']}'>"
+            html << "<i class='fa fa-upload'></i> Unmount"
+            html << "</button>"
         elsif volume["Status"] == " Started"
-            html << "<button class='btn_stop btn btn-app' value='#{index}'>"
+            html << "<button class='btn-volume-stop btn btn-app' data-name='#{volume['Volume Name']}'>"
             html << "<i class='fa fa-pause' style='color:#d9534f;'></i>"
             html << "<p style='color:#d9534f;'>Stop</p>"
             html << "</button>"
-            html << "<button class='btn_mount btn btn-app' value='#{index}'><i class='fa fa-download'></i> Mount</button>"
+            # need to fix this a tag to button
+            html << "<a class='btn-volume-mount btn btn-app' href='?volume_name=#{volume['Volume Name'].delete(' ')}#popup_mount'>"
+            html << "<i class='fa fa-download'></i> Mount"
+            html << "</a>"
         else
-            html << "<button class='btn_start btn btn-app'>"
+            html << "<button class='btn-volume-start btn btn-app' data-name='#{volume['Volume Name']}'>"
             html << "<i class='fa fa-play' style='color:#26B99A;'></i>"
             html << "<p style='color:#26B99A;'>Start</p>"
             html << "</button>"
-            html << "<a class='btn btn-app' href='/volume/delete/#{volume['Volume Name'].delete(' ')}'>"
+            html << "<button class='btn-volume-delete btn btn-app' data-name='#{volume['Volume Name']}'>"
             html << "<i class='fa fa-trash'></i> Delete"
-            html << "</a>"
+            html << "</button>"
         end
         html << "</div>"
 
@@ -85,7 +92,8 @@ module VolumeHelper
         html << "</div>"
         html << "</div>"
         html << "</div>"
-        html
+
+        return html
     end
 
     def mount_table(dir = @current_dir, id = "mount_table", class_option = "table table-striped table-bordered jambo_table")

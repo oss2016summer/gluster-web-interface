@@ -21,10 +21,10 @@ Rails.application.routes.draw do
   post 'file_upload/:volume_name' => 'volume#file_upload'
   post 'volume/mount' => "volume#volume_mount"
   post 'volume/create' => "volume#volume_create"
-  get 'volume/unmount/:volume_name' => "volume#volume_unmount"
-  get 'volume/start/:volume_name' => "volume#volume_start"
-  get 'volume/stop/:volume_name' => "volume#volume_stop"
-  get 'volume/delete/:volume_name' => "volume#volume_delete"
+  post 'volume/unmount' => "volume#volume_unmount"
+  post 'volume/start' => "volume#volume_start"
+  post 'volume/stop' => "volume#volume_stop"
+  post 'volume/delete' => "volume#volume_delete"
 
   #Node
   get 'node/index' => 'node#index'

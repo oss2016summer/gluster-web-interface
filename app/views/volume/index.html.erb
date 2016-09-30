@@ -242,93 +242,135 @@ $(document).on("click", "#mount_table_div .chupper", function(){
 </script>
 <!-- /File manager functions -->
 
+<!-- Volume info button functions -->
 <script>
-$(document).on("click", ".btn_mount", function(){
-    var index = $(this).val();
-    var volume_name = $(this).parents('h2').val();//.eq(index).val();
-    
-    console.log("read volume name for mount");
-
-    $.ajax({
-        method: "POST",
-        url: "/volume/mount",
-        data: { volume_name : volume_name, index : index },
-        success  : function(result){
-            $(".btn_mount").empty();
-            $(".btn_mount").append(result.volume_info);
-            
-            console.log("mount success");
-        }
-    })
-})
-</script>
-<!-- /Mount click functions -->
-
-<script>
-$(document).on("click", ".btn_unmount", function(){
-    var index = $(this).val();
-    var volume_name = $(this).parents('h2').val();//.eq(index).val();
-    
-    console.log("read volume name for unmount");
+// volume mount
+$(document).on("click", ".btn-volume-mount", function(){
+});
+// volume unmount
+$(document).on("click", ".btn-volume-unmount", function(){
+    var $this = $(this);
+    var volume_name = $this.data("name").trim();
+    console.log("volume_name: " + volume_name);
 
     $.ajax({
         method: "POST",
         url: "/volume/unmount",
-        data: { volume_name : volume_name, index : index },
-        success  : function(result){
-            $(".btn_unmount").empty();
-            $(".btn_unmount").append(result.volume_info);
-            
-            console.log("unmount success");
+        data: { volume_name : volume_name },
+        before: function(){
+            console.log("zzz");
+        },
+        success: function(result){
+            var volume_info = result.volume_info,
+                lights = "";
+            lights = "<li><a><i class='fa fa-circle'></i></a></li>";
+            lights += "<li><a><i class='fa fa-circle blue'></i></a></li>";
+            lights += "<li><a><i class='fa fa-circle'></i></a></li>";
 
+            if(volume_info.indexOf("<div class='x_content'>") != -1){
+                volume_info = volume_info.split("<div class='x_content'>")[1].split("</div></div></div>")[0];
+            } else {
+                volume_info = volume_info.split("<div class='x_content' style='display: none;'>")[1].split("</div></div></div>")[0];
+            }
+            // change lights
+            $this.closest(".x_panel").find(".lights")
+            .empty()
+            .append(lights);
+            // change content
+            $this.closest(".x_content")
+            .empty()
+            .append(volume_info);
         }
-    })
-})
-</script>
-<!-- /UnMount click functions -->
-
-<script>
-$(document).on("click", ".btn_stop", function(){
-    var index = $(this).val();
-    var volume_name = $(this).parents('h2').val();//.eq(index).val();
-    
-    console.log("read volume name for stop");
-
-    $.ajax({
-        method: "POST",
-        url: "/volume/stop",
-        data: { volume_name : volume_name, index : index },
-        success  : function(result){
-            $(".btn_stop").empty();
-            $(".btn_stop").append(result.volume_info);
-            
-            console.log("stop success");
-
-        }
-    })
-})
-</script>
-<!-- /stop click functions -->
-
-<script>
-$(document).on("click", ".btn_start", function(){
-    var index = $(this).val();
-    var volume_name = $(this).parents('h2').val();//.eq(index).val();
-    
-    console.log("read volume name for start");
+    });
+});
+// volume start
+$(document).on("click", ".btn-volume-start", function(){
+    var $this = $(this);
+    var volume_name = $this.data("name").trim();
+    console.log("volume_name: " + volume_name);
 
     $.ajax({
         method: "POST",
         url: "/volume/start",
-        data: { volume_name : volume_name, index : index },
-        success  : function(result){
-            $(".btn_start").empty();
-            $(".btn_start").append(result.volume_info);
-            
-            console.log("start success");
+        data: { volume_name : volume_name },
+        before: function(){
+            console.log("zzz");
+        },
+        success: function(result){
+            var volume_info = result.volume_info,
+                lights = "";
+            lights = "<li><a><i class='fa fa-circle'></i></a></li>";
+            lights += "<li><a><i class='fa fa-circle blue'></i></a></li>";
+            lights += "<li><a><i class='fa fa-circle'></i></a></li>";
 
+            if(volume_info.indexOf("<div class='x_content'>") != -1){
+                volume_info = volume_info.split("<div class='x_content'>")[1].split("</div></div></div>")[0];
+            } else {
+                volume_info = volume_info.split("<div class='x_content' style='display: none;'>")[1].split("</div></div></div>")[0];
+            }
+            // change lights
+            $this.closest(".x_panel").find(".lights")
+            .empty()
+            .append(lights);
+            // change content
+            $this.closest(".x_content")
+            .empty()
+            .append(volume_info);
         }
-    })
-})
+    });
+});
+// volume stop
+$(document).on("click", ".btn-volume-stop", function(){
+    var $this = $(this);
+    var volume_name = $this.data("name").trim();
+    console.log("volume_name: " + volume_name);
+
+    $.ajax({
+        method: "POST",
+        url: "/volume/stop",
+        data: { volume_name : volume_name },
+        before: function(){
+            console.log("zzz");
+        },
+        success: function(result){
+            var volume_info = result.volume_info,
+                lights = "";
+            lights = "<li><a><i class='fa fa-circle'></i></a></li>";
+            lights += "<li><a><i class='fa fa-circle'></i></a></li>";
+            lights += "<li><a><i class='fa fa-circle red'></i></a></li>";
+
+            if(volume_info.indexOf("<div class='x_content'>") != -1){
+                volume_info = volume_info.split("<div class='x_content'>")[1].split("</div></div></div>")[0];
+            } else {
+                volume_info = volume_info.split("<div class='x_content' style='display: none;'>")[1].split("</div></div></div>")[0];
+            }
+            // change lights
+            $this.closest(".x_panel").find(".lights")
+            .empty()
+            .append(lights);
+            // change content
+            $this.closest(".x_content")
+            .empty()
+            .append(volume_info);
+        }
+    });
+});
+// volume delete
+$(document).on("click", ".btn-volume-delete", function(){
+    var $this = $(this);
+    var volume_name = $this.data("name").trim();
+    console.log("volume_name: " + volume_name);
+
+    $.ajax({
+        method: "POST",
+        url: "/volume/delete",
+        data: { volume_name : volume_name },
+        before: function(){
+            console.log("zzz");
+        },
+        success: function(result){
+        }
+    });
+});
 </script>
-<!-- /start click functions -->
+<!-- /Volume info button functions -->

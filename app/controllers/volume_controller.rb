@@ -47,7 +47,7 @@ class VolumeController < ApplicationController
         puts command
         `#{command}`
         #redirect_to '/volume/index'
-        
+
          render :json => {
             :volume_info => volume_info(volume_name, index),
         }
@@ -56,16 +56,14 @@ class VolumeController < ApplicationController
     def volume_unmount
         node = Node.take
         volume_name = params[:volume_name]
-        index = params[:index]
         # make command string
         command = String.new
         command << "sudo umount #{node.host_ip}:/#{volume_name}"
         puts command
         `#{command}`
-        #redirect_to '/volume/index'
-
+        volume = volumes.find{ |v| v['Volume Name'].delete(' ') == volume_name}
         render :json => {
-            :volume_info => volume_info(volume_name, index),
+            :volume_info => volume_info(volume, 0),
         }
     end
 
@@ -78,7 +76,7 @@ class VolumeController < ApplicationController
         # make command string
         command = String.new
         command << "sshpass -p#{node.user_password} "
-        command << "ssh #{node.host_name}@#{node.host_ip} "
+        command << "ssh #{node.user_name}@#{node.host_ip} "
         command << "gluster volume create #{volume_name} "
         if !volume_type.include? "Distribute"
             command << "#{volume_type.downcase} #{num_of_brick}"
@@ -104,36 +102,28 @@ class VolumeController < ApplicationController
     def volume_stop
         node = Node.take
         volume_name = params[:volume_name]
-        index = params[:index]
         # make command string
         command = String.new
-        command << "yes | sshpass -p#{node.user_password} "
-        command << "ssh #{node.host_name}@#{node.host_ip} "
-        command << "gluster volume stop #{volume_name}"
+        command << "yes | sshpass -p#{node.user_password} ssh #{node.user_name}@#{node.host_ip} gluster volume stop #{volume_name}"
         puts command
         `#{command}`
-        #redirect_to '/volume/index'
-        
+        volume = volumes.find{ |v| v['Volume Name'].delete(' ') == volume_name}
         render :json => {
-            :volume_info => volume_info(volume_name, index),
+            :volume_info => volume_info(volume, 0),
         }
     end
 
     def volume_start
         node = Node.take
         volume_name = params[:volume_name]
-        index = params[:index]
         # make command string
         command = String.new
-        command << "sshpass -p#{node.user_password} "
-        command << "ssh #{node.host_name}@#{node.host_ip} "
-        command << " gluster volume start #{volume_name}"
+        command << "sshpass -p#{node.user_password} ssh #{node.user_name}@#{node.host_ip} gluster volume start #{volume_name}"
         puts command
         `#{command}`
-        #redirect_to '/volume/index'
-        
+        volume = volumes.find{ |v| v['Volume Name'].delete(' ') == volume_name}
         render :json => {
-            :volume_info => volume_info(volume_name, index),
+            :volume_info => volume_info(volume, 0),
         }
     end
 
@@ -142,11 +132,9 @@ class VolumeController < ApplicationController
         volume_name = params[:volume_name]
         # make command string
         command = String.new
-        command << "yes | sshpass -p#{node.user_password} "
-        command << "ssh #{node.host_name}@#{node.host_ip} "
-        command << " gluster volume delete #{volume_name}"
+        command << "yes | sshpass -p#{node.user_password} ssh #{node.user_name}@#{node.host_ip} gluster volume delete #{volume_name}"
         puts command
         `#{command}`
-        redirect_to '/volume/index'
+        redirect_to "/volume/index"
     end
 end
