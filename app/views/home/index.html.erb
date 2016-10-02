@@ -105,7 +105,7 @@
 
 		<!-- file manager -->
 		<div class="col-md-8 col-sm-8 col-xs-12">
-			<div class="panel panel-body">
+			<div id="pagecontent" class="panel panel-body">
 				<div class="x_title" id="file_manager_title_div">
 					<h2 style="width:130px">File Manager</h2>
 				</div>
@@ -350,10 +350,13 @@ $(document).on("click", "#file_manager_div .chdir", function(){
 	var next_dir = current_dir + "/" + file_name;
 
 	$.ajax({
-		method: "post",
-		url: "/home/chdir",
-		data: { next_dir : next_dir },
-		success  : function(result){
+		method : "post",
+		url : "/home/chdir",
+		data : { next_dir : next_dir },
+		beforeSend : function(){
+			Pace.start();
+		},
+		success : function(result){
 			$("#current_dir").val(next_dir);
 			$("#file_manager_title_div").empty().append("<h2 style='width:130px'>File manager</h2>");
 			$("#disk_usage_title_div").empty().append("<h2 style='width:130px'>Disk usage</h2>");
@@ -362,6 +365,7 @@ $(document).on("click", "#file_manager_div .chdir", function(){
 
 			draw_datatable();
 			draw_chart(result.du);
+			Pace.stop();
 		}
 	})
 })
@@ -376,10 +380,13 @@ $(document).on("click", "#file_manager_div .chupper", function(){
 	var next_dir = current_dir.substring(0, lastindex);
 
 	$.ajax({
-		method: "POST",
-		url: "/home/chdir",
-		data: { next_dir : next_dir },
-		success  : function(result){
+		method : "POST",
+		url : "/home/chdir",
+		data : { next_dir : next_dir },
+		beforeSend : function(){
+			Pace.start();
+		},
+		success : function(result){
 			$("#current_dir").val(next_dir);
 			$("#file_manager_title_div").empty().append("<h2 style='width:130px'>File manager</h2>");
 			$("#disk_usage_title_div").empty().append("<h2 style='width:130px'>Disk usage</h2>");
@@ -388,6 +395,7 @@ $(document).on("click", "#file_manager_div .chupper", function(){
 
 			draw_datatable();
 			draw_chart(result.du);
+			Pace.stop();
 		}
 	})
 })

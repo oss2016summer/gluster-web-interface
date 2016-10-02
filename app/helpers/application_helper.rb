@@ -1,4 +1,5 @@
 module ApplicationHelper
+    require 'net/ping'
 
     def get_df
         df = Array.new
@@ -73,7 +74,7 @@ module ApplicationHelper
             du_each['file_name'] = "empty"
             du << du_each
         end
-        
+
         du.sort_by! { |k| k['usage'] }
         du.reverse!
         return du
@@ -136,4 +137,8 @@ module ApplicationHelper
         return files
     end
 
+    def ping_test?(host)
+      check = Net::Ping::External.new(host)
+      return check.ping?
+    end
 end

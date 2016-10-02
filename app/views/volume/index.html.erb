@@ -87,11 +87,21 @@
         </div>
     </div>
     <div class="clearfix"></div>
+    <% nodes = Node.all %>
+    <% if nodes.length == 0 %>
+    <div class="row animated flipInX col-md-6 col-sm-9 col-xs-12">
+        <div class="alert alert-info" role="alert">
+            <span class="glyphicon glyphicon-bell" area-hidden="true"></span>
+            <span class="glyphicon-class">You don't have a node. Please add nodes to do something in this page.</span>
+        </div>
+    </div>
+    <% else %>
     <div class="row">
         <% volumes.each_with_index do |volume, index| %>
         <%= raw volume_info(volume, index) %>
-        <%end%>
+        <% end %>
     </div>
+    <% end %>
 </div>
 <!-- /page content -->
 
