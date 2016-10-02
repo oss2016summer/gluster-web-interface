@@ -1,6 +1,6 @@
 module VolumeHelper
 
-    def volume_info(volume, index)
+    def html_volume_info(volume, index)
         params = ['Type', 'Volume ID', 'Status', 'Number of Bricks', 'Transport-type', 'Bricks', 'Options Reconfigured', 'Mount State', 'Mount Point']
         arrow = ((index == 0) ? "up" : "down")
         display = ((index != 0) ? "style='display: none;'" : "")
@@ -96,7 +96,7 @@ module VolumeHelper
         return html
     end
 
-    def mount_table(dir = @current_dir, id = "mount_table", class_option = "table table-striped table-bordered jambo_table")
+    def html_mount_table(dir = @current_dir, id = "mount_table", class_option = "table table-striped table-bordered jambo_table")
         html = String.new
         html << "<table id='#{id}' class='#{class_option}'>"
         html << "<thead>"
@@ -109,7 +109,7 @@ module VolumeHelper
         html << "<tbody id='#{id}_body'>"
         html << "<tr>"
         html << "<td>"
-        html << "<a class='chupper' style='cursor: pointer'><i class='fa fa-reply'></i></a> #{@current_dir}"
+        html << "<a class='chupper' style='cursor: pointer'><i class='fa fa-reply'></i></a> <span>#{@current_dir}</span>"
         html << "</td>"
         html << "<td></td>"
         html << "<td></td>"

@@ -1,7 +1,6 @@
 class NodeController < ApplicationController
     before_action :require_login
     def index
-        @hosts = Array.new
         @nodes = Node.all.order("id asc")
         @node_connects = Array.new
         node_info = Hash.new
@@ -32,12 +31,6 @@ class NodeController < ApplicationController
 
                 end
             end
-
-            if get_hosts.blank?
-                flash[:danger] = "Check Server"
-            else
-                @hosts = get_hosts
-            end
         rescue => ex
             puts ex
         end
@@ -59,7 +52,7 @@ class NodeController < ApplicationController
         redirect_to '/node/index'
     end
 
-    def node_prove
+    def node_probe
         one_node = Node.find(params[:node_id])
         puts "gluster peer probe #{one_node.host_name}"
         redirect_to '/node/index'

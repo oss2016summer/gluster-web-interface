@@ -10,7 +10,7 @@ class VolumeController < ApplicationController
         puts "current_dir : " + @current_dir
         render :json => {
             :dir => @current_dir,
-            :mount_table => mount_table(@current_dir),
+            :mount_table => html_mount_table(@current_dir),
         }
     end
 
@@ -49,7 +49,7 @@ class VolumeController < ApplicationController
         #redirect_to '/volume/index'
 
          render :json => {
-            :volume_info => volume_info(volume_name, index),
+            :volume_info => html_volume_info(volume_name, index),
         }
     end
 
@@ -61,9 +61,9 @@ class VolumeController < ApplicationController
         command << "sudo umount #{node.host_ip}:/#{volume_name}"
         puts command
         `#{command}`
-        volume = volumes.find{ |v| v['Volume Name'].delete(' ') == volume_name}
+        volume = ssh_volume_info.find{ |v| v['Volume Name'].delete(' ') == volume_name}
         render :json => {
-            :volume_info => volume_info(volume, 0),
+            :volume_info => html_volume_info(volume, 0),
         }
     end
 
@@ -107,9 +107,9 @@ class VolumeController < ApplicationController
         command << "yes | sshpass -p#{node.user_password} ssh #{node.user_name}@#{node.host_ip} gluster volume stop #{volume_name}"
         puts command
         `#{command}`
-        volume = volumes.find{ |v| v['Volume Name'].delete(' ') == volume_name}
+        volume = ssh_volume_info.find{ |v| v['Volume Name'].delete(' ') == volume_name}
         render :json => {
-            :volume_info => volume_info(volume, 0),
+            :volume_info => html_volume_info(volume, 0),
         }
     end
 
@@ -121,9 +121,9 @@ class VolumeController < ApplicationController
         command << "sshpass -p#{node.user_password} ssh #{node.user_name}@#{node.host_ip} gluster volume start #{volume_name}"
         puts command
         `#{command}`
-        volume = volumes.find{ |v| v['Volume Name'].delete(' ') == volume_name}
+        volume = ssh_volume_info.find{ |v| v['Volume Name'].delete(' ') == volume_name}
         render :json => {
-            :volume_info => volume_info(volume, 0),
+            :volume_info => html_volume_info(volume, 0),
         }
     end
 

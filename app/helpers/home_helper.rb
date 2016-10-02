@@ -1,6 +1,6 @@
 module HomeHelper
 
-    def file_manager_table(dir = @current_dir, id = "file_manager_table", class_option = "table table-striped table-bordered jambo_table")
+    def html_file_manager_table(dir = @current_dir, id = "file_manager_table", class_option = "table table-striped table-bordered jambo_table")
         html = String.new
         html << "<table id='#{id}' class='#{class_option}'>"
         html << "<thead>"
@@ -48,7 +48,7 @@ module HomeHelper
         return html
     end
 
-    def disk_usage_table(dir = @current_dir, id = "disk_usage_table")
+    def html_disk_usage_table(dir = @current_dir, id = "disk_usage_table")
         html = String.new
         html << "<table id='#{id}' class='' style='width:100%'>"
         html << "<tr>"

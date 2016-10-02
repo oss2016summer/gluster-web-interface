@@ -37,7 +37,7 @@
 	<!-- top tiles -->
 	<% users = User.all %>
 	<% nodes = Node.all %>
-	<% vols = volumes %>
+	<% vols = ssh_volume_info %>
 	<% today_user = User.where(:last_sign_in_at => Date.today..Date.tomorrow) %>
 	<% today_node = Node.where(:created_at => Date.today..Date.tomorrow) %>
 	<div class="row tile_count">
@@ -111,7 +111,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12 col-sm-12 col-xs-12" id="file_manager_div">
-						<%= raw file_manager_table %>
+						<%= raw html_file_manager_table %>
 					</div>
 				</div>
 			</div>
@@ -125,7 +125,7 @@
 					<h2 style="width:130px">Disk usage</h2>
 				</div>
 				<div class="row" id="disk_usage_div">
-					<%= raw disk_usage_table %>
+					<%= raw html_disk_usage_table %>
 				</div>
 			</div>
 		</div>

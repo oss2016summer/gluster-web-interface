@@ -1,12 +1,10 @@
 <!-- page content -->
 <div class="right_col" role="main">
-
     <div class="page-title">
-        <div class="title_left"><h3>Peer</h3></div>
+        <div class="title_left"><h3>Node</h3></div>
         <div class="title_right">
         </div>
     </div>
-
     <div class="clearfix"></div>
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -29,7 +27,6 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-
                     <form class="form-horizontal form-label-left" action="/node/add" method="post" novalidate>
                         <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Host Name <span class="required">*</span>
@@ -39,7 +36,6 @@
                                 data-toggle="tooltip" data-placement="top" title="Put node's representative name">
                             </div>
                         </div>
-
                         <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ip">Host IP <span class="required">*</span>
                             </label>
@@ -48,7 +44,6 @@
                                 data-toggle="tooltip" data-placement="top" title="Put node's ip">
                             </div>
                         </div>
-
                         <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">User Name <span class="required">*</span>
                             </label>
@@ -68,7 +63,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">
                                 <button type="submit" class="btn btn-primary">Cancel</button>
-                                <button id="send" type="submit" class="btn btn-success">Add</button>
+                                <button type="submit" class="btn btn-success">Add</button>
                             </div>
                         </div>
                     </form>
@@ -78,7 +73,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2><i class="fa fa-align-left"></i> Node List <small>Try hovering over the rows</small></h2>
+                    <h2><i class="fa fa-align-left"></i> Node List</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                         </li>
@@ -98,13 +93,13 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Ping</th> <!-- Ping-->
+                                <th>Ping</th>
                                 <th>Status</th>
                                 <th>Host Name</th>
                                 <th>Host IP</th>
                                 <th>User Name</th>
                                 <th>Date</th>
-                                <th></th> <!-- Delete-->
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -112,7 +107,7 @@
                             <tr>
                                 <%if ping_test?(t.host_ip)%>
                                     <td><i class="fa fa-circle-o green"></i></a></td>
-                                    <td><input type="checkbox" class="js-switch prove" value="<%=t.id%>" checked/>Attached</td>
+                                    <td><input type="checkbox" class="js-switch probe" value="<%=t.id%>" checked/>Attached</td>
                                 <%else%>
                                     <td><i class="fa fa-close red"></i></a></td>
                                     <td><input type="checkbox" class="js-switch" disabled/></td>
@@ -126,22 +121,19 @@
                             <%end%>
                         </tbody>
                     </table>
-                    
-                     
-
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- /page content -->
-<script> 
-$('.prove').change(function() {
+<script>
+$('.probe').change(function() {
         $(location).attr('href',"#loading");
         if($(this).is(":checked")) {
             $.ajax({
         		method: "POST",
-        		url: "/node/prove",
+        		url: "/node/probe",
         		data: { node_id : this.value },
         		success  : function(result){
                     $(location).attr('href',"#");
@@ -172,9 +164,6 @@ $('.multi.required')
 .on('keyup blur', 'input', function() {
     validator.checkField.apply($(this).siblings().last()[0]);
 });
-
-// bind the validation to the form submit event
-//$('#send').click('submit');//.prop('disabled', true);
 
 $('form').submit(function(e) {
     e.preventDefault();

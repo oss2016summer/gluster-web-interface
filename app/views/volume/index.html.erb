@@ -70,7 +70,7 @@
         <h2> Choose mount point </h2>
         <a class="close" href="#">&times;</a>
         <div id="mount_table_div">
-            <%= raw mount_table %>
+            <%= raw html_mount_table %>
         </div>
     </div>
 </div>
@@ -97,8 +97,8 @@
     </div>
     <% else %>
     <div class="row">
-        <% volumes.each_with_index do |volume, index| %>
-        <%= raw volume_info(volume, index) %>
+        <% ssh_volume_info.each_with_index do |volume, index| %>
+        <%= raw html_volume_info(volume, index) %>
         <% end %>
     </div>
     <% end %>
@@ -116,7 +116,7 @@ $(document).ready(function(){
         $.ajax({
             type: 'post',
             url: '/volume/mount',
-            before: function(){
+            beforeSend: function(){
                 $(location).attr('href',"#loading");
             },
             data: {mount_point: mnt_point, volume_name: vol_name},
@@ -135,7 +135,7 @@ $(document).ready(function(){
             alert("Volume name can't contains white spaces");
             return;
         }
-        <% volumes.each do |t| %>
+        <% ssh_volume_info.each do |t| %>
         if(volume_name == "<%=t["Volume Name"].delete(' ')%>"){
             alert("Already has a volume which name is same");
             return;
@@ -159,9 +159,9 @@ $(document).ready(function(){
         $.ajax({
             method: "POST",
             url: "/volume/create",
-            before: function(){
+            beforeSend: function(){
                 $(location).attr('href',"#loading");
-            },        
+            },
             data: { volume_name : volume_name, volume_type : volume_type, num_of_brick : num_of_brick, bricks : bricks },
             success  : function(result){
                 $(location).attr('href',"#");
@@ -231,13 +231,9 @@ $(document).on("click", "#mount_table_div .chdir", function(){
         method: "post",
         url: "/volume/chdir",
         data: { next_dir : next_dir },
-        before: function(){
-            $(location).attr('href',"#loading");
-        },
         success  : function(result){
             $("#mount_table_div").empty();
             $("#mount_table_div").append(result.mount_table);
-            $(location).attr('href',"#");
         }
     })
 })
@@ -255,13 +251,9 @@ $(document).on("click", "#mount_table_div .chupper", function(){
         method: "POST",
         url: "/volume/chdir",
         data: { next_dir : next_dir },
-        before: function(){
-            $(location).attr('href',"#loading");
-        },
         success  : function(result){
             $("#mount_table_div").empty();
             $("#mount_table_div").append(result.mount_table);
-            $(location).attr('href',"#");
         }
     })
 })
@@ -273,7 +265,6 @@ $(document).on("click", "#mount_table_div .chupper", function(){
 // volume mount
 $(document).on("click", ".btn-volume-mount", function(){
 });
-
 // volume unmount
 $(document).on("click", ".btn-volume-unmount", function(){
     var $this = $(this);
@@ -284,8 +275,7 @@ $(document).on("click", ".btn-volume-unmount", function(){
         method: "POST",
         url: "/volume/unmount",
         data: { volume_name : volume_name },
-        before: function(){
-            console.log("zzz");
+        beforeSend: function(){
             $(location).attr('href',"#loading");
         },
         success: function(result){
@@ -322,8 +312,7 @@ $(document).on("click", ".btn-volume-start", function(){
         method: "POST",
         url: "/volume/start",
         data: { volume_name : volume_name },
-        before: function(){
-            console.log("zzz");
+        beforeSend: function(){
             $(location).attr('href',"#loading");
         },
         success: function(result){
@@ -360,8 +349,7 @@ $(document).on("click", ".btn-volume-stop", function(){
         method: "POST",
         url: "/volume/stop",
         data: { volume_name : volume_name },
-        before: function(){
-            console.log("zzz");
+        beforeSend: function(){
         	$(location).attr('href',"#loading");
         },
         success: function(result){
@@ -398,8 +386,7 @@ $(document).on("click", ".btn-volume-delete", function(){
         method: "POST",
         url: "/volume/delete",
         data: { volume_name : volume_name },
-        before: function(){
-            console.log("zzz");
+        beforeSend: function(){
             $(location).attr('href',"#loading");
         },
         success: function(result){

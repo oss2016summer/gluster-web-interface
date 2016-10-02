@@ -80,7 +80,7 @@ module ApplicationHelper
         return du
     end
 
-    def volumes
+    def ssh_volume_info
         volumes = Array.new
         volume = Hash.new
         node = Node.take
@@ -111,6 +111,15 @@ module ApplicationHelper
             end
         end
         return volumes
+    end
+
+    def ssh_peer_status
+    end
+
+    def ssh_peer_probe
+    end
+
+    def ssh_peer_detach
     end
 
     def files(dir)

@@ -31,8 +31,8 @@ class HomeController < ApplicationController
         puts "current_dir : " + @current_dir
         render :json => {
             :dir => @current_dir,
-            :file_manager_table => file_manager_table(@current_dir),
-            :disk_usage_table => disk_usage_table(@current_dir),
+            :file_manager_table => html_file_manager_table(@current_dir),
+            :disk_usage_table => html_disk_usage_table(@current_dir),
             :du => get_du(@current_dir),
         }
     end
