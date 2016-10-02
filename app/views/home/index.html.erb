@@ -354,7 +354,8 @@ $(document).on("click", "#file_manager_div .chdir", function(){
 		url : "/home/chdir",
 		data : { next_dir : next_dir },
 		beforeSend : function(){
-			Pace.start();
+			$(location).attr('href',"#loading");
+			//Pace.start();
 		},
 		success : function(result){
 			$("#current_dir").val(next_dir);
@@ -365,7 +366,8 @@ $(document).on("click", "#file_manager_div .chdir", function(){
 
 			draw_datatable();
 			draw_chart(result.du);
-			Pace.stop();
+			$(location).attr('href',"#");
+			//Pace.stop();
 		}
 	})
 })
@@ -384,7 +386,8 @@ $(document).on("click", "#file_manager_div .chupper", function(){
 		url : "/home/chdir",
 		data : { next_dir : next_dir },
 		beforeSend : function(){
-			Pace.start();
+			//Pace.start();
+			$(location).attr('href',"#loading");
 		},
 		success : function(result){
 			$("#current_dir").val(next_dir);
@@ -395,7 +398,8 @@ $(document).on("click", "#file_manager_div .chupper", function(){
 
 			draw_datatable();
 			draw_chart(result.du);
-			Pace.stop();
+			//Pace.stop();
+			$(location).attr('href',"#");
 		}
 	})
 })
