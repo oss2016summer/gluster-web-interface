@@ -116,8 +116,12 @@ $(document).ready(function(){
         $.ajax({
             type: 'post',
             url: '/volume/mount',
+            before: function(){
+                $(location).attr('href',"#loading");
+            },
             data: {mount_point: mnt_point, volume_name: vol_name},
             success: function(result){
+                $(location).attr('href',"#");
             }
         });
     });
@@ -155,8 +159,12 @@ $(document).ready(function(){
         $.ajax({
             method: "POST",
             url: "/volume/create",
+            before: function(){
+                $(location).attr('href',"#loading");
+            },        
             data: { volume_name : volume_name, volume_type : volume_type, num_of_brick : num_of_brick, bricks : bricks },
             success  : function(result){
+                $(location).attr('href',"#");
             }
         });
     });
@@ -223,9 +231,13 @@ $(document).on("click", "#mount_table_div .chdir", function(){
         method: "post",
         url: "/volume/chdir",
         data: { next_dir : next_dir },
+        before: function(){
+            $(location).attr('href',"#loading");
+        },
         success  : function(result){
             $("#mount_table_div").empty();
             $("#mount_table_div").append(result.mount_table);
+            $(location).attr('href',"#");
         }
     })
 })
@@ -243,9 +255,13 @@ $(document).on("click", "#mount_table_div .chupper", function(){
         method: "POST",
         url: "/volume/chdir",
         data: { next_dir : next_dir },
+        before: function(){
+            $(location).attr('href',"#loading");
+        },
         success  : function(result){
             $("#mount_table_div").empty();
             $("#mount_table_div").append(result.mount_table);
+            $(location).attr('href',"#");
         }
     })
 })
@@ -257,6 +273,7 @@ $(document).on("click", "#mount_table_div .chupper", function(){
 // volume mount
 $(document).on("click", ".btn-volume-mount", function(){
 });
+
 // volume unmount
 $(document).on("click", ".btn-volume-unmount", function(){
     var $this = $(this);
@@ -269,6 +286,7 @@ $(document).on("click", ".btn-volume-unmount", function(){
         data: { volume_name : volume_name },
         before: function(){
             console.log("zzz");
+            $(location).attr('href',"#loading");
         },
         success: function(result){
             var volume_info = result.volume_info,
@@ -290,6 +308,7 @@ $(document).on("click", ".btn-volume-unmount", function(){
             $this.closest(".x_content")
             .empty()
             .append(volume_info);
+            $(location).attr('href',"#");
         }
     });
 });
@@ -305,6 +324,7 @@ $(document).on("click", ".btn-volume-start", function(){
         data: { volume_name : volume_name },
         before: function(){
             console.log("zzz");
+            $(location).attr('href',"#loading");
         },
         success: function(result){
             var volume_info = result.volume_info,
@@ -326,6 +346,7 @@ $(document).on("click", ".btn-volume-start", function(){
             $this.closest(".x_content")
             .empty()
             .append(volume_info);
+            $(location).attr('href',"#");
         }
     });
 });
@@ -341,6 +362,7 @@ $(document).on("click", ".btn-volume-stop", function(){
         data: { volume_name : volume_name },
         before: function(){
             console.log("zzz");
+        	$(location).attr('href',"#loading");
         },
         success: function(result){
             var volume_info = result.volume_info,
@@ -362,6 +384,7 @@ $(document).on("click", ".btn-volume-stop", function(){
             $this.closest(".x_content")
             .empty()
             .append(volume_info);
+            $(location).attr('href',"#");
         }
     });
 });
@@ -377,8 +400,10 @@ $(document).on("click", ".btn-volume-delete", function(){
         data: { volume_name : volume_name },
         before: function(){
             console.log("zzz");
+            $(location).attr('href',"#loading");
         },
         success: function(result){
+            $(location).attr('href',"#");
         }
     });
 });

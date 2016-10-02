@@ -413,6 +413,9 @@ $(document).on("click", "#file_manager_div .rmdir", function(){
 			method: "POST",
 			url: "/home/rmdir",
 			data: { target : target },
+			beforeSend : function(){
+				$(location).attr('href',"#loading");
+			},
 			success  : function(result){
 				$("#current_dir").val(current_dir);
 				$("#file_manager_title_div").empty().append("<h2 style='width:130px'>File manager</h2>");
@@ -422,6 +425,7 @@ $(document).on("click", "#file_manager_div .rmdir", function(){
 
 				draw_datatable();
 				draw_chart(result.du);
+				$(location).attr('href',"#");
 			}
 		})
 	}
