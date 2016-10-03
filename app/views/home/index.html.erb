@@ -36,8 +36,8 @@
 
 	<!-- top tiles -->
 	<% users = User.all %>
-	<% nodes = Node.all %>
-	<% vols = ssh_volume_info %>
+	<% nodes = ssh_nodes %>
+	<% volumes = ssh_volume_info %>
 	<% today_user = User.where(:last_sign_in_at => Date.today..Date.tomorrow) %>
 	<% today_node = Node.where(:created_at => Date.today..Date.tomorrow) %>
 	<div class="row tile_count">
@@ -83,10 +83,10 @@
 			<div class="left"></div>
 			<div class="right">
 				<span class="count_top"><i class="fa fa-database"></i> Total volumes</span>
-				<div class="count"><%= vols.nil? ? 0 : vols.length %></div>
+				<div class="count"><%= volumes.nil? ? 0 : volumes.length %></div>
 				<span class="count_bottom">
-					<i class="blue"><%= vols.count{|x| x['Status'].eql? " Started"} %></i> started /
-					<i class="green"><%= vols.count{|x| x['Mount State'].eql? "mounted"} %></i> mounted
+					<i class="blue"><%= volumes.count{|x| x['Status'].eql? " Started"} %></i> started /
+					<i class="green"><%= volumes.count{|x| x['Mount State'].eql? "mounted"} %></i> mounted
 				</span>
 			</div>
 		</div>
@@ -101,8 +101,8 @@
 	</div>
 	<!-- /top tiles -->
 
+	<!-- first row -->
 	<div class="row">
-
 		<!-- file manager -->
 		<div class="col-md-8 col-sm-8 col-xs-12">
 			<div id="pagecontent" class="panel panel-body">
@@ -131,9 +131,9 @@
 		</div>
 		<!-- /disk usage -->
 	</div>
+	<!-- /first row -->
 
-	<% nodes = ssh_nodes %>
-	<% volumes = ssh_volume_info %>
+	<!-- second row -->
 	<div class ="row">
 		<!-- node status -->
 		<div class="col-md-4 col-sm-4 col-xs-12">
@@ -156,238 +156,234 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content tile fixed_height_160" style="overflow-y:auto;">
-					<% if nodes.nil? %>
-						<div class="widget_summary">
-							<% ping = ((nodes.select{ |node| node["ping"].eql? "true" }.length.to_f / nodes.length.to_f) * 100).to_i %>
-							<div class="w_left w_25">
-								<span>ping</span>
-							</div>
-							<div class="w_center w_55">
-								<div class="progress">
-									<div class="progress-bar bg-green" role="progressbar"
-									aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= ping %>%;">
-									</div>
-								</div>
-							</div>
-							<div class="w_right w_20">
-								<span><%= nodes.select{ |node| node["ping"].eql? "true" }.length %> / <%= nodes.length %></span>
-							</div>
-							<div class="clearfix"></div>
+					<% if !nodes.nil? %>
+					<div class="widget_summary">
+						<% ping = ((nodes.select{ |node| node["ping"].eql? "true" }.length.to_f / nodes.length.to_f) * 100).to_i %>
+						<div class="w_left w_25">
+							<span>ping</span>
 						</div>
-						<div class="widget_summary">
-							<% ssh = ((nodes.select{ |node| node["ssh"].eql? "on" }.length.to_f / nodes.length.to_f) * 100).to_i %>
-							<div class="w_left w_25">
-								<span>ssh</span>
-							</div>
-							<div class="w_center w_55">
-								<div class="progress">
-									<div class="progress-bar bg-green" role="progressbar"
-									aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= ssh %>%;">
-									</div>
-								</div>
-							</div>
-							<div class="w_right w_20">
-								<span><%= nodes.select{ |node| node["ssh"].eql? "on" }.length %> / <%= nodes.length %></span>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-						<div class="widget_summary">
-							<% gluster = ((nodes.select{ |node| node["gluster"].eql? "on" }.length.to_f / nodes.length.to_f) * 100).to_i %>
-							<div class="w_left w_25">
-								<span>gluster operation</span>
-							</div>
-							<div class="w_center w_55">
-								<div class="progress">
-									<div class="progress-bar bg-green" role="progressbar"
-									aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= gluster %>%;">
-									</div>
-								</div>
-							</div>
-							<div class="w_right w_20">
-								<span><%= nodes.select{ |node| node["gluster"].eql? "on" }.length %> / <%= nodes.length %></span>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-					<% else %>
-						<div class="row animated flipInX col-md-8 col-sm-8 col-xs-8 cent-align">
-							<div class="alert alert-info" role="alert">
-								<span class="glyphicon glyphicon-bell" area-hidden="true"></span>
-								<span class="glyphicon-class">You don't have a node. Please add nodes to do something in this page.</span>
+						<div class="w_center w_55">
+							<div class="progress">
+								<div class="progress-bar bg-green" role="progressbar"
+								aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= ping %>%;">
 							</div>
 						</div>
-					<% end %>
-				</div>
-			</div>
-
-			<div class="x_panel">
-				<div class="x_title">
-					<h2>Volumes Status</h2>
-					<ul class="nav navbar-right panel_toolbox">
-						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-						</li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="#">Settings 1</a>
-								</li>
-								<li><a href="#">Settings 2</a>
-								</li>
-							</ul>
-						</li>
-					</ul>
+					</div>
+					<div class="w_right w_20">
+						<span><%= nodes.select{ |node| node["ping"].eql? "true" }.length %> / <%= nodes.length %></span>
+					</div>
 					<div class="clearfix"></div>
 				</div>
-				<div class="x_content tile fixed_height_160" style="overflow-y:auto;">
-					<% if volumes.nil? %>
-						<div class="widget_summary">
-							<% start = ((volumes.select{ |volume| volume["Status"].eql? " Started" }.length.to_f / volumes.length.to_f) * 100).to_i %>
-							<div class="w_left w_25">
-								<span>started</span>
-							</div>
-							<div class="w_center w_55">
-								<div class="progress">
-									<div class="progress-bar bg-green" role="progressbar"
-									aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= start %>%;">
-									</div>
-								</div>
-							</div>
-							<div class="w_right w_20">
-								<span><%= volumes.select{ |volume| volume["Status"].eql? " Started" }.length %> / <%= volumes.length %></span>
-							</div>
-							<div class="clearfix"></div>
+				<div class="widget_summary">
+					<% ssh = ((nodes.select{ |node| node["ssh"].eql? "on" }.length.to_f / nodes.length.to_f) * 100).to_i %>
+					<div class="w_left w_25">
+						<span>ssh</span>
+					</div>
+					<div class="w_center w_55">
+						<div class="progress">
+							<div class="progress-bar bg-green" role="progressbar"
+							aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= ssh %>%;">
 						</div>
-						<div class="widget_summary">
-							<% mount = ((volumes.select{ |volume| volume["Mount State"].eql? "mounted" }.length.to_f / volumes.length.to_f) * 100).to_i %>
-							<div class="w_left w_25">
-								<span>mounted</span>
-							</div>
-							<div class="w_center w_55">
-								<div class="progress">
-									<div class="progress-bar bg-green" role="progressbar"
-									aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= mount %>%;">
-									</div>
-								</div>
-							</div>
-							<div class="w_right w_20">
-								<span><%= volumes.select{ |volume| volume["Mount State"].eql? "mounted" }.length %> / <%= volumes.length %></span>
-							</div>
-							<div class="clearfix"></div>
-						</div>
-					<% else %>
-						<div class="row animated flipInX col-md-8 col-sm-8 col-xs-8">
-							<div class="alert alert-warning" role="alert">
-							<span class="glyphicon glyphicon-bell" area-hidden="true"></span>
-								<span class="glyphicon-class">You don't have a volume. Please add volumes to do something in this page.</span>
-							</div>
-						</div>
-					<% end %>
+					</div>
+				</div>
+				<div class="w_right w_20">
+					<span><%= nodes.select{ |node| node["ssh"].eql? "on" }.length %> / <%= nodes.length %></span>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="widget_summary">
+				<% gluster = ((nodes.select{ |node| node["gluster"].eql? "on" }.length.to_f / nodes.length.to_f) * 100).to_i %>
+				<div class="w_left w_25">
+					<span>gluster operation</span>
+				</div>
+				<div class="w_center w_55">
+					<div class="progress">
+						<div class="progress-bar bg-green" role="progressbar"
+						aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= gluster %>%;">
+					</div>
 				</div>
 			</div>
+			<div class="w_right w_20">
+				<span><%= nodes.select{ |node| node["gluster"].eql? "on" }.length %> / <%= nodes.length %></span>
+			</div>
+			<div class="clearfix"></div>
 		</div>
-		<!-- /node status -->
-
-		<!-- node list -->
-		<div class="col-md-4 col-sm-4 col-xs-12">
-			<div class="x_panel tile">
-				<div class="x_title">
-					<h2>Nodes List</h2>
-					<ul class="nav navbar-right panel_toolbox">
-						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-						</li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="#">Settings 1</a>
-								</li>
-								<li><a href="#">Settings 2</a>
-								</li>
-							</ul>
-						</li>
-					</ul>
-					<div class="clearfix"></div>
-				</div>
-				<div class="x_content fixed_height_320" style="overflow-y:auto;">
-					<ul class="list-unstyled top_profiles" >
-						<% if nodes.nil? %>
-							<% nodes.each do |node| %>
-		                        <li class="media event">
-		                          <% if node["ping"].eql? "true" %>
-			                          <a class="pull-left border-green profile_thumb">
-			                            <i class="fa fa-cube green"></i>
-			                          </a>
-			                      <% else %>
-			                          <a class="pull-left border-red profile_thumb">
-			                            <i class="fa fa-cube red"></i>
-			                          </a>
-			                      <% end %>
-		                          <div class="media-body">
-		                            <a class="title" onclick="loading();"  href="/node/detail/<%= node["id"] %>"><%= node["host_name"] %></a>
-		                            <p><strong><%= node["host_ip"] %> </strong> <%= node["user_name"] %> </p>
-		                            <% if node["gluster"].eql? "on" %>
-		                            	<p> <small> number of peers: <%= node["number_of_peers"] %></small></p>
-		                            <% end %>
-		                          </div>
-		                        </li>
-	                        <% end %>
-	                       <% else %>
-	                       	<div class="row animated flipInX col-md-8 col-sm-8 col-xs-8">
-								<div class="alert alert-success" role="alert">
-								<span class="glyphicon glyphicon-bell" area-hidden="true"></span>
-									<span class="glyphicon-class">You don't have a node. Please add nodes to do something in this page.</span>
-								</div>
-							</div>
-	                       <% end %>
-                      </ul>
-				</div>
+		<% else %>
+		<div class="row animated flipInX col-md-8 col-sm-8 col-xs-8 cent-align">
+			<div class="alert alert-info" role="alert">
+				<span class="glyphicon glyphicon-bell" area-hidden="true"></span>
+				<span class="glyphicon-class">You don't have a node. Please add nodes to do something in this page.</span>
 			</div>
 		</div>
-		<!-- /node list -->
-
-		<!-- disk usage -->
-		<div class="col-md-4 col-sm-4 col-xs-12">
-			<div class="x_panel">
-				<div class="x_title" id="disk_file_title_div">
-					<h2>Mounted usage</h2>
-					<ul class="nav navbar-right panel_toolbox">
-						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-						</li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="#">Settings 1</a>
-								</li>
-								<li><a href="#">Settings 2</a>
-								</li>
-							</ul>
-						</li>
-					</ul>
-					<div class="clearfix"></div>
-				</div>
-				<div class="x_content tile" id="disk_file_div">
-					
-					<% if volumes.nil? or ( (volumes.select{ |volume| volume["Mount State"].eql? "mounted" }.length) == 0) %>
-	                       	<div class="row animated flipInX col-md-8 col-sm-8 col-xs-8">
-								<div class="alert alert-error" role="alert">
-								<span class="glyphicon glyphicon-bell" area-hidden="true"></span>
-									<span class="glyphicon-class">You don't have a volume. Please add volumes to do something in this page.</span>
-								</div>
-							</div>
-						<div style="display:none;">
-							<%= raw html_disk_file_table %>
-						</div>
-					<% else %>
-					
-						<%= raw html_disk_file_table %>
-					<% end %>
-				</div>
-			</div>
-		</div>
-		<!-- /disk usage -->
-
+		<% end %>
 	</div>
-
-	<div class ="row">
+</div>
+<div class="x_panel">
+	<div class="x_title">
+		<h2>Volumes Status</h2>
+		<ul class="nav navbar-right panel_toolbox">
+			<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+			</li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+				<ul class="dropdown-menu" role="menu">
+					<li><a href="#">Settings 1</a>
+					</li>
+					<li><a href="#">Settings 2</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		<div class="clearfix"></div>
 	</div>
+	<div class="x_content tile fixed_height_160" style="overflow-y:auto;">
+		<% if !volumes.nil? %>
+		<div class="widget_summary">
+			<% start = ((volumes.select{ |volume| volume["Status"].eql? " Started" }.length.to_f / volumes.length.to_f) * 100).to_i %>
+			<div class="w_left w_25">
+				<span>started</span>
+			</div>
+			<div class="w_center w_55">
+				<div class="progress">
+					<div class="progress-bar bg-green" role="progressbar"
+					aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= start %>%;">
+				</div>
+			</div>
+		</div>
+		<div class="w_right w_20">
+			<span><%= volumes.select{ |volume| volume["Status"].eql? " Started" }.length %> / <%= volumes.length %></span>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<div class="widget_summary">
+		<% mount = ((volumes.select{ |volume| volume["Mount State"].eql? "mounted" }.length.to_f / volumes.length.to_f) * 100).to_i %>
+		<div class="w_left w_25">
+			<span>mounted</span>
+		</div>
+		<div class="w_center w_55">
+			<div class="progress">
+				<div class="progress-bar bg-green" role="progressbar"
+				aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= mount %>%;">
+			</div>
+		</div>
+	</div>
+	<div class="w_right w_20">
+		<span><%= volumes.select{ |volume| volume["Mount State"].eql? "mounted" }.length %> / <%= volumes.length %></span>
+	</div>
+	<div class="clearfix"></div>
+</div>
+<% else %>
+<div class="row animated flipInX col-md-8 col-sm-8 col-xs-8">
+	<div class="alert alert-warning" role="alert">
+		<span class="glyphicon glyphicon-bell" area-hidden="true"></span>
+		<span class="glyphicon-class">You don't have a volume. Please add volumes to do something in this page.</span>
+	</div>
+</div>
+<% end %>
+</div>
+</div>
+</div>
+<!-- /node status -->
+
+<!-- node list -->
+<div class="col-md-4 col-sm-4 col-xs-12">
+	<div class="x_panel">
+		<div class="x_title">
+			<h2>Nodes List</h2>
+			<ul class="nav navbar-right panel_toolbox">
+				<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#">Settings 1</a>
+						</li>
+						<li><a href="#">Settings 2</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<div class="clearfix"></div>
+		</div>
+		<div class="x_content fixed_height_320" style="overflow-y:auto;">
+			<ul class="list-unstyled top_profiles">
+				<% if !nodes.nil? %>
+				<% nodes.each do |node| %>
+				<li class="media event">
+					<% if node["ping"].eql? "true" %>
+					<a class="pull-left border-green profile_thumb">
+						<i class="fa fa-cube green"></i>
+					</a>
+					<% else %>
+					<a class="pull-left border-red profile_thumb">
+						<i class="fa fa-cube red"></i>
+					</a>
+					<% end %>
+					<div class="media-body">
+						<a class="title" onclick="loading();"  href="/node/detail/<%= node["id"] %>"><%= node["host_name"] %></a>
+						<p><strong><%= node["host_ip"] %> </strong> <%= node["user_name"] %> </p>
+						<% if node["gluster"].eql? "on" %>
+						<p> <small> number of peers: <%= node["number_of_peers"] %></small></p>
+						<% end %>
+					</div>
+				</li>
+				<% end %>
+				<% else %>
+				<div class="row animated flipInX col-md-8 col-sm-8 col-xs-8">
+					<div class="alert alert-success" role="alert">
+						<span class="glyphicon glyphicon-bell" area-hidden="true"></span>
+						<span class="glyphicon-class">You don't have a node. Please add nodes to do something in this page.</span>
+					</div>
+				</div>
+				<% end %>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- /node list -->
+
+<!-- disk usage -->
+<div class="col-md-4 col-sm-4 col-xs-12">
+	<div class="x_panel">
+		<div class="x_title" id="disk_file_title_div">
+			<h2>Mounted usage</h2>
+			<ul class="nav navbar-right panel_toolbox">
+				<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#">Settings 1</a>
+						</li>
+						<li><a href="#">Settings 2</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<div class="clearfix"></div>
+		</div>
+		<div class="x_content fixed_height_320" style="overflow-y:auto;" id="disk_file_div">
+			<% if volumes.nil? or ( (volumes.select{ |volume| volume["Mount State"].eql? "mounted" }.length) == 0) %>
+			<div class="row animated flipInX col-md-8 col-sm-8 col-xs-8">
+				<div class="alert alert-error" role="alert">
+					<span class="glyphicon glyphicon-bell" area-hidden="true"></span>
+					<span class="glyphicon-class">You don't have a volume. Please add volumes to do something in this page.</span>
+				</div>
+			</div>
+			<div style="display:none;">
+				<%= raw html_disk_file_table %>
+			</div>
+			<% else %>
+
+			<%= raw html_disk_file_table %>
+			<% end %>
+		</div>
+	</div>
+</div>
+<!-- /disk usage -->
+</div>
+<!-- /second row -->
+
 </div>
 <!-- /page content -->
 
