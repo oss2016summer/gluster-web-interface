@@ -261,50 +261,28 @@
 				</div>
 				<div class="x_content" >
 					<ul class="list-unstyled top_profiles" >
-                        <li class="media event">
-                          <a class="pull-left border-aero profile_thumb">
-                            <i class="fa fa-cube aero"></i>
-                          </a>
-                          <div class="media-body">
-                            <a class="title" href="#">Ms. Mary Jane</a>
-                            <p><strong>$2300. </strong> Agent Avarage Sales </p>
-                            <p> <small>12 Sales Today</small>
-                            </p>
-                          </div>
-                        </li>
-                        <li class="media event">
-                          <a class="pull-left border-green profile_thumb">
-                            <i class="fa fa-cube green"></i>
-                          </a>
-                          <div class="media-body">
-                            <a class="title" href="#">Ms. Mary Jane</a>
-                            <p><strong>$2300. </strong> Agent Avarage Sales </p>
-                            <p> <small>12 Sales Today</small>
-                            </p>
-                          </div>
-                        </li>
-                        <li class="media event">
-                          <a class="pull-left border-red profile_thumb">
-                            <i class="fa fa-cube red"></i>
-                          </a>
-                          <div class="media-body">
-                            <a class="title" href="#">Ms. Mary Jane</a>
-                            <p><strong>$2300. </strong> Agent Avarage Sales </p>
-                            <p> <small>12 Sales Today</small>
-                            </p>
-                          </div>
-                        </li>
-                        <li class="media event">
-                          <a class="pull-left border-red profile_thumb">
-                            <i class="fa fa-cube red"></i>
-                          </a>
-                          <div class="media-body">
-                            <a class="title" href="#">Ms. Mary Jane</a>
-                            <p><strong>$2300. </strong> Agent Avarage Sales </p>
-                            <p> <small>12 Sales Today</small>
-                            </p>
-                          </div>
-                        </li>
+						
+						<% nodes = ssh_nodes %>
+						<% nodes.each do |node| %>
+	                        <li class="media event">
+	                          <% if node["ping"].eql? "true" %>
+		                          <a class="pull-left border-green profile_thumb">
+		                            <i class="fa fa-cube green"></i>
+		                          </a>
+		                      <% else %>
+		                          <a class="pull-left border-red profile_thumb">
+		                            <i class="fa fa-cube red"></i>
+		                          </a>
+		                      <% end %>
+	                          <div class="media-body">
+	                            <a class="title" href="#"><%= node["host_name"] %></a>
+	                            <p><strong><%= node["host_ip"] %> </strong> <%= node["user_name"] %> </p>
+	                            <% if node["gluster"].eql? "on" %>
+	                            	<p> <small> <%= node["number_of_peers"] %></small></p>
+	                            <% end %>
+	                          </div>
+	                        </li>
+                        <% end %>
                       </ul>
 				</div>
 			</div>
