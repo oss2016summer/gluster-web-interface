@@ -321,6 +321,48 @@ $(document).ready(function() {
 	<% end %>
 	draw_datatable();
 	draw_chart(du);
+	
+	
+	var options = {
+		legend: false,
+		responsive: false
+	};
+	var colors = ["#3498DB", "#26B99A", "#E74C3C", "#9B59B6", "#BDC3C7"];
+	var labels = [];
+	var data = [];
+	var backgroundColor = [];
+	var hoverBackgroundColor = [];
+
+	var df = [];
+	<% get_df.each_with_index do |df, index| %>
+	df.push({
+		'file_name':"<%= df['Filesystem'] %>",
+		'usage':"<%= (df["Use%"][0..df["Use%"].length - 1]).to_f / 100 %>"
+	});
+	<% end %>
+	
+	for(var i = 0; i < df.length; i++){
+		labels.push(df[i]['file_name']);
+		data.push(df[i]['usage']);
+		backgroundColor.push(colors[i % colors.length]);
+		hoverBackgroundColor.push(colors[i % colors.length]);
+	}
+
+	new Chart(document.getElementById("disk_file_table_canvas"), {
+		type: 'doughnut',
+		tooltipFillColor: "rgba(51, 51, 51, 0.55)",
+		data: {
+			labels: labels,
+			datasets: [{
+				data: data,
+				backgroundColor: backgroundColor,
+				hoverBackgroundColor: hoverBackgroundColor
+			}]
+		},
+		options: options
+	});
+	
+	
 })
 </script>
 <!-- /On ready -->
