@@ -130,15 +130,14 @@
 			</div>
 		</div>
 		<!-- /disk usage -->
-
 	</div>
 
 	<div class ="row">
 		<!-- node status -->
-		<div class="col-md-4 col-sm-4 col-xs-12">
-			<div class="x_panel tile fixed_height_320">
+		<div class="col-md-6 col-sm-6 col-xs-12">
+			<div class="x_panel tile fixed_height_320" style="overflow-y:auto;">
 				<div class="x_title">
-					<h2>Nodes</h2>
+					<h2>Nodes Status</h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 						</li>
@@ -155,10 +154,9 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-					<h4>App Usage across versions</h4>
 					<div class="widget_summary">
 						<div class="w_left w_25">
-							<span>0.1.5.2</span>
+							<span>Ping Connections / Total Node</span>
 						</div>
 						<div class="w_center w_55">
 							<div class="progress">
@@ -211,7 +209,7 @@
 						</div>
 						<div class="w_center w_55">
 							<div class="progress">
-								<div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 5%;">
+								<div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">
 									<span class="sr-only">60% Complete</span>
 								</div>
 							</div>
@@ -237,13 +235,84 @@
 						</div>
 						<div class="clearfix"></div>
 					</div>
-
 				</div>
 			</div>
 		</div>
 		<!-- /node status -->
+
+		<div class="col-md-6 col-sm-6 col-xs-12">
+			<div class="x_panel tile fixed_height_320" style="overflow-y:auto;">
+				<div class="x_title">
+					<h2>Nodes List</h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">Settings 1</a>
+								</li>
+								<li><a href="#">Settings 2</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content" >
+					<ul class="list-unstyled top_profiles" >
+                        <li class="media event">
+                          <a class="pull-left border-aero profile_thumb">
+                            <i class="fa fa-cube aero"></i>
+                          </a>
+                          <div class="media-body">
+                            <a class="title" href="#">Ms. Mary Jane</a>
+                            <p><strong>$2300. </strong> Agent Avarage Sales </p>
+                            <p> <small>12 Sales Today</small>
+                            </p>
+                          </div>
+                        </li>
+                        <li class="media event">
+                          <a class="pull-left border-green profile_thumb">
+                            <i class="fa fa-cube green"></i>
+                          </a>
+                          <div class="media-body">
+                            <a class="title" href="#">Ms. Mary Jane</a>
+                            <p><strong>$2300. </strong> Agent Avarage Sales </p>
+                            <p> <small>12 Sales Today</small>
+                            </p>
+                          </div>
+                        </li>
+                        <li class="media event">
+                          <a class="pull-left border-red profile_thumb">
+                            <i class="fa fa-cube red"></i>
+                          </a>
+                          <div class="media-body">
+                            <a class="title" href="#">Ms. Mary Jane</a>
+                            <p><strong>$2300. </strong> Agent Avarage Sales </p>
+                            <p> <small>12 Sales Today</small>
+                            </p>
+                          </div>
+                        </li>
+                        <li class="media event">
+                          <a class="pull-left border-red profile_thumb">
+                            <i class="fa fa-cube red"></i>
+                          </a>
+                          <div class="media-body">
+                            <a class="title" href="#">Ms. Mary Jane</a>
+                            <p><strong>$2300. </strong> Agent Avarage Sales </p>
+                            <p> <small>12 Sales Today</small>
+                            </p>
+                          </div>
+                        </li>
+                      </ul>
+				</div>
+			</div>
+		</div>
 	</div>
 
+	<div class ="row">
+	</div>
 </div>
 <!-- /page content -->
 
@@ -265,6 +334,19 @@ $(document).ready(function() {
 
 <!-- Datatable functions -->
 <script>
+function check_divheight(){
+	//set div height same
+	if($("#file_manager_div").height() < $("#disk_usage_div").height()){
+		alert("disk big");
+		$("#file_manager_div").height($("#disk_usage_div").height());
+	}
+	else{
+		alert("manager big");
+		$("#disk_usage_div").height($("#file_manager_div").height());
+	}
+}
+
+
 function draw_datatable(){
 	$('#file_manager_table').dataTable( {
 		"bSort": false,
@@ -367,6 +449,7 @@ $(document).on("click", "#file_manager_div .chdir", function(){
 			draw_datatable();
 			draw_chart(result.du);
 			$(location).attr('href',"#");
+			//check_divheight();
 			//Pace.stop();
 		}
 	})
@@ -399,6 +482,8 @@ $(document).on("click", "#file_manager_div .chupper", function(){
 			draw_datatable();
 			draw_chart(result.du);
 			//Pace.stop();
+			
+			//check_divheight();
 			$(location).attr('href',"#");
 		}
 	})
@@ -425,6 +510,7 @@ $(document).on("click", "#file_manager_div .rmdir", function(){
 
 				draw_datatable();
 				draw_chart(result.du);
+				//check_divheight();
 				$(location).attr('href',"#");
 			}
 		})
@@ -432,3 +518,4 @@ $(document).on("click", "#file_manager_div .rmdir", function(){
 })
 </script>
 <!-- /File manager functions -->
+

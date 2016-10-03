@@ -487,7 +487,6 @@ temporary rendered events).
 	overflow-y: scroll;
 	overflow-x: hidden;
 }
-
 .fc-scroller > * { /* we expect an immediate inner element */
 	position: relative; /* re-scope all positions */
 	width: 100%; /* hack to force re-sizing this inner element when scrollbars appear/disappear */
