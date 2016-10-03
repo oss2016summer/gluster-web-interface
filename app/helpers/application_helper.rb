@@ -113,7 +113,44 @@ module ApplicationHelper
         return volumes
     end
 
-    def ssh_peer_status
+    def ssh_nodes
+        nodes = Array.new
+        node = Hash.new
+        db_nodes = Node.all.order("id asc")
+        db_nodes.each do |db_node|
+            node["id"] = db_node.id
+            node["host_name"] = db_node.host_name
+            node["host_ip"] = db_node.host_ip
+            node["user_name"] = db_node.user_name
+            node["user_password"] = db_node.user_password
+            node["created_at"] = db_node.created_at
+            node["updated_at"] = db_node.updated_at
+            node["ping"] = (ping_test?(db_node.host_ip) ? "true" : "false")
+
+            if node["ping"].eql? "true"
+                command = String.new
+                command << "sshpass -p#{node["user_password"]} ssh #{node["user_name"]}@#{node["host_ip"]} gluster peer status"
+                puts command
+                output = `#{command}`.split("\n")
+
+                if output[0].include? "Number of Peers"
+                    node["ssh"] = "on"
+                    node["gluster"] = "on"
+                    node["number_of_peers"] = output[0].split(": ")[1]
+                    # put peers
+
+                elsif output[0].include? "check if gluster daemon is operational."
+                    node["ssh"] = "on"
+                    node["gluster"] = "off"
+                else
+                    node["ssh"] = "off"
+                    node["gluster"] = "off"
+                end
+            end
+            nodes << node
+            node = Hash.new
+        end
+        return nodes
     end
 
     def ssh_peer_probe

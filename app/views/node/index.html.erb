@@ -89,6 +89,7 @@
                     </ul>
                     <div class="clearfix"></div>
                 </div>
+                <% nodes = ssh_nodes %>
                 <div class="x_content">
                     <table class="table table-hover">
                         <thead>
@@ -98,27 +99,28 @@
                                 <th>Host Name</th>
                                 <th>Host IP</th>
                                 <th>User Name</th>
-                                <th>Date</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <%@nodes.each do |t|%>
+                            <% nodes.each do |node| %>
                             <tr>
-                                <%if ping_test?(t.host_ip)%>
-                                    <td><i class="fa fa-circle-o green"></i></a></td>
-                                    <td><input type="checkbox" class="js-switch probe" value="<%=t.id%>" checked/>Attached</td>
-                                <%else%>
-                                    <td><i class="fa fa-close red"></i></a></td>
-                                    <td><input type="checkbox" class="js-switch" disabled/></td>
-                                <%end%>
-                                <th scope="row"><%=t.host_name%></th>
-                                <td><%=t.host_ip%></td>
-                                <td><%=t.user_name%></td>
-                                <td><%=t.created_at%></td>
-                                <td><a href="/node/delete/<%=t.id%>"><i class="fa fa-trash"></i></a></td>
+                                <% if node["ping"].eql? "true" %>
+                                    <td><i class="fa fa-circle-o green"></i></td>
+                                <% else %>
+                                    <td><i class="fa fa-close red"></i></td>
+                                <% end %>
+                                <% if node["gluster"].eql? "on" %>
+                                    <td><i class="fa fa-circle-o green"></i>Attached</td>
+                                <% else %>
+                                    <td><i class="fa fa-close red"></i>Not operational</td>
+                                <% end %>
+                                <th scope="row"><%= node["host_name"] %></th>
+                                <td><%= node["host_ip"] %></td>
+                                <td><%= node["user_name"] %></td>
+                                <td><a href="/node/delete/<%= node["id"] %>"><i class="fa fa-trash"></i></a></td>
                             </tr>
-                            <%end%>
+                            <% end %>
                         </tbody>
                     </table>
                 </div>
