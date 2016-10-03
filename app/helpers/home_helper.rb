@@ -96,6 +96,7 @@ module HomeHelper
 
     def html_disk_file_table(dir = @current_dir, id = "disk_file_table")
         html = String.new
+        html << "<div class='fixed_height_320' style='overflow-y:auto;'>"
         html << "<table id='#{id}' class='' style='width:100%'>"
         html << "<tr>"
         html << "<th style='width:37%;'>"
@@ -119,6 +120,8 @@ module HomeHelper
         html << "<tbody>"
 
         get_df.each_with_index do |file, index|
+            # show mounted files only
+
             color = ['blue', 'green', 'red', 'purple', 'grey'][index % 5]
             html << "<tr><td>"
             html << "<div class='col-lg-7 col-md-7 col-sm-7 col-xs-7'>"
@@ -128,7 +131,7 @@ module HomeHelper
             html << "</td><td>"
             html << "<div class='col-lg-7 col-md-7 col-sm-7 col-xs-7'>"
             html << "<p style='float:right'>"
-            html << format((file["Use%"][0..file["Use%"].length - 1])) + "%"
+            html << file["Use%"]
             html << "</p></div>"
             html << "</td></tr>"
         end
@@ -137,6 +140,7 @@ module HomeHelper
         html << "</table>"
         html << "</td></tr>"
         html << "</table>"
+        html << "</div>"
         return html
     end
 end
