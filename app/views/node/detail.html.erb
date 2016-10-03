@@ -149,19 +149,40 @@
                 <div class="x_content">
                      <% nodes.each do |node| %>
                         <% if (node["id"].to_s).eql?(@node_id.to_s)%>
-                            <p><%=node["created_at"]%></p>
-                            <p><%=node["updated_at"]%></p>
-                            <% if node["ping"].eql? "true" %>
-                                <p>True</p>
-                                <p><%=node["ssh"]%></p>
-                                <p><%=node["gluster"]%></p>
-                                <% if node["ssh"].eql?("on") && node["gluster"].eql?("on")%>
-                                    <p><%=node["number_of_peers"]%></p>
-                                <%end%>
-                            <% else %>
-                                <p>False</p>
-                            <% end %>
-                            <form class="form-horizontal form-label-left" action="/node/add" method="post" novalidate>
+                            <form class="form-horizontal form-label-left" action="/node/update" method="post" novalidate>
+                                <input type="hidden" name="node_id" value="<%=node["id"].to_s%>"/>
+                                    
+                                <div class="item form-group">
+                                    <label for="password" class="control-label col-md-3">Ping : </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <label class="control-label col-md-7 col-xs-12" ><%=node["ping"]%></label>
+                                    </div>
+                                </div>
+                                <% if node["ping"].eql? "true" %>
+                                    <div class="item form-group">
+                                        <label for="password" class="control-label col-md-3">SSH Connection : </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <label class="control-label col-md-7 col-xs-12" ><%=node["ssh"]%></label>
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label for="password" class="control-label col-md-3">Gluster Connection : </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <label class="control-label col-md-7 col-xs-12" ><%=node["gluster"]%></label>
+                                        </div>
+                                    </div>
+                                        
+                                    <% if node["ssh"].eql?("on") && node["gluster"].eql?("on")%>
+                                        <div class="item form-group">
+                                            <label for="password" class="control-label col-md-3">Number of Peers : </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <label class="control-label col-md-7 col-xs-12" ><%=node["number_of_peers"]%></label>
+                                            </div>
+                                        </div>
+                                    <%end%>
+                                <% end %>
+                                
+                                
                                 <div class="item form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Host Name <span class="required">*</span>
                                     </label>
@@ -193,11 +214,22 @@
                                         data-toggle="tooltip" data-placement="top" title="Put user password for ssh connection. client must have ssh key">
                                     </div>
                                 </div>
+                                <div class="item form-group">
+                                    <label for="password" class="control-label col-md-3">Created Time : </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <label class="control-label col-md-7 col-xs-12" ><%=node["created_at"]%></label>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label for="password" class="control-label col-md-3">Updated Time : </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <label class="control-label col-md-7 col-xs-12" ><%=node["updated_at"]%></label>
+                                    </div>
+                                </div>
                                 <!--<div class="ln_solid"></div>-->
                                 <div class="form-group">
                                     <div class="col-md-6 col-md-offset-3">
-                                        <button type="submit" class="btn btn-primary">Cancel</button>
-                                        <button type="submit" class="btn btn-success">Add</button>
+                                        <button type="submit" class="btn btn-success">Update</button>
                                     </div>
                                 </div>
                             </form>

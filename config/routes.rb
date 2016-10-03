@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   post 'node/add' => "node#node_add"
   get 'node/delete/:node_id' => "node#node_delete"
   get 'node/detail/:node_id' => "node#detail"
+  post 'node/update' => "node#node_update"
   post 'node/probe' => "node#node_probe"
   post 'node/detach' => "node#node_detach"
 
