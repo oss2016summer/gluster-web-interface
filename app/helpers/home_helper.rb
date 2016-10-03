@@ -94,4 +94,6 @@ module HomeHelper
         return html
     end
 
+    def html_disk_file_table
+    end
 end
