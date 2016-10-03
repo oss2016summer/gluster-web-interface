@@ -156,7 +156,7 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content tile fixed_height_160" style="overflow-y:auto;">
-					<% if !nodes.nil? %>
+					<% if nodes.length != 0 %>
 					<div class="widget_summary">
 						<% ping = ((nodes.select{ |node| node["ping"].eql? "true" }.length.to_f / nodes.length.to_f) * 100).to_i %>
 						<div class="w_left w_25">
@@ -237,9 +237,10 @@
 		<div class="clearfix"></div>
 	</div>
 	<div class="x_content tile fixed_height_160" style="overflow-y:auto;">
-		<% if !volumes.nil? %>
+		<% if volumes.length != 0 %>
+		<% start = ((volumes.select{ |volume| volume["Status"].eql? " Started" }.length.to_f / volumes.length.to_f) * 100).to_i %>
+		<% mount = ((volumes.select{ |volume| volume["Mount State"].eql? "mounted" }.length.to_f / volumes.length.to_f) * 100).to_i %>
 		<div class="widget_summary">
-			<% start = ((volumes.select{ |volume| volume["Status"].eql? " Started" }.length.to_f / volumes.length.to_f) * 100).to_i %>
 			<div class="w_left w_25">
 				<span>started</span>
 			</div>
@@ -256,7 +257,6 @@
 		<div class="clearfix"></div>
 	</div>
 	<div class="widget_summary">
-		<% mount = ((volumes.select{ |volume| volume["Mount State"].eql? "mounted" }.length.to_f / volumes.length.to_f) * 100).to_i %>
 		<div class="w_left w_25">
 			<span>mounted</span>
 		</div>
@@ -307,7 +307,7 @@
 		</div>
 		<div class="x_content fixed_height_320" style="overflow-y:auto;">
 			<ul class="list-unstyled top_profiles">
-				<% if !nodes.nil? %>
+				<% if nodes.length != 0 %>
 				<% nodes.each do |node| %>
 				<li class="media event">
 					<% if node["ping"].eql? "true" %>
@@ -363,7 +363,7 @@
 			<div class="clearfix"></div>
 		</div>
 		<div class="x_content fixed_height_320" style="overflow-y:auto;" id="disk_file_div">
-			<% if volumes.nil? or ( (volumes.select{ |volume| volume["Mount State"].eql? "mounted" }.length) == 0) %>
+			<% if (volumes.length == 0) or ( (volumes.select{ |volume| volume["Mount State"].eql? "mounted" }.length) == 0) %>
 			<div class="row animated flipInX col-md-8 col-sm-8 col-xs-8">
 				<div class="alert alert-error" role="alert">
 					<span class="glyphicon glyphicon-bell" area-hidden="true"></span>
