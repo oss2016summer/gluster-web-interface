@@ -358,6 +358,12 @@ body {
 .fixed_height_200 {
   height: 200px;
 }
+.fixed_height_230 {
+  height: 230px;
+}
+.fixed_height_300 {
+  height: 300px;
+}
 .overflow_hidden {
   overflow: hidden
 }

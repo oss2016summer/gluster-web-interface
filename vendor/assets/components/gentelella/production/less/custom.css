@@ -430,6 +430,10 @@ body {
     height: 200px;
 }
 
+.fixed_height_220 {
+    height: 220px;
+}
+
 .overflow_hidden {
     overflow: hidden
 }
