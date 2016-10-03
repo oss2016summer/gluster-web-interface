@@ -6,280 +6,259 @@
         </div>
     </div>
     <div class="clearfix"></div>
+        <% nodes = ssh_nodes %>
     <div class="row">
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2><i class="fa fa-plus-square-o"></i> Add Node</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Settings 1</a>
-                                </li>
-                                <li><a href="#">Settings 2</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                    <form class="form-horizontal form-label-left" action="/node/add" method="post" novalidate>
-                        <div class="item form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Host Name <span class="required">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="10" data-validate-words="1" name="host_name" placeholder="Host Name" required="required" type="text"
-                                data-toggle="tooltip" data-placement="top" title="Put node's representative name">
-                            </div>
-                        </div>
-                        <div class="item form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ip">Host IP <span class="required">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input id="ip" class="form-control col-md-7 col-xs-12" data-validate-length-range="10" data-validate-words="1" name="host_ip" placeholder="127.0.0.1" required="required" type="text"
-                                data-toggle="tooltip" data-placement="top" title="Put node's ip">
-                            </div>
-                        </div>
-                        <div class="item form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">User Name <span class="required">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input id="occupation" type="text" name="user_name" placeholder="root" required="required" data-validate-length-range="5,20" class="form-control col-md-7 col-xs-12"
-                                data-toggle="tooltip" data-placement="top" title="Put user name for ssh connection. client must have ssh key">
-                            </div>
-                        </div>
-                        <div class="item form-group">
-                            <label for="password" class="control-label col-md-3">User Password  <span class="required">*</span></label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input id="password" type="password" name="user_password" placeholder="secret" data-validate-length="1,10" class="form-control col-md-7 col-xs-12" required="required"
-                                data-toggle="tooltip" data-placement="top" title="Put user password for ssh connection. client must have ssh key">
-                            </div>
-                        </div>
-                        <!--<div class="ln_solid"></div>-->
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-3">
-                                <button type="submit" class="btn btn-primary">Cancel</button>
-                                <button type="submit" class="btn btn-success">Add</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2><i class="fa fa-align-left"></i> Node List</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Settings 1</a>
-                                </li>
-                                <li><a href="#">Settings 2</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content tile" style="overflow-y:auto; min-height:227px;">
-
-                </div>
-            </div>
-        </div>
-
-     </div>
-    <div class="row">
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2><i class="fa fa-align-left"></i> Node List</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Settings 1</a>
-                                </li>
-                                <li><a href="#">Settings 2</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <% nodes = ssh_nodes %>
-                <div class="x_content">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Ping</th>
-                                <th>Status</th>
-                                <th>Host Name</th>
-                                <th>Host IP</th>
-                                <th>User Name</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% nodes.each do |node| %>
-                           <tr>
-                                <% if node["ping"].eql? "true" %>
-                                    <td><i class="fa fa-circle-o green"></i></td>
-                                <% else %>
-                                    <td><i class="fa fa-close red"></i></td>
-                                <% end %>
-                                <% if node["gluster"].eql? "on" %>
-                                    <td><i class="fa fa-circle-o green"></i> Attached</td>
-                                <% else %>
-                                    <td><i class="fa fa-close red"></i> Not operational</td>
-                                <% end %>
-                                <th scope="row"> <a onclick="loading();" href="/node/detail/<%= node["id"] %>"><%= node["host_name"] %></a></th>
-                                <td><%= node["host_ip"] %></td>
-                                <td><%= node["user_name"] %></td>
-                                <td><a href="/node/delete/<%= node["id"] %>"><i class="fa fa-trash"></i></a></td>
-                            </tr>
-                            <% end %>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-sm-6 col-xs-6">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h2><i class="fa fa-info-circle"></i> Node Detail</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Settings 1</a>
-                                </li>
-                                <li><a href="#">Settings 2</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                     <% nodes.each do |node| %>
-                        <% if (node["id"].to_s).eql?(@node_id.to_s)%>
-                            <form class="form-horizontal form-label-left" action="/node/update" method="post" novalidate>
-                                <input type="hidden" name="node_id" value="<%=node["id"].to_s%>"/>
-
-                                <div class="item form-group">
-                                    <label for="password" class="control-label col-md-3">Ping : </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <% if node["ping"].eql? "true" %>
-                                                <label class="control-label col-md-7 col-xs-12" ><i class="fa fa-circle-o green"></i></label>
-                                            <% else %>
-                                                <label class="control-label col-md-7 col-xs-12" ><i class="fa fa-close red"></i></label>
-                                            <% end %>
-                                        <!--<label class="control-label col-md-7 col-xs-12" ><%=node["ping"]%></label>-->
-                                    </div>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2><i class="fa fa-plus-square-o"></i> Add Node</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Settings 1</a>
+                                    </li>
+                                    <li><a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <form class="form-horizontal form-label-left" action="/node/add" method="post" novalidate>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Host Name <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="10" data-validate-words="1" name="host_name" placeholder="Host Name" required="required" type="text"
+                                    data-toggle="tooltip" data-placement="top" title="Put node's representative name">
                                 </div>
-                                <% if node["ping"].eql? "true" %>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ip">Host IP <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="ip" class="form-control col-md-7 col-xs-12" data-validate-length-range="10" data-validate-words="1" name="host_ip" placeholder="127.0.0.1" required="required" type="text"
+                                    data-toggle="tooltip" data-placement="top" title="Put node's ip">
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">User Name <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="occupation" type="text" name="user_name" placeholder="root" required="required" data-validate-length-range="5,20" class="form-control col-md-7 col-xs-12"
+                                    data-toggle="tooltip" data-placement="top" title="Put user name for ssh connection. client must have ssh key">
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label for="password" class="control-label col-md-3">User Password  <span class="required">*</span></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="password" type="password" name="user_password" placeholder="secret" data-validate-length="1,10" class="form-control col-md-7 col-xs-12" required="required"
+                                    data-toggle="tooltip" data-placement="top" title="Put user password for ssh connection. client must have ssh key">
+                                </div>
+                            </div>
+                            <!--<div class="ln_solid"></div>-->
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <button type="submit" class="btn btn-primary">Cancel</button>
+                                    <button type="submit" class="btn btn-success">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2><i class="fa fa-align-left"></i> Node List</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Settings 1</a>
+                                    </li>
+                                    <li><a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Ping</th>
+                                    <th>Status</th>
+                                    <th>Host Name</th>
+                                    <th>Host IP</th>
+                                    <th>User Name</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% nodes.each do |node| %>
+                               <tr>
+                                    <% if node["ping"].eql? "true" %>
+                                        <td><i class="fa fa-circle-o green"></i></td>
+                                    <% else %>
+                                        <td><i class="fa fa-close red"></i></td>
+                                    <% end %>
+                                    <% if node["gluster"].eql? "on" %>
+                                        <td><i class="fa fa-circle-o green"></i> Attached</td>
+                                    <% else %>
+                                        <td><i class="fa fa-close red"></i> Not operational</td>
+                                    <% end %>
+                                    <th scope="row"> <a onclick="loading();" href="/node/detail/<%= node["id"] %>"><%= node["host_name"] %></a></th>
+                                    <td><%= node["host_ip"] %></td>
+                                    <td><%= node["user_name"] %></td>
+                                    <td><a href="/node/delete/<%= node["id"] %>"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                                <% end %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>    
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2><i class="fa fa-info-circle"></i> Node Detail</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Settings 1</a>
+                                    </li>
+                                    <li><a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                         <% nodes.each do |node| %>
+                            <% if (node["id"].to_s).eql?(@node_id.to_s)%>
+                                <form class="form-horizontal form-label-left" action="/node/update" method="post" novalidate>
+                                    <input type="hidden" name="node_id" value="<%=node["id"].to_s%>"/>
+    
                                     <div class="item form-group">
-                                        <label for="password" class="control-label col-md-3">SSH Connection : </label>
+                                        <label for="password" class="control-label col-md-3">Ping : </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <% if node["ssh"].eql? "on" %>
-                                                <label class="control-label col-md-7 col-xs-12" ><i class="fa fa-circle-o green"></i></label>
-                                            <% else %>
-                                                <label class="control-label col-md-7 col-xs-12" ><i class="fa fa-close red"></i></label>
-                                            <% end %>
-                                            <!--<label class="control-label col-md-7 col-xs-12" ><%=node["ssh"]%></label>-->
+                                                <% if node["ping"].eql? "true" %>
+                                                    <label class="control-label col-md-7 col-xs-12" ><i class="fa fa-circle-o green"></i></label>
+                                                <% else %>
+                                                    <label class="control-label col-md-7 col-xs-12" ><i class="fa fa-close red"></i></label>
+                                                <% end %>
+                                            <!--<label class="control-label col-md-7 col-xs-12" ><%=node["ping"]%></label>-->
                                         </div>
                                     </div>
-                                    <div class="item form-group">
-                                        <label for="password" class="control-label col-md-3">Gluster Connection : </label>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <% if node["gluster"].eql? "on" %>
-                                                <label class="control-label col-md-7 col-xs-12" ><i class="fa fa-circle-o green"></i></label>
-                                            <% else %>
-                                                <label class="control-label col-md-7 col-xs-12" ><i class="fa fa-close red"></i></label>
-                                            <% end %>
-                                            <!--<label class="control-label col-md-7 col-xs-12" ><%=node["gluster"]%></label>-->
-                                        </div>
-                                    </div>
-
-                                    <% if node["ssh"].eql?("on") && node["gluster"].eql?("on")%>
+                                    <% if node["ping"].eql? "true" %>
                                         <div class="item form-group">
-                                            <label for="password" class="control-label col-md-3">Number of Peers : </label>
+                                            <label for="password" class="control-label col-md-3">SSH Connection : </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <label class="control-label col-md-7 col-xs-12" ><%=node["number_of_peers"]%></label>
+                                                <% if node["ssh"].eql? "on" %>
+                                                    <label class="control-label col-md-7 col-xs-12" ><i class="fa fa-circle-o green"></i></label>
+                                                <% else %>
+                                                    <label class="control-label col-md-7 col-xs-12" ><i class="fa fa-close red"></i></label>
+                                                <% end %>
+                                                <!--<label class="control-label col-md-7 col-xs-12" ><%=node["ssh"]%></label>-->
                                             </div>
                                         </div>
-                                    <%end%>
+                                        <div class="item form-group">
+                                            <label for="password" class="control-label col-md-3">Gluster Connection : </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <% if node["gluster"].eql? "on" %>
+                                                    <label class="control-label col-md-7 col-xs-12" ><i class="fa fa-circle-o green"></i></label>
+                                                <% else %>
+                                                    <label class="control-label col-md-7 col-xs-12" ><i class="fa fa-close red"></i></label>
+                                                <% end %>
+                                                <!--<label class="control-label col-md-7 col-xs-12" ><%=node["gluster"]%></label>-->
+                                            </div>
+                                        </div>
+    
+                                        <% if node["ssh"].eql?("on") && node["gluster"].eql?("on")%>
+                                            <div class="item form-group">
+                                                <label for="password" class="control-label col-md-3">Number of Peers : </label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <label class="control-label col-md-7 col-xs-12" ><%=node["number_of_peers"]%></label>
+                                                </div>
+                                            </div>
+                                        <%end%>
+                                    <% end %>
+    
+    
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Host Name <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input id="name"  value="<%=node["host_name"]%>" class="form-control col-md-7 col-xs-12" data-validate-length-range="10" data-validate-words="1" name="host_name" placeholder="Host Name" required="required" type="text"
+                                            data-toggle="tooltip" data-placement="top" title="Put node's representative name">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ip">Host IP <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input id="ip"  value="<%=node["host_ip"]%>" class="form-control col-md-7 col-xs-12" data-validate-length-range="10" data-validate-words="1" name="host_ip" placeholder="127.0.0.1" required="required" type="text"
+                                            data-toggle="tooltip" data-placement="top" title="Put node's ip">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">User Name <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input id="occupation"  value="<%=node["user_name"]%>" type="text" name="user_name" placeholder="root" required="required" data-validate-length-range="5,20" class="form-control col-md-7 col-xs-12"
+                                            data-toggle="tooltip" data-placement="top" title="Put user name for ssh connection. client must have ssh key">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label for="password" class="control-label col-md-3">User Password  <span class="required">*</span></label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input id="password"  value="<%=node["user_password"]%>" type="password" name="user_password" placeholder="secret" data-validate-length="1,10" class="form-control col-md-7 col-xs-12" required="required"
+                                            data-toggle="tooltip" data-placement="top" title="Put user password for ssh connection. client must have ssh key">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label for="password" class="control-label col-md-3">Created Time : </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <label class="control-label col-md-7 col-xs-12" ><%=node["created_at"]%></label>
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label for="password" class="control-label col-md-3">Updated Time : </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <label class="control-label col-md-7 col-xs-12" ><%=node["updated_at"]%></label>
+                                        </div>
+                                    </div>
+                                    <!--<div class="ln_solid"></div>-->
+                                    <br>
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-md-offset-3">
+                                            <button type="submit" class="btn btn-success">Update</button>
+                                        </div>
+                                    </div>
+                                </form>
                                 <% end %>
-
-
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Host Name <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input id="name"  value="<%=node["host_name"]%>" class="form-control col-md-7 col-xs-12" data-validate-length-range="10" data-validate-words="1" name="host_name" placeholder="Host Name" required="required" type="text"
-                                        data-toggle="tooltip" data-placement="top" title="Put node's representative name">
-                                    </div>
-                                </div>
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ip">Host IP <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input id="ip"  value="<%=node["host_ip"]%>" class="form-control col-md-7 col-xs-12" data-validate-length-range="10" data-validate-words="1" name="host_ip" placeholder="127.0.0.1" required="required" type="text"
-                                        data-toggle="tooltip" data-placement="top" title="Put node's ip">
-                                    </div>
-                                </div>
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">User Name <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input id="occupation"  value="<%=node["user_name"]%>" type="text" name="user_name" placeholder="root" required="required" data-validate-length-range="5,20" class="form-control col-md-7 col-xs-12"
-                                        data-toggle="tooltip" data-placement="top" title="Put user name for ssh connection. client must have ssh key">
-                                    </div>
-                                </div>
-                                <div class="item form-group">
-                                    <label for="password" class="control-label col-md-3">User Password  <span class="required">*</span></label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input id="password"  value="<%=node["user_password"]%>" type="password" name="user_password" placeholder="secret" data-validate-length="1,10" class="form-control col-md-7 col-xs-12" required="required"
-                                        data-toggle="tooltip" data-placement="top" title="Put user password for ssh connection. client must have ssh key">
-                                    </div>
-                                </div>
-                                <div class="item form-group">
-                                    <label for="password" class="control-label col-md-3">Created Time : </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <label class="control-label col-md-7 col-xs-12" ><%=node["created_at"]%></label>
-                                    </div>
-                                </div>
-                                <div class="item form-group">
-                                    <label for="password" class="control-label col-md-3">Updated Time : </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <label class="control-label col-md-7 col-xs-12" ><%=node["updated_at"]%></label>
-                                    </div>
-                                </div>
-                                <!--<div class="ln_solid"></div>-->
-                                <br>
-                                <div class="form-group">
-                                    <div class="col-md-6 col-md-offset-3">
-                                        <button type="submit" class="btn btn-success">Update</button>
-                                    </div>
-                                </div>
-                            </form>
                             <% end %>
-                        <% end %>
+                    </div>
                 </div>
             </div>
-        </div>
+        </div>  
+    </div>
+    <div class="row">
     </div>
 </div>
 <!-- /page content -->
