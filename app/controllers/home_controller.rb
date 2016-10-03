@@ -38,10 +38,17 @@ class HomeController < ApplicationController
     end
 
     def rmdir
-        file_name = params[:file_name]
+        @current_dir = params[:current_dir]
+        file_name = params[:target]
         command = String.new
         command << "sudo rm -rf #{file_name}"
         puts command
         `#{command}`
+        render :json => {
+            :dir => @current_dir,
+            :file_manager_table => html_file_manager_table(@current_dir),
+            :disk_usage_table => html_disk_usage_table(@current_dir),
+            :du => get_du(@current_dir),
+        }
     end
 end

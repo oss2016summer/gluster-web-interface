@@ -310,15 +310,10 @@
 				<% if nodes.length != 0 %>
 				<% nodes.each do |node| %>
 				<li class="media event">
-					<% if node["ping"].eql? "true" %>
-					<a class="pull-left border-green profile_thumb">
-						<i class="fa fa-cube green"></i>
+					<% color = ((node["ping"].eql? "true") ? ((node["gluster"].eql? "on" and node["ssh"].eql? "on") ? "green" : "aero") : "red")%>
+					<a class="pull-left border-<%= color %> profile_thumb">
+						<i class="fa fa-cube <%= color %>"></i>
 					</a>
-					<% else %>
-					<a class="pull-left border-red profile_thumb">
-						<i class="fa fa-cube red"></i>
-					</a>
-					<% end %>
 					<div class="media-body">
 						<a class="title" onclick="loading();"  href="/node/detail/<%= node["id"] %>"><%= node["host_name"] %></a>
 						<p><strong><%= node["host_ip"] %> </strong> <%= node["user_name"] %> </p>
@@ -514,14 +509,14 @@ $(document).on("click", "#file_manager_div .chupper", function(){
 })
 // remove directory
 $(document).on("click", "#file_manager_div .rmdir", function(){
-	var file_name = $(this).text().trim();
+	var file_name = $(this).data("name").trim();
 	var current_dir = $("#file_manager_div span").text().trim();
 	var target = current_dir + "/" + file_name;
 	if(confirm("Are you sure you want to delete '"+ file_name +"' ?")) {
 		$.ajax({
 			method: "POST",
 			url: "/home/rmdir",
-			data: { target : target },
+			data: { target : target , current_dir : current_dir},
 			beforeSend : function(){
 				$(location).attr('href',"#loading");
 			},

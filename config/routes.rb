@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   get 'home/index' => 'home#index'
   post 'home/chdir' => 'home#chdir'
   post 'home/mkdir' => 'home#make_directory'
-  post 'home/delete' => 'home#delete_file'
+  post 'home/rmdir' => 'home#rmdir'
 
   #Volume
   get 'volume/index' => 'volume#index'

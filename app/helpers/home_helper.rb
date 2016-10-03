@@ -38,7 +38,7 @@ module HomeHelper
             html << "<td>#{file['auth']}</td>"
             html << "<td>#{file['size']}</td>"
             html << "<td>#{file["date"]}"
-            html << "<a class='pull-right rmdir' href='#'><i class='fa fa-trash'></i></a>"
+            html << "<a class='pull-right rmdir' href='#' data-name='#{file['name']}'><i class='fa fa-trash'></i></a>"
             html << "</td>"
             html << "</tr>"
         end
