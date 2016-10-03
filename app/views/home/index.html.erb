@@ -156,7 +156,7 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content tile fixed_height_160" style="overflow-y:auto;">
-					<% if !nodes.nil? %>
+					<% begin %>
 						<div class="widget_summary">
 							<% ping = ((nodes.select{ |node| node["ping"].eql? "true" }.length.to_f / nodes.length.to_f) * 100).to_i %>
 							<div class="w_left w_25">
@@ -208,7 +208,7 @@
 							</div>
 							<div class="clearfix"></div>
 						</div>
-					<% else %>
+					<% rescue => ex %>
 						<div class="row animated flipInX col-md-6 col-sm-9 col-xs-12">
 							<div class="alert alert-info" role="alert">
 								<span class="glyphicon glyphicon-bell" area-hidden="true"></span>
@@ -238,7 +238,7 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content tile fixed_height_160" style="overflow-y:auto;">
-					<% if !volumes.nil? %>
+					<% begin %>
 						<div class="widget_summary">
 							<% start = ((volumes.select{ |volume| volume["Status"].eql? " Started" }.length.to_f / volumes.length.to_f) * 100).to_i %>
 							<div class="w_left w_25">
@@ -273,7 +273,7 @@
 							</div>
 							<div class="clearfix"></div>
 						</div>
-					<% else %>
+					<% 	rescue => ex %>
 						<div class="row animated flipInX col-md-6 col-sm-9 col-xs-12">
 							<div class="alert alert-info" role="alert">
 							<span class="glyphicon glyphicon-bell" area-hidden="true"></span>
