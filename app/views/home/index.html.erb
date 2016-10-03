@@ -156,7 +156,7 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content tile fixed_height_160" style="overflow-y:auto;">
-					<% begin %>
+					<% if nodes.nil? %>
 						<div class="widget_summary">
 							<% ping = ((nodes.select{ |node| node["ping"].eql? "true" }.length.to_f / nodes.length.to_f) * 100).to_i %>
 							<div class="w_left w_25">
@@ -208,8 +208,8 @@
 							</div>
 							<div class="clearfix"></div>
 						</div>
-					<% rescue => ex %>
-						<div class="row animated flipInX col-md-6 col-sm-9 col-xs-12">
+					<% else %>
+						<div class="row animated flipInX col-md-8 col-sm-8 col-xs-8 cent-align">
 							<div class="alert alert-info" role="alert">
 								<span class="glyphicon glyphicon-bell" area-hidden="true"></span>
 								<span class="glyphicon-class">You don't have a node. Please add nodes to do something in this page.</span>
@@ -238,7 +238,7 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content tile fixed_height_160" style="overflow-y:auto;">
-					<% begin %>
+					<% if volumes.nil? %>
 						<div class="widget_summary">
 							<% start = ((volumes.select{ |volume| volume["Status"].eql? " Started" }.length.to_f / volumes.length.to_f) * 100).to_i %>
 							<div class="w_left w_25">
@@ -273,9 +273,9 @@
 							</div>
 							<div class="clearfix"></div>
 						</div>
-					<% 	rescue => ex %>
-						<div class="row animated flipInX col-md-6 col-sm-9 col-xs-12">
-							<div class="alert alert-info" role="alert">
+					<% else %>
+						<div class="row animated flipInX col-md-8 col-sm-8 col-xs-8">
+							<div class="alert alert-warning" role="alert">
 							<span class="glyphicon glyphicon-bell" area-hidden="true"></span>
 								<span class="glyphicon-class">You don't have a volume. Please add volumes to do something in this page.</span>
 							</div>
@@ -308,26 +308,35 @@
 				</div>
 				<div class="x_content fixed_height_320" style="overflow-y:auto;">
 					<ul class="list-unstyled top_profiles" >
-						<% nodes.each do |node| %>
-	                        <li class="media event">
-	                          <% if node["ping"].eql? "true" %>
-		                          <a class="pull-left border-green profile_thumb">
-		                            <i class="fa fa-cube green"></i>
-		                          </a>
-		                      <% else %>
-		                          <a class="pull-left border-red profile_thumb">
-		                            <i class="fa fa-cube red"></i>
-		                          </a>
-		                      <% end %>
-	                          <div class="media-body">
-	                            <a class="title" onclick="loading();"  href="/node/detail/<%= node["id"] %>"><%= node["host_name"] %></a>
-	                            <p><strong><%= node["host_ip"] %> </strong> <%= node["user_name"] %> </p>
-	                            <% if node["gluster"].eql? "on" %>
-	                            	<p> <small> number of peers: <%= node["number_of_peers"] %></small></p>
-	                            <% end %>
-	                          </div>
-	                        </li>
-                        <% end %>
+						<% if nodes.nil? %>
+							<% nodes.each do |node| %>
+		                        <li class="media event">
+		                          <% if node["ping"].eql? "true" %>
+			                          <a class="pull-left border-green profile_thumb">
+			                            <i class="fa fa-cube green"></i>
+			                          </a>
+			                      <% else %>
+			                          <a class="pull-left border-red profile_thumb">
+			                            <i class="fa fa-cube red"></i>
+			                          </a>
+			                      <% end %>
+		                          <div class="media-body">
+		                            <a class="title" onclick="loading();"  href="/node/detail/<%= node["id"] %>"><%= node["host_name"] %></a>
+		                            <p><strong><%= node["host_ip"] %> </strong> <%= node["user_name"] %> </p>
+		                            <% if node["gluster"].eql? "on" %>
+		                            	<p> <small> number of peers: <%= node["number_of_peers"] %></small></p>
+		                            <% end %>
+		                          </div>
+		                        </li>
+	                        <% end %>
+	                       <% else %>
+	                       	<div class="row animated flipInX col-md-8 col-sm-8 col-xs-8">
+								<div class="alert alert-success" role="alert">
+								<span class="glyphicon glyphicon-bell" area-hidden="true"></span>
+									<span class="glyphicon-class">You don't have a node. Please add nodes to do something in this page.</span>
+								</div>
+							</div>
+	                       <% end %>
                       </ul>
 				</div>
 			</div>
@@ -355,7 +364,21 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content tile" id="disk_file_div">
-					<%= raw html_disk_file_table %>
+					
+					<% if volumes.nil? or ( (volumes.select{ |volume| volume["Mount State"].eql? "mounted" }.length) == 0) %>
+	                       	<div class="row animated flipInX col-md-8 col-sm-8 col-xs-8">
+								<div class="alert alert-error" role="alert">
+								<span class="glyphicon glyphicon-bell" area-hidden="true"></span>
+									<span class="glyphicon-class">You don't have a volume. Please add volumes to do something in this page.</span>
+								</div>
+							</div>
+						<div style="display:none;">
+							<%= raw html_disk_file_table %>
+						</div>
+					<% else %>
+					
+						<%= raw html_disk_file_table %>
+					<% end %>
 				</div>
 			</div>
 		</div>
