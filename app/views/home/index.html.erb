@@ -156,57 +156,66 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content tile fixed_height_160" style="overflow-y:auto;">
-					<div class="widget_summary">
-						<% ping = ((nodes.select{ |node| node["ping"].eql? "true" }.length.to_f / nodes.length.to_f) * 100).to_i %>
-						<div class="w_left w_25">
-							<span>ping</span>
-						</div>
-						<div class="w_center w_55">
-							<div class="progress">
-								<div class="progress-bar bg-green" role="progressbar"
-								aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= ping %>%;">
+					<% if !nodes.nil? %>
+						<div class="widget_summary">
+							<% ping = ((nodes.select{ |node| node["ping"].eql? "true" }.length.to_f / nodes.length.to_f) * 100).to_i %>
+							<div class="w_left w_25">
+								<span>ping</span>
+							</div>
+							<div class="w_center w_55">
+								<div class="progress">
+									<div class="progress-bar bg-green" role="progressbar"
+									aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= ping %>%;">
+									</div>
 								</div>
 							</div>
+							<div class="w_right w_20">
+								<span><%= nodes.select{ |node| node["ping"].eql? "true" }.length %> / <%= nodes.length %></span>
+							</div>
+							<div class="clearfix"></div>
 						</div>
-						<div class="w_right w_20">
-							<span><%= nodes.select{ |node| node["ping"].eql? "true" }.length %> / <%= nodes.length %></span>
-						</div>
-						<div class="clearfix"></div>
-					</div>
-					<div class="widget_summary">
-						<% ssh = ((nodes.select{ |node| node["ssh"].eql? "on" }.length.to_f / nodes.length.to_f) * 100).to_i %>
-						<div class="w_left w_25">
-							<span>ssh</span>
-						</div>
-						<div class="w_center w_55">
-							<div class="progress">
-								<div class="progress-bar bg-green" role="progressbar"
-								aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= ssh %>%;">
+						<div class="widget_summary">
+							<% ssh = ((nodes.select{ |node| node["ssh"].eql? "on" }.length.to_f / nodes.length.to_f) * 100).to_i %>
+							<div class="w_left w_25">
+								<span>ssh</span>
+							</div>
+							<div class="w_center w_55">
+								<div class="progress">
+									<div class="progress-bar bg-green" role="progressbar"
+									aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= ssh %>%;">
+									</div>
 								</div>
 							</div>
+							<div class="w_right w_20">
+								<span><%= nodes.select{ |node| node["ssh"].eql? "on" }.length %> / <%= nodes.length %></span>
+							</div>
+							<div class="clearfix"></div>
 						</div>
-						<div class="w_right w_20">
-							<span><%= nodes.select{ |node| node["ssh"].eql? "on" }.length %> / <%= nodes.length %></span>
-						</div>
-						<div class="clearfix"></div>
-					</div>
-					<div class="widget_summary">
-						<% gluster = ((nodes.select{ |node| node["gluster"].eql? "on" }.length.to_f / nodes.length.to_f) * 100).to_i %>
-						<div class="w_left w_25">
-							<span>gluster operation</span>
-						</div>
-						<div class="w_center w_55">
-							<div class="progress">
-								<div class="progress-bar bg-green" role="progressbar"
-								aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= gluster %>%;">
+						<div class="widget_summary">
+							<% gluster = ((nodes.select{ |node| node["gluster"].eql? "on" }.length.to_f / nodes.length.to_f) * 100).to_i %>
+							<div class="w_left w_25">
+								<span>gluster operation</span>
+							</div>
+							<div class="w_center w_55">
+								<div class="progress">
+									<div class="progress-bar bg-green" role="progressbar"
+									aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= gluster %>%;">
+									</div>
 								</div>
 							</div>
+							<div class="w_right w_20">
+								<span><%= nodes.select{ |node| node["gluster"].eql? "on" }.length %> / <%= nodes.length %></span>
+							</div>
+							<div class="clearfix"></div>
 						</div>
-						<div class="w_right w_20">
-							<span><%= nodes.select{ |node| node["gluster"].eql? "on" }.length %> / <%= nodes.length %></span>
+					<% else %>
+						<div class="row animated flipInX col-md-6 col-sm-9 col-xs-12">
+							<div class="alert alert-info" role="alert">
+								<span class="glyphicon glyphicon-bell" area-hidden="true"></span>
+								<span class="glyphicon-class">You don't have a node. Please add nodes to do something in this page.</span>
+							</div>
 						</div>
-						<div class="clearfix"></div>
-					</div>
+					<% end %>
 				</div>
 			</div>
 
@@ -229,40 +238,49 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content tile fixed_height_160" style="overflow-y:auto;">
-					<div class="widget_summary">
-						<% start = ((volumes.select{ |volume| volume["Status"].eql? " Started" }.length.to_f / volumes.length.to_f) * 100).to_i %>
-						<div class="w_left w_25">
-							<span>started</span>
-						</div>
-						<div class="w_center w_55">
-							<div class="progress">
-								<div class="progress-bar bg-green" role="progressbar"
-								aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= start %>%;">
+					<% if !volumes.nil? %>
+						<div class="widget_summary">
+							<% start = ((volumes.select{ |volume| volume["Status"].eql? " Started" }.length.to_f / volumes.length.to_f) * 100).to_i %>
+							<div class="w_left w_25">
+								<span>started</span>
+							</div>
+							<div class="w_center w_55">
+								<div class="progress">
+									<div class="progress-bar bg-green" role="progressbar"
+									aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= start %>%;">
+									</div>
 								</div>
 							</div>
+							<div class="w_right w_20">
+								<span><%= volumes.select{ |volume| volume["Status"].eql? " Started" }.length %> / <%= volumes.length %></span>
+							</div>
+							<div class="clearfix"></div>
 						</div>
-						<div class="w_right w_20">
-							<span><%= volumes.select{ |volume| volume["Status"].eql? " Started" }.length %> / <%= volumes.length %></span>
-						</div>
-						<div class="clearfix"></div>
-					</div>
-					<div class="widget_summary">
-						<% mount = ((volumes.select{ |volume| volume["Mount State"].eql? "mounted" }.length.to_f / volumes.length.to_f) * 100).to_i %>
-						<div class="w_left w_25">
-							<span>mounted</span>
-						</div>
-						<div class="w_center w_55">
-							<div class="progress">
-								<div class="progress-bar bg-green" role="progressbar"
-								aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= mount %>%;">
+						<div class="widget_summary">
+							<% mount = ((volumes.select{ |volume| volume["Mount State"].eql? "mounted" }.length.to_f / volumes.length.to_f) * 100).to_i %>
+							<div class="w_left w_25">
+								<span>mounted</span>
+							</div>
+							<div class="w_center w_55">
+								<div class="progress">
+									<div class="progress-bar bg-green" role="progressbar"
+									aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= mount %>%;">
+									</div>
 								</div>
 							</div>
+							<div class="w_right w_20">
+								<span><%= volumes.select{ |volume| volume["Mount State"].eql? "mounted" }.length %> / <%= volumes.length %></span>
+							</div>
+							<div class="clearfix"></div>
 						</div>
-						<div class="w_right w_20">
-							<span><%= volumes.select{ |volume| volume["Mount State"].eql? "mounted" }.length %> / <%= volumes.length %></span>
+					<% else %>
+						<div class="row animated flipInX col-md-6 col-sm-9 col-xs-12">
+							<div class="alert alert-info" role="alert">
+							<span class="glyphicon glyphicon-bell" area-hidden="true"></span>
+								<span class="glyphicon-class">You don't have a volume. Please add volumes to do something in this page.</span>
+							</div>
 						</div>
-						<div class="clearfix"></div>
-					</div>
+					<% end %>
 				</div>
 			</div>
 		</div>
