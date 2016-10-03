@@ -127,26 +127,30 @@ module ApplicationHelper
             node["updated_at"] = db_node.updated_at
             node["ping"] = (ping_test?(db_node.host_ip) ? "true" : "false")
 
-            if node["ping"].eql? "true"
-                command = String.new
-                command << "sshpass -p#{node["user_password"]} ssh #{node["user_name"]}@#{node["host_ip"]} gluster peer status"
-                puts command
-                output = `#{command}`.split("\n")
+            begin
+                if node["ping"].eql? "true"
+                    command = String.new
+                    command << "sshpass -p#{node["user_password"]} ssh #{node["user_name"]}@#{node["host_ip"]} gluster peer status"
+                    puts command
+                    output = `#{command}`.split("\n")
 
-                if output[0].include? "Number of Peers"
-                    node["ssh"] = "on"
-                    node["gluster"] = "on"
-                    node["number_of_peers"] = output[0].split(": ")[1]
-                    # put peers
-
-                elsif output[0].include? "check if gluster daemon is operational."
-                    node["ssh"] = "on"
-                    node["gluster"] = "off"
-                else
-                    node["ssh"] = "off"
-                    node["gluster"] = "off"
+                    if output[0].include? "Number of Peers"
+                        node["ssh"] = "on"
+                        node["gluster"] = "on"
+                        node["number_of_peers"] = output[0].split(": ")[1]
+                        # put peers
+                    elsif output[0].include? "check if gluster daemon is operational."
+                        node["ssh"] = "on"
+                        node["gluster"] = "off"
+                    else
+                        node["ssh"] = "off"
+                        node["gluster"] = "off"
+                    end
                 end
+            rescue => ex
+                puts ex
             end
+            
             nodes << node
             node = Hash.new
         end
