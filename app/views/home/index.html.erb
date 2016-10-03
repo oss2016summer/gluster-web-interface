@@ -134,8 +134,8 @@
 
 	<div class ="row">
 		<!-- node status -->
-		<div class="col-md-6 col-sm-6 col-xs-12">
-			<div class="x_panel tile fixed_height_320" style="overflow-y:auto;">
+		<div class="col-md-4 col-sm-4 col-xs-12">
+			<div class="x_panel">
 				<div class="x_title">
 					<h2>Nodes Status</h2>
 					<ul class="nav navbar-right panel_toolbox">
@@ -153,7 +153,7 @@
 					</ul>
 					<div class="clearfix"></div>
 				</div>
-				<div class="x_content">
+				<div class="x_content tile fixed_height_200" style="overflow-y:auto;">
 					<div class="widget_summary">
 						<div class="w_left w_25">
 							<span>Ping Connections / Total Node</span>
@@ -240,8 +240,9 @@
 		</div>
 		<!-- /node status -->
 
-		<div class="col-md-6 col-sm-6 col-xs-12">
-			<div class="x_panel tile fixed_height_320" style="overflow-y:auto;">
+		<!-- -->
+		<div class="col-md-4 col-sm-4 col-xs-12">
+			<div class="x_panel tile">
 				<div class="x_title">
 					<h2>Nodes List</h2>
 					<ul class="nav navbar-right panel_toolbox">
@@ -259,9 +260,9 @@
 					</ul>
 					<div class="clearfix"></div>
 				</div>
-				<div class="x_content" >
+				<div class="x_content fixed_height_200" style="overflow-y:auto;">
 					<ul class="list-unstyled top_profiles" >
-						
+
 						<% nodes = ssh_nodes %>
 						<% nodes.each do |node| %>
 	                        <li class="media event">
@@ -287,6 +288,20 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- disk usage -->
+		<div class="col-md-4 col-sm-4 col-xs-12">
+			<div class="panel panel-body">
+				<div class="x_title" id="disk_file_title_div">
+					<h2 style="width:130px">Disk usage</h2>
+				</div>
+				<div class="row" id="disk_file_div">
+					<%= raw html_disk_file_table %>
+				</div>
+			</div>
+		</div>
+		<!-- /disk usage -->
+
 	</div>
 
 	<div class ="row">
@@ -460,7 +475,7 @@ $(document).on("click", "#file_manager_div .chupper", function(){
 			draw_datatable();
 			draw_chart(result.du);
 			//Pace.stop();
-			
+
 			//check_divheight();
 			$(location).attr('href',"#");
 		}
@@ -496,4 +511,3 @@ $(document).on("click", "#file_manager_div .rmdir", function(){
 })
 </script>
 <!-- /File manager functions -->
-
