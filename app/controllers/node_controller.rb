@@ -1,39 +1,7 @@
 class NodeController < ApplicationController
     before_action :require_login
+
     def index
-        @nodes = Node.all.order("id asc")
-        @node_connects = Array.new
-        node_info = Hash.new
-        begin
-            one_node = Node.take
-            node_info["Hostname"] = one_node.host_name
-            node_info["State"] = "Peer in Cluster Disconnected"
-            node_info = Hash.new
-
-            if !one_node.blank?
-                if ping_test?(one_node.host_ip)
-                    command = String.new
-                    command << "sshpass -p#{one_node.user_password} ssh #{one_node.user_name}@#{one_node.host_ip} gluster peer status info"
-                    puts command
-                    output = `#{command}`.split("\n")
-                    output << "\n"
-
-                    output.each do |t|
-                        next if t.equal? output.first
-                        if t.include? ":"
-                            temp = t.split(":")
-                            node_info[temp[0]] = temp[1]
-                        else
-                            @node_connects << node_info
-                            node_info = Hash.new
-                        end
-                    end
-
-                end
-            end
-        rescue => ex
-            puts ex
-        end
     end
 
     def node_add
