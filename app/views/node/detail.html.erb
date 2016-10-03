@@ -142,7 +142,7 @@
                                 <% else %>
                                     <td><i class="fa fa-close red"></i> Not operational</td>
                                 <% end %>
-                                <th scope="row"> <a href="/node/detail/<%= node["id"] %>"><%= node["host_name"] %></a></th>
+                                <th scope="row"> <a onclick="loading();" href="/node/detail/<%= node["id"] %>"><%= node["host_name"] %></a></th>
                                 <td><%= node["host_ip"] %></td>
                                 <td><%= node["user_name"] %></td>
                                 <td><a href="/node/delete/<%= node["id"] %>"><i class="fa fa-trash"></i></a></td>
@@ -284,6 +284,8 @@
 </div>
 <!-- /page content -->
 <script>
+
+
 $('.probe').change(function() {
         $(location).attr('href',"#loading");
         if($(this).is(":checked")) {

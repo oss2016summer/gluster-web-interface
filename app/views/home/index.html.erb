@@ -302,7 +302,7 @@
 		                          </a>
 		                      <% end %>
 	                          <div class="media-body">
-	                            <a class="title" href="/node/detail/<%= node["id"] %>"><%= node["host_name"] %></a>
+	                            <a class="title" onclick="loading();"  href="/node/detail/<%= node["id"] %>"><%= node["host_name"] %></a>
 	                            <p><strong><%= node["host_ip"] %> </strong> <%= node["user_name"] %> </p>
 	                            <% if node["gluster"].eql? "on" %>
 	                            	<p> <small> number of peers: <%= node["number_of_peers"] %></small></p>
@@ -352,6 +352,7 @@
 
 <!-- On ready -->
 <script>
+
 $(document).ready(function() {
 	var du = [];
 	<% get_du.each_with_index do |du, index| %>
