@@ -121,7 +121,7 @@ $(document).ready(function(){
             },
             data: {mount_point: mnt_point, volume_name: vol_name},
             success: function(result){
-                $(location).attr('href',"#");
+                $(location).attr('href',"/volume/index");
             }
         });
     });
@@ -164,7 +164,7 @@ $(document).ready(function(){
             },
             data: { volume_name : volume_name, volume_type : volume_type, num_of_brick : num_of_brick, bricks : bricks },
             success  : function(result){
-                $(location).attr('href',"#");
+                $(location).attr('href',"/volume/index");
             }
         });
     });
