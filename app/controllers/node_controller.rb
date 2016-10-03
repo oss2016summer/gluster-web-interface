@@ -3,6 +3,11 @@ class NodeController < ApplicationController
 
     def index
     end
+    def detail
+        @node_id = params[:node_id]
+        #@detail_node = Node.find(params[:node_id])
+        
+    end
 
     def node_add
         new_node = Node.new
