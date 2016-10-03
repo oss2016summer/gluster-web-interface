@@ -90,13 +90,13 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content tile" style="overflow-y:auto; min-height:227px;">
-                    
+
                 </div>
             </div>
         </div>
-        
+
      </div>
-    <div class="row">    
+    <div class="row">
         <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
@@ -177,7 +177,7 @@
                         <% if (node["id"].to_s).eql?(@node_id.to_s)%>
                             <form class="form-horizontal form-label-left" action="/node/update" method="post" novalidate>
                                 <input type="hidden" name="node_id" value="<%=node["id"].to_s%>"/>
-                                    
+
                                 <div class="item form-group">
                                     <label for="password" class="control-label col-md-3">Ping : </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
@@ -212,7 +212,7 @@
                                             <!--<label class="control-label col-md-7 col-xs-12" ><%=node["gluster"]%></label>-->
                                         </div>
                                     </div>
-                                        
+
                                     <% if node["ssh"].eql?("on") && node["gluster"].eql?("on")%>
                                         <div class="item form-group">
                                             <label for="password" class="control-label col-md-3">Number of Peers : </label>
@@ -222,8 +222,8 @@
                                         </div>
                                     <%end%>
                                 <% end %>
-                                
-                                
+
+
                                 <div class="item form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Host Name <span class="required">*</span>
                                     </label>
@@ -284,7 +284,6 @@
 </div>
 <!-- /page content -->
 <script>
-
 
 $('.probe').change(function() {
         $(location).attr('href',"#loading");

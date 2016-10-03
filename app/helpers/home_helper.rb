@@ -119,14 +119,17 @@ module HomeHelper
         html << "</thead>"
         html << "<tbody>"
 
+        nodes = Node.all
         get_df.each_with_index do |file, index|
             # show mounted files only
+            ip = file['Filesystem'].split(":").first
+            next if nodes.select{|node| node["host_ip"].eql? ip}.length == 0
 
             color = ['blue', 'green', 'red', 'purple', 'grey'][index % 5]
             html << "<tr><td>"
             html << "<div class='col-lg-7 col-md-7 col-sm-7 col-xs-7'>"
             html << "<p><i class='fa fa-square #{color}'></i> "
-            html << file['Filesystem']
+            html << file['Mounted on']
             html << "</p></div>"
             html << "</td><td>"
             html << "<div class='col-lg-7 col-md-7 col-sm-7 col-xs-7'>"

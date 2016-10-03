@@ -352,7 +352,6 @@
 
 <!-- On ready -->
 <script>
-
 $(document).ready(function() {
 	var du = [];
 	<% get_du.each_with_index do |du, index| %>
@@ -375,7 +374,11 @@ $(document).ready(function() {
 	var hoverBackgroundColor = [];
 
 	var df = [];
+
+	<% nodes = Node.all %>
 	<% get_df.each_with_index do |df, index| %>
+	<% ip = df['Filesystem'].split(":").first %>
+	<% next if nodes.select{|node| node["host_ip"].eql? ip}.length == 0 %>
 	df.push({
 		'file_name':"<%= df['Filesystem'] %>",
 		'usage':"<%= (df["Use%"][0..df["Use%"].length - 1]).to_f / 100 %>"
