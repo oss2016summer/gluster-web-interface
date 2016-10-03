@@ -89,6 +89,33 @@
                     </ul>
                     <div class="clearfix"></div>
                 </div>
+                <div class="x_content tile" style="overflow-y:auto; min-height:227px;">
+                    
+                </div>
+            </div>
+        </div>
+        
+     </div>
+    <div class="row">    
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><i class="fa fa-align-left"></i> Node List</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Settings 1</a>
+                                </li>
+                                <li><a href="#">Settings 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
                 <% nodes = ssh_nodes %>
                 <div class="x_content">
                     <table class="table table-hover">
@@ -111,9 +138,9 @@
                                     <td><i class="fa fa-close red"></i></td>
                                 <% end %>
                                 <% if node["gluster"].eql? "on" %>
-                                    <td><i class="fa fa-circle-o green"></i>Attached</td>
+                                    <td><i class="fa fa-circle-o green"></i> Attached</td>
                                 <% else %>
-                                    <td><i class="fa fa-close red"></i>Not operational</td>
+                                    <td><i class="fa fa-close red"></i> Not operational</td>
                                 <% end %>
                                 <th scope="row"> <a href="/node/detail/<%= node["id"] %>"><%= node["host_name"] %></a></th>
                                 <td><%= node["host_ip"] %></td>
@@ -126,8 +153,7 @@
                 </div>
             </div>
         </div>
-        
-        <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-6">
             <div class="x_panel">
                 <div class="x_title">
                     <h2><i class="fa fa-info-circle"></i> Node Detail</h2>
@@ -155,20 +181,35 @@
                                 <div class="item form-group">
                                     <label for="password" class="control-label col-md-3">Ping : </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <label class="control-label col-md-7 col-xs-12" ><%=node["ping"]%></label>
+                                            <% if node["ping"].eql? "true" %>
+                                                <label class="control-label col-md-7 col-xs-12" ><i class="fa fa-circle-o green"></i></label>
+                                            <% else %>
+                                                <label class="control-label col-md-7 col-xs-12" ><i class="fa fa-close red"></i></label>
+                                            <% end %>
+                                        <!--<label class="control-label col-md-7 col-xs-12" ><%=node["ping"]%></label>-->
                                     </div>
                                 </div>
                                 <% if node["ping"].eql? "true" %>
                                     <div class="item form-group">
                                         <label for="password" class="control-label col-md-3">SSH Connection : </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <label class="control-label col-md-7 col-xs-12" ><%=node["ssh"]%></label>
+                                            <% if node["ssh"].eql? "on" %>
+                                                <label class="control-label col-md-7 col-xs-12" ><i class="fa fa-circle-o green"></i></label>
+                                            <% else %>
+                                                <label class="control-label col-md-7 col-xs-12" ><i class="fa fa-close red"></i></label>
+                                            <% end %>
+                                            <!--<label class="control-label col-md-7 col-xs-12" ><%=node["ssh"]%></label>-->
                                         </div>
                                     </div>
                                     <div class="item form-group">
                                         <label for="password" class="control-label col-md-3">Gluster Connection : </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <label class="control-label col-md-7 col-xs-12" ><%=node["gluster"]%></label>
+                                            <% if node["gluster"].eql? "on" %>
+                                                <label class="control-label col-md-7 col-xs-12" ><i class="fa fa-circle-o green"></i></label>
+                                            <% else %>
+                                                <label class="control-label col-md-7 col-xs-12" ><i class="fa fa-close red"></i></label>
+                                            <% end %>
+                                            <!--<label class="control-label col-md-7 col-xs-12" ><%=node["gluster"]%></label>-->
                                         </div>
                                     </div>
                                         
@@ -227,6 +268,7 @@
                                     </div>
                                 </div>
                                 <!--<div class="ln_solid"></div>-->
+                                <br>
                                 <div class="form-group">
                                     <div class="col-md-6 col-md-offset-3">
                                         <button type="submit" class="btn btn-success">Update</button>
