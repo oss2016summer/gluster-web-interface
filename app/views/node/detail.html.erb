@@ -138,9 +138,9 @@
                                     <td><i class="fa fa-close red"></i></td>
                                 <% end %>
                                 <% if node["gluster"].eql? "on" %>
-                                    <td><i class="fa fa-circle-o green"></i>Attached</td>
+                                    <td><i class="fa fa-circle-o green"></i> Attached</td>
                                 <% else %>
-                                    <td><i class="fa fa-close red"></i>Not operational</td>
+                                    <td><i class="fa fa-close red"></i> Not operational</td>
                                 <% end %>
                                 <th scope="row"> <a href="/node/detail/<%= node["id"] %>"><%= node["host_name"] %></a></th>
                                 <td><%= node["host_ip"] %></td>
@@ -268,6 +268,7 @@
                                     </div>
                                 </div>
                                 <!--<div class="ln_solid"></div>-->
+                                <br>
                                 <div class="form-group">
                                     <div class="col-md-6 col-md-offset-3">
                                         <button type="submit" class="btn btn-success">Update</button>
