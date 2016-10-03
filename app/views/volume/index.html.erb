@@ -108,6 +108,7 @@
 <!-- On document ready -->
 <script>
 $(document).ready(function(){
+    //$(location).attr('href',"#");
     // Mount overlay functions
     $("#popup_mount #mount_table_body form").submit(function(){
         var mnt_point = $(this).find("input").val();
@@ -159,11 +160,11 @@ $(document).ready(function(){
         $.ajax({
             method: "POST",
             url: "/volume/create",
-            beforeSend: function(){
+            beforeSend : function(){
                 $(location).attr('href',"#loading");
             },
             data: { volume_name : volume_name, volume_type : volume_type, num_of_brick : num_of_brick, bricks : bricks },
-            success  : function(result){
+            success : function(result){
                 $(location).attr('href',"/volume/index");
             }
         });
@@ -262,9 +263,6 @@ $(document).on("click", "#mount_table_div .chupper", function(){
 
 <!-- Volume info button functions -->
 <script>
-// volume mount
-$(document).on("click", ".btn-volume-mount", function(){
-});
 // volume unmount
 $(document).on("click", ".btn-volume-unmount", function(){
     var $this = $(this);

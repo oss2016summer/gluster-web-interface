@@ -79,7 +79,7 @@ class VolumeController < ApplicationController
         command << "ssh #{node.user_name}@#{node.host_ip} "
         command << "gluster volume create #{volume_name} "
         if !volume_type.include? "Distribute"
-            command << "#{volume_type.downcase} #{num_of_brick}"
+            command << "#{volume_type.downcase} #{num_of_brick} "
         end
         nodes = Node.all
         bricks.each do |t|
@@ -96,7 +96,9 @@ class VolumeController < ApplicationController
         command << "force"
         puts command
         `#{command}`
-        redirect_to '/volume/index'
+        render :json => {
+            :test => 0,
+        }
     end
 
     def volume_stop
