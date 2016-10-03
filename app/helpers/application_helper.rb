@@ -133,7 +133,7 @@ module ApplicationHelper
                     command << "sshpass -p#{node["user_password"]} ssh #{node["user_name"]}@#{node["host_ip"]} gluster peer status"
                     puts command
                     output = `#{command}`.split("\n")
-
+                    
                     if output[0].include? "Number of Peers"
                         node["ssh"] = "on"
                         node["gluster"] = "on"
@@ -148,6 +148,8 @@ module ApplicationHelper
                     end
                 end
             rescue => ex
+                node["ssh"] = "off"
+                node["gluster"] = "off"
                 puts ex
             end
             
