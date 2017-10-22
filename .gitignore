@@ -33,4 +33,5 @@ app/assets/images/.keep
 # Ignore npm packages
 node_modules
 
-# Ignore
+# Ignore bower packages
+vendor/assets/components

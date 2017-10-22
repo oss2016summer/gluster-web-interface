@@ -1,27 +1,31 @@
 # Gluster Web Interface
 
-[Gluster](https://gluster.org) client web interface for managing and using glusterfs more efficiently.
+A web interface for easier use and management of [Glusterfs](https://gluster.org).  
+Tested on Linux, OS X (in progress).
 
 ## Requirement
 
-* glusterfs cluster
-* ruby (version: 2.3.0)
+* gluster server
+* ruby (version: 2.3.3)
 * sudo privileges **"without password"** [(see here)](http://askubuntu.com/questions/147241/execute-sudo-without-password)
 
+## Install
 
-## Setup
-
-```
-git clone https://github.com/oss2016summer/gluster-web-interface.git
-cd gluster-web-interface
+``` bash
+git clone https://github.com/oss2016summer/gluster-web-interface.git [directory name]
+cd [directory name]
 script/setup.sh
-rails s
 ```
-That's it! Navigate to http://localhost:3000  
+
+## Usage
+
+``` bash
+rails s -b 0.0.0.0
+```
 
 If you want access via public network, use additional module like [localtunnel](https://github.com/localtunnel/localtunnel)
 
-## Contributing
+## Contribution
 
 In the spirit of [free software](http://www.fsf.org/licensing/essays/free-sw.html), everyone is encouraged to help improve this project. Here are a few ways you can pitch in:
 
