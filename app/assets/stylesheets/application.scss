@@ -1,39 +1,12 @@
-/*
- * This is a manifest file that'll be compiled into application, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any styles
- * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
- * file per style scope.
-  ** * require fonts/css/font-awesome.min
-
- *
-
- */
-
-//Right Click Event
-@import "loading";
-@import "bootstrap-sprockets";
 @import "bootstrap";
+@import "bootstrap-sprockets";
+@import "contextmenu";
 @import "font-awesome";
-@import "css/animate.min";
-@import "css/custom";
-@import "css/icheck/flat/green";
-@import "css/floatexamples";
-@import "css/normalize";
-@import "css/ion.rangeSlider";
-@import "css/ion.rangeSlider.skinFlat";
-@import "css/colorpicker/bootstrap-colorpicker.min";
-@import "css/switchery/switchery.min";
-@import "pace";
+@import "loading";
 
-//DataTable
-@import "js/datatables/jquery.dataTables.min";
-@import "js/datatables/buttons.bootstrap.min";
-@import "js/datatables/responsive.bootstrap.min";
-@import "js/datatables/scroller.bootstrap.min";
-@import "js/datatables/fixedHeader.bootstrap.min";
+@import "gentelella/src/scss/custom";
+@import "gentelella/vendors/animate.css/animate.min";
+@import "gentelella/vendors/normalize-css/normalize";
+@import "gentelella/vendors/switchery/switchery";
+@import "gentelella/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min";
+@import "gentelella/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min";

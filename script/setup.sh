@@ -22,8 +22,12 @@ case "$(uname -s)" in
     if [ $? -ne 0 ]; then
         echo 'Install rbenv'
         brew install rbenv
+        brew install ruby-build
+        echo 'export RBENV_ROOT=/usr/local/var/rbenv' >> ~/.bash_profile
+        echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi' >> ~/.bash_profile
+        source ~/.bashrc
     fi
-    rbenv install 2.3.3 && rbenv rehash
+    rbenv install 2.3.3
     rbenv local 2.3.3
     install
     setup
@@ -47,7 +51,7 @@ case "$(uname -s)" in
         echo 'eval "$(rbenv init -)"' >> ~/.bashrc
         exec $SHELL
     fi
-    rbenv install 2.3.3 && rbenv rehash
+    rbenv install 2.3.3
     rbenv local 2.3.3
     install
     setup
