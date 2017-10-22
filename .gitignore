@@ -29,3 +29,8 @@ app/assets/images/.keep
 
 # Ignore configuration file
 *.conf
+
+# Ignore npm packages
+node_modules
+
+# Ignore
