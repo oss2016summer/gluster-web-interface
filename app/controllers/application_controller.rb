@@ -1,9 +1,5 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  include ApplicationHelper
-  include HomeHelper
-  include VolumeHelper
-  include NodeHelper
 
   def require_login
     unless user_signed_in?

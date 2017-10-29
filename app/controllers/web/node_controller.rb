@@ -1,6 +1,4 @@
 class Web::NodeController < WebController
-    before_action :require_login
-
     def index
     end
     def detail

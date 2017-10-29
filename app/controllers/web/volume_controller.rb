@@ -1,6 +1,4 @@
 class Web::VolumeController < WebController
-    before_action :require_login
-
     def index
         @current_dir = "/mnt"
     end
