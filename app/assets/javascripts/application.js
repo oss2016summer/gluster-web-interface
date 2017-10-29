@@ -20,3 +20,7 @@
 //= require gentelella/vendors/moment/moment.js
 //= require gentelella/vendors/nprogress/nprogress.js
 //= require gentelella/vendors/validator/validator.js
+
+$(function() {
+    console.log("Application js");
+});

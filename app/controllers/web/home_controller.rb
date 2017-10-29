@@ -1,4 +1,4 @@
-class HomeController < ApplicationController
+class Web::HomeController < WebController
     before_action :require_login
 
     def index

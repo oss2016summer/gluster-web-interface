@@ -1,4 +1,4 @@
-class NodeController < ApplicationController
+class Web::NodeController < WebController
     before_action :require_login
 
     def index
@@ -6,7 +6,7 @@ class NodeController < ApplicationController
     def detail
         @node_id = params[:node_id]
     end
-    
+
     def node_update
         one_node = Node.find(params[:node_id])
         one_node.host_name = params[:host_name]
@@ -14,9 +14,9 @@ class NodeController < ApplicationController
         one_node.user_name = params[:user_name]
         one_node.user_password = params[:user_password]
         one_node.save
-        
+
         redirect_to '/node/detail/' + params[:node_id]
-        
+
     end
 
     def node_add

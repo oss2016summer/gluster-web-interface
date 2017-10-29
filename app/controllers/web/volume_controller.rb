@@ -1,4 +1,4 @@
-class VolumeController < ApplicationController
+class Web::VolumeController < WebController
     before_action :require_login
 
     def index
