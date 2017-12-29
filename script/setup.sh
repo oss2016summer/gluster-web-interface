@@ -1,9 +1,9 @@
-#! /bin/sh
+#! /bin/bash
 
 # Install bower, bundler, packages
 function install {
-  sudo npm install -g bower
-  sudo --askpass bower install --allow-root
+  npm install bower
+  bower install --allow-root
   gem install bundler
   bundle install
 }
