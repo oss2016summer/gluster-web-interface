@@ -2,14 +2,13 @@
 
 # Install bower, bundler, packages
 function install {
-  npm install bower
-  bower install --allow-root
   gem install bundler
   bundle install
 }
 
 # setup
 function setup {
+  bin/rails g gentelella:install
   bin/rake db:migrate
 }
 

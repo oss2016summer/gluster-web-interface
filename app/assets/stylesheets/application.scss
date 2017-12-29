@@ -5,9 +5,5 @@
 @import "font-awesome";
 @import "loading";
 
-@import "gentelella/src/scss/custom";
-@import "gentelella/vendors/animate.css/animate.min";
-@import "gentelella/vendors/normalize-css/normalize";
-@import "gentelella/vendors/switchery/switchery";
-@import "gentelella/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min";
-@import "gentelella/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min";
+@import "gentelella";
+@import "gentelella-custom";

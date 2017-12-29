@@ -1,4 +1,8 @@
 source 'https://rubygems.org'
+
+# Bootstrap Theme
+gem 'gentelella-rails'
+
 gem 'carrierwave'
 gem 'devise'
 gem 'net-ping'
