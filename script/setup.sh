@@ -50,6 +50,10 @@ case "$(uname -s)" in
         echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
         echo 'eval "$(rbenv init -)"' >> ~/.bashrc
         exec $SHELL
+
+        git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+        echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
+        exec $SHELL
     fi
     rbenv install 2.3.3
     rbenv local 2.3.3
