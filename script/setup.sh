@@ -43,17 +43,22 @@ case "$(uname -s)" in
     #  echo "os : ubuntu, use apt-get install"
     #  apt-get install sshpass
     #fi
+    echo 'Install essential packages'
+    sudo apt-get update
+    sudo apt-get install -y git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties
     rbenv -v
     if [ $? -ne 0 ]; then
         echo 'Install rbenv'
         git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
         echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
         echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-        exec $SHELL
-
+        source ~/.bashrc
+    fi
+    ruby-build --version
+    if [ $? -ne 0 ]; then
         git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
         echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
-        exec $SHELL
+        source ~/.bashrc
     fi
     rbenv install 2.3.3
     rbenv local 2.3.3
