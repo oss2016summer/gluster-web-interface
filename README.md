@@ -25,6 +25,10 @@ rails s -b 0.0.0.0
 
 If you want access via public network, use additional module like [localtunnel](https://github.com/localtunnel/localtunnel)
 
+## Demo
+
+[https://www.youtube.com/watch?v=X1WXZjPlaRE](https://www.youtube.com/watch?v=X1WXZjPlaRE0)
+
 ## Contribution
 
 In the spirit of [free software](http://www.fsf.org/licensing/essays/free-sw.html), everyone is encouraged to help improve this project. Here are a few ways you can pitch in:
@@ -33,3 +37,4 @@ In the spirit of [free software](http://www.fsf.org/licensing/essays/free-sw.htm
  - Fix bugs and submit pull requests.
  - Write, clarify or fix documentation.
  - Refactor code.
+ 
